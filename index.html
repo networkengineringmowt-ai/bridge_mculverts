@@ -5651,7 +5651,7 @@ function buildBridgeTrafficAnalytics() {
       : buildBridgeTrafficRows({ sourceBridges: sourceBridges.slice(pageStart, pageEnd), skipCache: true });
     tbody.innerHTML = pageRows.map(r => `
       <tr data-bridge-id="${r._id}" class="${bridgeRowActiveClass(r._id)}">
-        <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')}</td>
+        <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')} ${r.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:4px; font-size:9px">CRITICAL</span>' : ''}</td>
         <td>${tableCellHtml(r.bridge_no, 'bridge_no')}</td>
         <td>${tableCellHtml(r.link_no, 'link_no')}</td>
         <td>${tableCellHtml(r.road_no, 'road_no')}</td>
@@ -5755,7 +5755,7 @@ function buildBridgeSeasonalFactorsTable(rows = buildBridgeTrafficRows()) {
   }
   tbody.innerHTML = tableRows.map(r => `
     <tr data-bridge-id="${r._id}" class="${bridgeRowActiveClass(r._id)}">
-      <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')}</td>
+      <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')} ${r.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:4px; font-size:9px">CRITICAL</span>' : ''}</td>
       <td>${tableCellHtml(r.bridge_no, 'bridge_no')}</td>
       <td>${tableCellHtml(r.link_no, 'link_no')}</td>
       <td style="white-space:normal;min-width:240px">${tableCellHtml(r.link_name, 'link_name')}</td>
@@ -5917,7 +5917,7 @@ function buildBridgeVehicleClassFocus(rows) {
 
   tbody.innerHTML = rankedRows.length ? rankedRows.map(r => `
     <tr data-bridge-id="${r._id}" class="${bridgeRowActiveClass(r._id)}">
-      <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')}</td>
+      <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')} ${r.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:4px; font-size:9px">CRITICAL</span>' : ''}</td>
       <td>${tableCellHtml(r.bridge_no, 'bridge_no')}</td>
       <td>${tableCellHtml(r.region, 'region')}</td>
       <td>${tableCellHtml(r.station, 'station')}</td>
@@ -6150,7 +6150,7 @@ function buildBridgeTrafficSummaryPanel() {
   if (tbody) {
     tbody.innerHTML = [...rows].sort((a, b) => Number(b.assigned_adt_incl_motorcycles || 0) - Number(a.assigned_adt_incl_motorcycles || 0)).slice(0, 30).map(r => `
       <tr data-bridge-id="${r._id}" class="${bridgeRowActiveClass(r._id)}">
-        <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')}</td>
+        <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')} ${r.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:4px; font-size:9px">CRITICAL</span>' : ''}</td>
         <td>${tableCellHtml(r.bridge_no, 'bridge_no')}</td>
         <td>${tableCellHtml(r.link_no, 'link_no')}</td>
         <td><span class="pill pill-${canonicalRoadClass(r.road_class).toLowerCase()}">${canonicalRoadClass(r.road_class)}</span></td>
@@ -6252,7 +6252,7 @@ function buildBridgeLoadingPanel() {
   if (tbody) {
     tbody.innerHTML = [...rows].sort((a, b) => Number(b.assigned_adt_incl_motorcycles || 0) - Number(a.assigned_adt_incl_motorcycles || 0)).map(r => `
       <tr data-bridge-id="${r._id}" class="${bridgeRowActiveClass(r._id)}">
-        <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')}</td>
+        <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')} ${r.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:4px; font-size:9px">CRITICAL</span>' : ''}</td>
         <td>${tableCellHtml(r.bridge_no, 'bridge_no')}</td>
         <td>${tableCellHtml(r.region, 'region')}</td>
         <td><span class="pill pill-${canonicalRoadClass(r.road_class).toLowerCase()}">${canonicalRoadClass(r.road_class)}</span></td>
@@ -6280,7 +6280,7 @@ function buildBridgeLoadingTableOnly(rows = buildBridgeTrafficRows()) {
   const tableRows = Array.isArray(rows) ? rows : [];
   tbody.innerHTML = tableRows.length ? tableRows.map(r => `
     <tr data-bridge-id="${r._id}" class="${bridgeRowActiveClass(r._id)}">
-      <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')}</td>
+      <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')} ${r.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:4px; font-size:9px">CRITICAL</span>' : ''}</td>
       <td>${tableCellHtml(r.bridge_no, 'bridge_no')}</td>
       <td>${tableCellHtml(r.region, 'region')}</td>
       <td><span class="pill pill-${canonicalRoadClass(r.road_class).toLowerCase()}">${canonicalRoadClass(r.road_class)}</span></td>
@@ -8246,8 +8246,9 @@ function updateBridgeAnalyticsPane(bridge) {
 
   const classRows = get11ClassBreakdown(row, projected);
   const maxClass = Math.max(1, ...classRows.map(r => r[1]));
-  title.textContent = row.bridge_nam || row.bridge_no || 'Bridge crossing';
-  subtitle.textContent = `${row.link_no || '-'} | ${row.link_name || '-'} | Class ${canonicalRoadClass(row.road_class)} | ${timelineYear} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][timelineMonth]}`;
+  title.innerHTML = `${escapeHTML(row.bridge_nam || row.bridge_no || 'Bridge crossing')} ${row.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:8px;">CRITICAL STRUCTURE</span>' : ''}`;
+  subtitle.innerHTML = `${escapeHTML(row.link_no || '-')} | ${escapeHTML(row.link_name || '-')} | Class ${canonicalRoadClass(row.road_class)} | ${timelineYear} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][timelineMonth]}
+${row.is_critical && row.critical_comment ? `<br><span style="color:#ef4444; font-weight:500; font-size:11px; display:inline-block; margin-top:4px;">Warning: ${escapeHTML(row.critical_comment)}</span>` : ''}`;
   const condRef = bridge.reference_attributes || {};
   const approachRating = bridge.approaches_rating ?? bridge.approaches;
   const roadwayRating = bridge.roadway_rating ?? bridge.roadway;
