@@ -3012,6 +3012,8 @@ function htmlEscape(value) {
   }[ch]));
 }
 
+const escapeHTML = htmlEscape;
+
 const TABLE_CASE_SMALL_WORDS = new Set(['a', 'an', 'and', 'as', 'at', 'by', 'for', 'from', 'in', 'into', 'of', 'on', 'or', 'the', 'to', 'with']);
 const TABLE_CASE_ACRONYMS = {
   'adt': 'ADT',
