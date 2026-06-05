@@ -2177,52 +2177,6 @@ header h1 {
 
 
 </style>
-
-    <div id="panel-od-matrix" class="panel">
-      <div class="od-panel-layout">
-        <div>
-          <div class="panel-header" style="margin-bottom:0">
-            <div class="panel-title">Origin &#8211; Destination Matrix</div>
-            <div class="panel-subtitle">Per-bridge crossing traffic flow matrix for all <strong>635</strong> bridge crossings. Showing data for <span id="odBridgeLabel" style="color:var(--accent-cyan);font-weight:700">All Bridges</span>.</div>
-          </div>
-        </div>
-        <div class="od-summary-row" id="odSummaryRow"></div>
-        <div class="od-controls-bar">
-          <input type="text" class="od-search-input" id="odSearchInput" placeholder="Search origin, destination, or bridge..." autocomplete="off" spellcheck="false">
-          <select id="odBridgeFilter"><option value="all">All Bridges</option></select>
-          <select id="odRegionFilter2"><option value="all">All Regions</option></select>
-          <select id="odYearFilter2"><option value="all">All Years</option></select>
-          <div class="od-view-toggle">
-            <button class="active" data-view="table">Table</button>
-            <button data-view="heatmap">Heatmap</button>
-          </div>
-        </div>
-        <div id="odTableView">
-          <div class="od-table-wrap" id="odTableWrap">
-            <table class="od-table" id="odTable2">
-              <thead id="odTableHead2"></thead>
-              <tbody id="odTableBody2"></tbody>
-            </table>
-          </div>
-          <div class="od-pagination" id="odPagination"></div>
-        </div>
-        <div id="odHeatmapView" style="display:none">
-          <div class="od-heatmap-wrap" id="odHeatmapWrap">
-            <table class="od-heatmap" id="odHeatmap">
-              <thead id="odHeatmapHead"></thead>
-              <tbody id="odHeatmapBody"></tbody>
-            </table>
-          </div>
-        </div>
-        <div id="odEmptyState2" class="od-empty-state" style="display:none">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-          <p>No Origin-Destination data available for the selected filters.</p>
-        </div>
-      </div>
-    </div>
-
-
-<script src="bridge_data.js"></script>
 </head>
 <body>
 
@@ -2725,6 +2679,49 @@ header h1 {
     </div>
   </div>
 
+  <div id="panel-od-matrix" class="panel">
+    <div class="od-panel-layout">
+      <div>
+        <div class="panel-header" style="margin-bottom:0">
+          <div class="panel-title">Origin &#8211; Destination Matrix</div>
+          <div class="panel-subtitle">Per-bridge crossing traffic flow matrix for all <strong class="dynamic-bridge-count">546</strong> bridge crossings. Showing data for <span id="odBridgeLabel" style="color:var(--accent-cyan);font-weight:700">All Bridges</span>.</div>
+        </div>
+      </div>
+      <div class="od-summary-row" id="odSummaryRow"></div>
+      <div class="od-controls-bar">
+        <input type="text" class="od-search-input" id="odSearchInput" placeholder="Search origin, destination, or bridge..." autocomplete="off" spellcheck="false">
+        <select id="odBridgeFilter"><option value="all">All Bridges</option></select>
+        <select id="odRegionFilter2"><option value="all">All Regions</option></select>
+        <select id="odYearFilter2"><option value="all">All Years</option></select>
+        <div class="od-view-toggle">
+          <button class="active" data-view="table">Table</button>
+          <button data-view="heatmap">Heatmap</button>
+        </div>
+      </div>
+      <div id="odTableView">
+        <div class="od-table-wrap" id="odTableWrap">
+          <table class="od-table" id="odTable2">
+            <thead id="odTableHead2"></thead>
+            <tbody id="odTableBody2"></tbody>
+          </table>
+        </div>
+        <div class="od-pagination" id="odPagination"></div>
+      </div>
+      <div id="odHeatmapView" style="display:none">
+        <div class="od-heatmap-wrap" id="odHeatmapWrap">
+          <table class="od-heatmap" id="odHeatmap">
+            <thead id="odHeatmapHead"></thead>
+            <tbody id="odHeatmapBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="odEmptyState2" class="od-empty-state" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <p>No Origin-Destination data available for the selected filters.</p>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- DETAILED BRIDGE MODAL -->
@@ -3012,27 +3009,30 @@ function sqlBotLinkKey(value) {
   return normalizedLinkKey(value);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  normalizeBridgeRiverNames();
-  buildBridgeSearchIndex();
-  buildKPIs();
-  populateFilters();
-  initTabs();
-  initODMatrixControls();
+function recordStartupError(step, error) {
+  const detail = error?.stack || error?.message || String(error);
+  window.__BRIDGE_APP_ERRORS__ = window.__BRIDGE_APP_ERRORS__ || [];
+  window.__BRIDGE_APP_ERRORS__.push({ step, detail });
+  console.error(`[bridge traffic] ${step}`, error);
+}
 
-  initSpatialMap();
-  setTimeout(ensureMapAnimation, 900);
-  loadSqlBotTrafficBackend();
-  scheduleDeferredBridgeIntegrityPass();
+function safeStartupStep(step, fn) {
+  try {
+    return fn();
+  } catch (error) {
+    recordStartupError(step, error);
+    return null;
+  }
+}
 
-  // Event delegation for bridge details modal row clicks
-  document.getElementById('bridgeTableBody').addEventListener('click', e => {
+function bindBridgeRowSelectionHandlers() {
+  document.getElementById('bridgeTableBody')?.addEventListener('click', e => {
     const tr = e.target.closest('tr');
     if (tr && tr.dataset.bridgeId) {
       selectBridgeRow(tr.dataset.bridgeId);
     }
   });
-  document.getElementById('bridgeTrafficBody').addEventListener('click', e => {
+  document.getElementById('bridgeTrafficBody')?.addEventListener('click', e => {
     const tr = e.target.closest('tr');
     if (tr && tr.dataset.bridgeId) {
       selectBridgeRow(tr.dataset.bridgeId);
@@ -3056,9 +3056,35 @@ document.addEventListener('DOMContentLoaded', () => {
   window.selectBridgeRow = function(bridgeId) {
     selectBridgeById(bridgeId, { switchToMap: true, scrollToMap: true, centerMap: true });
   };
+}
 
-  bindExport();
-});
+function startBridgeTrafficApp() {
+  if (window.__bridgeTrafficAppStarted) return;
+  window.__bridgeTrafficAppStarted = true;
+
+  safeStartupStep('normalizeBridgeRiverNames', normalizeBridgeRiverNames);
+  safeStartupStep('buildBridgeSearchIndex', buildBridgeSearchIndex);
+  safeStartupStep('buildKPIs', buildKPIs);
+  safeStartupStep('populateFilters', populateFilters);
+  safeStartupStep('initTabs', initTabs);
+  safeStartupStep('initODMatrixControls', () => {
+    if (typeof initODMatrixControls === 'function') initODMatrixControls();
+  });
+  safeStartupStep('initSpatialMap', initSpatialMap);
+  safeStartupStep('ensureMapAnimation', () => setTimeout(ensureMapAnimation, 8000));
+  safeStartupStep('bindBridgeRowSelectionHandlers', bindBridgeRowSelectionHandlers);
+  safeStartupStep('bindExport', bindExport);
+  safeStartupStep('deferTrafficBackend', () => setTimeout(() => {
+    safeStartupStep('loadSqlBotTrafficBackend', loadSqlBotTrafficBackend);
+    safeStartupStep('scheduleDeferredBridgeIntegrityPass', scheduleDeferredBridgeIntegrityPass);
+  }, 60000));
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startBridgeTrafficApp, { once: true });
+} else {
+  startBridgeTrafficApp();
+}
 
 // KPIs
 function quickBridgeAssignedAdt(bridge) {
@@ -3604,7 +3630,9 @@ function initBridgeSearchSuggest() {
 function populateFilters() {
   const regions = [...new Set(BRIDGES.map(b => b.region))].filter(Boolean).sort();
   const sel = document.getElementById('regionFilter');
-  regions.forEach(r => { const o = document.createElement('option'); o.value = r; o.textContent = r; sel.appendChild(o); });
+  if (sel && sel.options.length <= 1) {
+    regions.forEach(r => { const o = document.createElement('option'); o.value = r; o.textContent = r; sel.appendChild(o); });
+  }
 
   const atcSel = document.getElementById('atcSiteSelect');
   if (atcSel) {
@@ -3613,10 +3641,10 @@ function populateFilters() {
   populateBridgeTrafficControls();
 
   // Hook change listeners
-  sel.addEventListener('change', () => {
+  sel?.addEventListener('change', () => {
     refreshSearchDrivenViews();
   });
-  document.getElementById('roadClassFilter').addEventListener('change', () => {
+  document.getElementById('roadClassFilter')?.addEventListener('change', () => {
     refreshSearchDrivenViews();
   });
   document.getElementById('bridgeSortSelect')?.addEventListener('change', () => {
@@ -3627,7 +3655,7 @@ function populateFilters() {
     });
     refreshSearchDrivenViews();
   });
-  document.getElementById('bridgeSearch').addEventListener('input', () => scheduleSearchDrivenViews());
+  document.getElementById('bridgeSearch')?.addEventListener('input', () => scheduleSearchDrivenViews());
   initBridgeSearchSuggest();
 
   document.getElementById('btnClearFiltersSort')?.addEventListener('click', () => {
@@ -3947,7 +3975,9 @@ function initTabs() {
 
       tab.classList.add('active');
       const panelId = 'panel-' + tab.dataset.tab;
-      document.getElementById(panelId).classList.add('active');
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+      panel.classList.add('active');
 
       // Draw map if switching to spatial-map tab
       if (tab.dataset.tab === 'spatial-map') {
@@ -8064,7 +8094,6 @@ const ROAD_AADT_BY_LINK = BRIDGES.reduce((acc, b) => {
 }, {});
 
 function initSpatialMap() {
-  scheduleDeferredBridgeIntegrityPass(2200);
   const canvas = document.getElementById('mapCanvas');
   if (!canvas) return;
   initTimelineControls();
@@ -8228,7 +8257,7 @@ function initSpatialMap() {
 
   resizeCanvas();
   requestAnimationFrame(drawMap);
-  scheduleMapTileWarmup(2800);
+  scheduleMapTileWarmup(9000);
 }
 
 function initMapPaneResize() {
@@ -9298,7 +9327,7 @@ function snapBridgesToRoads() {
 
 function ensureMapAnimation() {
   if (mapAnimationFrame) return;
-  const targetInterval = 1000 / 4;
+  const targetInterval = 1000;
   const tick = now => {
     mapAnimationFrame = null;
     const panel = document.getElementById('panel-spatial-map');
@@ -10387,9 +10416,11 @@ function drawMap() {
   let odAllData = [];
 
   function prepareODData() {
-    const backend = window.SQLBOT_TRAFFIC_INTELLIGENCE || {};
+    const backend = window.SQLBOT_TRAFFIC_INTELLIGENCE ||
+      (typeof SQLBOT_TRAFFIC_INTELLIGENCE !== 'undefined' ? SQLBOT_TRAFFIC_INTELLIGENCE : {});
     const raw = backend.od_matrix || [];
-    const bridgeArr = window.BRIDGES || [];
+    const bridgeArr = window.BRIDGES ||
+      (typeof BRIDGES !== 'undefined' ? BRIDGES : []);
 
     // Build link_name -> bridge mapping
     const linkBridgeMap = {};
