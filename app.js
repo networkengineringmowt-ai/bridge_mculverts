@@ -8082,6 +8082,21 @@ let culvertSort = { key: 'culvert_no', desc: false };
 
 function buildMajorCulvertsTab() {
   buildCulvertTable();
+  if (!window._culvertSortBound) {
+    document.querySelectorAll('#culvertTableHeadRow th[data-sort]').forEach(th => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sort;
+        if (culvertSort.key === key) {
+          culvertSort.desc = !culvertSort.desc;
+        } else {
+          culvertSort.key = key;
+          culvertSort.desc = false;
+        }
+        buildCulvertTable();
+      });
+    });
+    window._culvertSortBound = true;
+  }
 }
 
 function updateCulvertPager(totalRows, totalPages) {
