@@ -2239,6 +2239,7 @@ header h1 {
     <button class="tab" data-tab="bridge-table" role="tab">Bridge Inventory</button>
     <button class="tab" data-tab="bridge-traffic" role="tab">Bridge Traffic Analytics</button>
       <button class="tab" data-tab="od-matrix" role="tab">Origin-Destination Matrix</button>
+<button class="tab" data-tab="major-culverts" role="tab">Major Culverts</button>
     <div style="margin-left: auto; display: flex; align-items: center; padding-right: 4px;">
       <button class="btn btn-outline" id="btnClearFiltersSort" title="Clear all filters and reset sorting" style="padding: 4px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-color: rgba(255, 60, 60, 0.4); color: #ff6b6b; height: 26px; line-height: 1;">Clear Filters &amp; Sort</button>
     </div>
@@ -2390,7 +2391,14 @@ header h1 {
         </table>
       </div>
 
-      <div id="bridgeEmptyState" class="empty-state" style="display:none">
+      
+    <div class="inventory-pager">
+      <button id="bridgeTablePrev" disabled>&lt; Prev</button>
+      <span id="bridgeTablePageInfo">Page 1 / 1</span>
+      <button id="bridgeTableNext" disabled>Next &gt;</button>
+    </div>
+
+    <div id="bridgeEmptyState" class="empty-state" style="display:none">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
         <p>No bridge crossings matched the active search filters. Please adjust your toolbar filters and try again.</p>
       </div>
@@ -2650,7 +2658,14 @@ header h1 {
         </table>
       </div>
 
-      <div id="bridgeTrafficEmptyState" class="empty-state" style="display:none">
+      
+    <div class="inventory-pager">
+      <button id="bridgeTrafficPrev" disabled>&lt; Prev</button>
+      <span id="bridgeTrafficPageInfo">Page 1 / 1</span>
+      <button id="bridgeTrafficNext" disabled>Next &gt;</button>
+    </div>
+
+    <div id="bridgeTrafficEmptyState" class="empty-state" style="display:none">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
         <p>No bridge traffic analytics matched the active search filters.</p>
       </div>
@@ -2694,7 +2709,39 @@ header h1 {
     </div>
   </div>
 
-  <div id="panel-od-matrix" class="panel">
+  
+<div class="panel" id="panel-major-culverts">
+  <div class="card" style="margin-bottom:0">
+    <div class="card-title">Major Culverts Inventory</div>
+    <div class="card-subtitle">Showing major culverts extracted from 2026 registry.</div>
+    <div class="table-wrap bridge-inventory-scroll" style="height:min(72vh, 720px);">
+      <table id="culvertTable">
+        <thead>
+          <tr id="culvertTableHeadRow">
+            <th>Culvert No</th>
+            <th>Road Name</th>
+            <th>River</th>
+            <th>Length (km)</th>
+            <th>Span/Diameter</th>
+            <th>Condition Category</th>
+            <th>Overall Rating</th>
+          </tr>
+        </thead>
+        <tbody id="culvertTableBody"></tbody>
+      </table>
+    </div>
+    <div class="inventory-pager">
+      <button id="culvertTablePrev" disabled>&lt; Prev</button>
+      <span id="culvertTablePageInfo">Page 1 / 1</span>
+      <button id="culvertTableNext" disabled>Next &gt;</button>
+    </div>
+    <div id="culvertEmptyState" class="empty-state" style="display:none">
+      <p>No culverts matched your filters.</p>
+    </div>
+  </div>
+</div>
+
+<div id="panel-od-matrix" class="panel">
     <div class="od-panel-layout">
       <div>
         <div class="panel-header" style="margin-bottom:0">

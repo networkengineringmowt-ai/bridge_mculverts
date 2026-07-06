@@ -1098,6 +1098,9 @@ function initTabs() {
       if (tab.dataset.tab === 'od-matrix') {
         setTimeout(buildODMatrixTab, 60);
       }
+      if (tab.dataset.tab === 'major-culverts') {
+        setTimeout(buildMajorCulvertsTab, 60);
+      }
       if (tab.dataset.tab === 'bridge-table') {
         setTimeout(buildBridgeInventoryTab, 60);
       }
@@ -1726,7 +1729,28 @@ function buildBridgeTable() {
   table.style.display = 'table';
   emptyState.style.display = 'none';
   
-  tbody.innerHTML = filtered.map(b => `
+  
+  const BRIDGE_INVENTORY_PAGE_SIZE = 50;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / BRIDGE_INVENTORY_PAGE_SIZE));
+  if (typeof window.bridgeInventoryPage === 'undefined') window.bridgeInventoryPage = 1;
+  window.bridgeInventoryPage = Math.max(1, Math.min(window.bridgeInventoryPage, totalPages));
+  
+  const prevBtn = document.getElementById('bridgeTablePrev');
+  const nextBtn = document.getElementById('bridgeTableNext');
+  const infoBtn = document.getElementById('bridgeTablePageInfo');
+  if (infoBtn) infoBtn.textContent = `Page ${window.bridgeInventoryPage} of ${totalPages} (${filtered.length} total)`;
+  if (prevBtn) {
+    prevBtn.disabled = window.bridgeInventoryPage <= 1;
+    prevBtn.onclick = () => { window.bridgeInventoryPage--; buildBridgeTable(); };
+  }
+  if (nextBtn) {
+    nextBtn.disabled = window.bridgeInventoryPage >= totalPages;
+    nextBtn.onclick = () => { window.bridgeInventoryPage++; buildBridgeTable(); };
+  }
+
+  const pageFiltered = filtered.slice((window.bridgeInventoryPage - 1) * BRIDGE_INVENTORY_PAGE_SIZE, window.bridgeInventoryPage * BRIDGE_INVENTORY_PAGE_SIZE);
+  
+  tbody.innerHTML = pageFiltered.map(b => `
     <tr data-bridge-id="${b._id}" class="${bridgeRowActiveClass(b._id)}">
       ${columns.map(col => {
         const raw = bridgeInventoryValue(b, col);
@@ -3125,7 +3149,28 @@ function buildBridgeTrafficAnalytics() {
     table.style.display = 'table';
     emptyState.style.display = 'none';
     
-    tbody.innerHTML = rows.map(r => `
+    
+    const BRIDGE_TRAFFIC_PAGE_SIZE = 50;
+    const totalPages = Math.max(1, Math.ceil(rows.length / BRIDGE_TRAFFIC_PAGE_SIZE));
+    if (typeof window.bridgeTrafficPage === 'undefined') window.bridgeTrafficPage = 1;
+    window.bridgeTrafficPage = Math.max(1, Math.min(window.bridgeTrafficPage, totalPages));
+    
+    const prevBtn = document.getElementById('bridgeTrafficPrev');
+    const nextBtn = document.getElementById('bridgeTrafficNext');
+    const infoBtn = document.getElementById('bridgeTrafficPageInfo');
+    if (infoBtn) infoBtn.textContent = `Page ${window.bridgeTrafficPage} of ${totalPages} (${rows.length} total)`;
+    if (prevBtn) {
+      prevBtn.disabled = window.bridgeTrafficPage <= 1;
+      prevBtn.onclick = () => { window.bridgeTrafficPage--; buildBridgeTrafficAnalytics(); };
+    }
+    if (nextBtn) {
+      nextBtn.disabled = window.bridgeTrafficPage >= totalPages;
+      nextBtn.onclick = () => { window.bridgeTrafficPage++; buildBridgeTrafficAnalytics(); };
+    }
+
+    const pageRows = rows.slice((window.bridgeTrafficPage - 1) * BRIDGE_TRAFFIC_PAGE_SIZE, window.bridgeTrafficPage * BRIDGE_TRAFFIC_PAGE_SIZE);
+
+    tbody.innerHTML = pageRows.map(r => `
       <tr data-bridge-id="${r._id}" class="${bridgeRowActiveClass(r._id)}">
         <td class="highlight-cell">${tableCellHtml(r.bridge_nam, 'bridge_nam')} ${r.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:4px; font-size:9px">CRITICAL</span>' : ''}</td>
         <td>${tableCellHtml(r.bridge_no, 'bridge_no')}</td>
@@ -4362,7 +4407,28 @@ function buildVehicleClassAdt(siteId) {
   ].map(([v,l]) => `<div class="traffic-metric"><strong>${v}</strong><span>${l}</span></div>`).join('');
 
   const rows = breakdown.rows.slice().sort((a, b) => b.adt - a.adt);
-  tbody.innerHTML = rows.map(r => `
+  
+    const BRIDGE_TRAFFIC_PAGE_SIZE = 50;
+    const totalPages = Math.max(1, Math.ceil(rows.length / BRIDGE_TRAFFIC_PAGE_SIZE));
+    if (typeof window.bridgeTrafficPage === 'undefined') window.bridgeTrafficPage = 1;
+    window.bridgeTrafficPage = Math.max(1, Math.min(window.bridgeTrafficPage, totalPages));
+    
+    const prevBtn = document.getElementById('bridgeTrafficPrev');
+    const nextBtn = document.getElementById('bridgeTrafficNext');
+    const infoBtn = document.getElementById('bridgeTrafficPageInfo');
+    if (infoBtn) infoBtn.textContent = `Page ${window.bridgeTrafficPage} of ${totalPages} (${rows.length} total)`;
+    if (prevBtn) {
+      prevBtn.disabled = window.bridgeTrafficPage <= 1;
+      prevBtn.onclick = () => { window.bridgeTrafficPage--; buildBridgeTrafficAnalytics(); };
+    }
+    if (nextBtn) {
+      nextBtn.disabled = window.bridgeTrafficPage >= totalPages;
+      nextBtn.onclick = () => { window.bridgeTrafficPage++; buildBridgeTrafficAnalytics(); };
+    }
+
+    const pageRows = rows.slice((window.bridgeTrafficPage - 1) * BRIDGE_TRAFFIC_PAGE_SIZE, window.bridgeTrafficPage * BRIDGE_TRAFFIC_PAGE_SIZE);
+
+    tbody.innerHTML = pageRows.map(r => `
     <tr>
       <td class="highlight-cell">${tableCellHtml(r.label, 'vehicle_class')}</td>
       <td>${fmt(r.count)}</td>
@@ -8008,3 +8074,81 @@ function drawMap() {
 
   window.initODMatrixControls = function() {};
 })();
+
+
+let culvertPage = 1;
+const CULVERTS_PAGE_SIZE = 50;
+let culvertSort = { key: 'culvert_no', desc: false };
+
+function buildMajorCulvertsTab() {
+  buildCulvertTable();
+}
+
+function updateCulvertPager(totalRows, totalPages) {
+  const prevBtn = document.getElementById('culvertTablePrev');
+  const nextBtn = document.getElementById('culvertTableNext');
+  const info = document.getElementById('culvertTablePageInfo');
+  
+  if (info) info.textContent = `Page ${culvertPage} of ${totalPages} (${totalRows} total)`;
+  if (prevBtn) {
+    prevBtn.disabled = culvertPage <= 1;
+    prevBtn.onclick = () => { culvertPage--; buildCulvertTable(); };
+  }
+  if (nextBtn) {
+    nextBtn.disabled = culvertPage >= totalPages;
+    nextBtn.onclick = () => { culvertPage++; buildCulvertTable(); };
+  }
+}
+
+function buildCulvertTable() {
+  const tbody = document.getElementById('culvertTableBody');
+  const emptyState = document.getElementById('culvertEmptyState');
+  const table = document.getElementById('culvertTable');
+  if (!tbody) return;
+  
+  let sorted = [...(typeof MAJOR_CULVERTS !== 'undefined' ? MAJOR_CULVERTS : [])];
+  
+  // Apply sorting
+  if (culvertSort.key) {
+    sorted.sort((a, b) => {
+      let va = a[culvertSort.key];
+      let vb = b[culvertSort.key];
+      if (va == null) va = '';
+      if (vb == null) vb = '';
+      if (typeof va === 'string') va = va.toLowerCase();
+      if (typeof vb === 'string') vb = vb.toLowerCase();
+      if (va < vb) return culvertSort.desc ? 1 : -1;
+      if (va > vb) return culvertSort.desc ? -1 : 1;
+      return 0;
+    });
+  }
+
+  if (sorted.length === 0) {
+    tbody.innerHTML = '';
+    table.style.display = 'none';
+    if(emptyState) emptyState.style.display = 'block';
+    return;
+  }
+
+  table.style.display = 'table';
+  if(emptyState) emptyState.style.display = 'none';
+  
+  const totalPages = Math.max(1, Math.ceil(sorted.length / CULVERTS_PAGE_SIZE));
+  culvertPage = Math.max(1, Math.min(culvertPage, totalPages));
+  
+  const pageRows = sorted.slice((culvertPage - 1) * CULVERTS_PAGE_SIZE, culvertPage * CULVERTS_PAGE_SIZE);
+
+  tbody.innerHTML = pageRows.map(c => `
+    <tr data-culvert-id="${c._id}">
+      <td class="highlight-cell">${c.culvert_no || '-'}</td>
+      <td>${c.road_name || '-'}</td>
+      <td>${c.river || '-'}</td>
+      <td>${c.length_km != null ? Number(c.length_km).toFixed(3) : '-'}</td>
+      <td>${c.span_diameter != null ? c.span_diameter : '-'}</td>
+      <td>${c.condition_category || '-'}</td>
+      <td><span class="rating-badge rating-${c.overall_rating >= 6 ? '7' : (c.overall_rating >= 4 ? '5' : 'low')}">${c.overall_rating || '-'}</span></td>
+    </tr>
+  `).join('');
+
+  updateCulvertPager(sorted.length, totalPages);
+}
