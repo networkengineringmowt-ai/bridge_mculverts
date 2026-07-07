@@ -5286,8 +5286,8 @@ const MAP_TILE_QUEUED_KEYS = new Set();
 const MAP_TILE_CONCURRENT_LIMIT = 2;
 const MAP_TILE_NEW_REQUESTS_PER_DRAW = 4;
 const MAP_TILE_SERVICES = {
-  imagery: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-  labels: 'https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'
+  imagery: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  labels: 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'
 };
 const BRIDGE_SYMBOL = {
   fill: '#00e5ff',
