@@ -6268,6 +6268,56 @@ function nearestPositionAlongCoordinateSequence(coords, lon, lat) {
   return best ? { ...best, totalKm: cumulative, fraction: cumulative ? best.alongKm / cumulative : 0 } : null;
 }
 
+
+function pointAtContinuousChainageKm(roadNo, targetChainageKm) {
+  const roads = orderedRoadLinksForRoad(roadNo);
+  if (!roads.length) return null;
+  const oriented = orientedRoadLinkSequences(roads);
+  if (!oriented.length) return null;
+
+  let currentKm = 0;
+  for (const item of oriented) {
+    if (targetChainageKm <= currentKm + item.lengthKm) {
+      const distanceIntoLink = targetChainageKm - currentKm;
+      let accumulated = 0;
+      for (let i = 0; i < item.coords.length - 1; i++) {
+        const a = item.coords[i];
+        const b = item.coords[i + 1];
+        const segKm = haversineKm(a[1], a[0], b[1], b[0]);
+        if (distanceIntoLink <= accumulated + segKm) {
+          if (segKm === 0) return { x: a[0], y: a[1] };
+          const t = (distanceIntoLink - accumulated) / segKm;
+          return { x: a[0] + (b[0] - a[0]) * t, y: a[1] + (b[1] - a[1]) * t };
+        }
+        accumulated += segKm;
+      }
+      const last = item.coords[item.coords.length - 1];
+      return { x: last[0], y: last[1] };
+    }
+    currentKm += item.lengthKm;
+  }
+  const lastItem = oriented[oriented.length - 1];
+  const lastCoord = lastItem.coords[lastItem.coords.length - 1];
+  return { x: lastCoord[0], y: lastCoord[1] };
+}
+
+function processMajorCulvertLocations() {
+  if (typeof MAJOR_CULVERTS === 'undefined') return;
+  MAJOR_CULVERTS.forEach(c => {
+    if (!c.map_x || !c.map_y) {
+      const roadNo = normalizedLinkKey(c.road_name);
+      const chainage = Number(c.chainage);
+      if (roadNo && Number.isFinite(chainage)) {
+        const pt = pointAtContinuousChainageKm(roadNo, chainage);
+        if (pt) {
+          c.map_x = pt.x;
+          c.map_y = pt.y;
+        }
+      }
+    }
+  });
+}
+
 function geospatialRoadStartChainageKm(b) {
   const correctedRoadNo = String(b?.location_corrected_link_id || '').split('_')[0];
   const roadNo = normalizedLinkKey(correctedRoadNo || roadNumberForRecord(b));
@@ -7507,6 +7557,21 @@ function drawMap() {
     }
   });
 
+
+  if (typeof MAJOR_CULVERTS !== 'undefined') {
+    MAJOR_CULVERTS.forEach(c => {
+      if (c.map_x == null || c.map_y == null) return;
+      const pt = getProjection(c.map_x, c.map_y, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.rect(pt.x - 3.5, pt.y - 3.5, 7, 7);
+      ctx.fillStyle = '#10b981';
+      ctx.fill();
+      ctx.strokeStyle = '#064e3b';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+  }
+  
   ctx.restore();
   drawMapLegend(ctx, canvas);
 }
