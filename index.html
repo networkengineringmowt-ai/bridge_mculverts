@@ -2391,30 +2391,10 @@ header h1 {
 
   <!-- STATISTICS & SUMMARY PANEL -->
   <div class="panel" id="panel-statistics">
-    <div class="card">
+    <div class="card" style="height: 100%; overflow-y: auto;">
       <div class="card-title">Network Statistics &amp; Summary</div>
       <div class="card-subtitle">Categorical and numerical breakdowns of the bridge and major culvert inventory.</div>
-      
-      <div class="chart-row" style="margin-top:16px;">
-        <div class="card" style="width:50%; box-shadow:none; border:1px solid rgba(255,255,255,0.05);">
-          <div class="card-title">Bridges by Region</div>
-          <div class="chart-container"><canvas id="chartBridgesRegion"></canvas></div>
-        </div>
-        <div class="card" style="width:50%; box-shadow:none; border:1px solid rgba(255,255,255,0.05);">
-          <div class="card-title">Culverts by Region</div>
-          <div class="chart-container"><canvas id="chartCulvertsRegion"></canvas></div>
-        </div>
-      </div>
-      <div class="chart-row">
-        <div class="card" style="width:50%; box-shadow:none; border:1px solid rgba(255,255,255,0.05);">
-          <div class="card-title">Bridges by Condition Rating</div>
-          <div class="chart-container"><canvas id="chartBridgesCondition"></canvas></div>
-        </div>
-        <div class="card" style="width:50%; box-shadow:none; border:1px solid rgba(255,255,255,0.05);">
-          <div class="card-title">Culverts by Condition Rating</div>
-          <div class="chart-container"><canvas id="chartCulvertsCondition"></canvas></div>
-        </div>
-      </div>
+      <div id="statisticsChartsContainer" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 16px; padding-bottom: 30px;"></div>
     </div>
   </div>
 
