@@ -8238,26 +8238,26 @@ function initStatisticsTab() {
   });
 
   const chartConfigs = [
-    { id: 'stat1', title: '1. Bridges by Region', type: 'bar', labels: Object.keys(bRegion), data: Object.values(bRegion), color: COLORS.cyan },
-    { id: 'stat2', title: '2. Culverts by Region', type: 'bar', labels: Object.keys(cRegion), data: Object.values(cRegion), color: COLORS.emerald },
-    { id: 'stat3', title: '3. Bridges by Road Class', type: 'pie', labels: Object.keys(bClass), data: Object.values(bClass), colors: [COLORS.cyan, COLORS.blue, COLORS.indigo, COLORS.violet] },
-    { id: 'stat4', title: '4. Culverts by Road Class', type: 'pie', labels: Object.keys(cClass), data: Object.values(cClass), colors: [COLORS.emerald, COLORS.teal, COLORS.green, COLORS.lime] },
-    { id: 'stat5', title: '5. Bridges by Maintenance Station', type: 'bar', indexAxis: 'y', labels: Object.keys(bStation), data: Object.values(bStation), color: COLORS.cyan },
-    { id: 'stat6', title: '6. Culverts by Maintenance Station', type: 'bar', indexAxis: 'y', labels: Object.keys(cStation), data: Object.values(cStation), color: COLORS.emerald },
-    { id: 'stat7', title: '7. Bridges by Overall Condition', type: 'bar', labels: Object.keys(bCond), data: Object.values(bCond), color: COLORS.blue },
-    { id: 'stat8', title: '8. Culverts by Overall Condition', type: 'bar', labels: Object.keys(cCond), data: Object.values(cCond), color: COLORS.teal },
-    { id: 'stat9', title: '9. Bridges Superstructure Condition', type: 'bar', labels: Object.keys(bSuper), data: Object.values(bSuper), color: COLORS.indigo },
-    { id: 'stat10', title: '10. Culverts Waterway Condition', type: 'bar', labels: Object.keys(cWater), data: Object.values(cWater), color: COLORS.green },
-    { id: 'stat11', title: '11. Bridges Substructure Condition', type: 'bar', labels: Object.keys(bSub), data: Object.values(bSub), color: COLORS.violet },
-    { id: 'stat12', title: '12. Culverts Inlet/Outlet Condition', type: 'bar', labels: Object.keys(cInlet), data: Object.values(cInlet), color: COLORS.lime },
-    { id: 'stat13', title: '13. Bridges by Deck Material', type: 'pie', labels: Object.keys(bDeck), data: Object.values(bDeck), colors: [COLORS.rose, COLORS.amber, COLORS.cyan, COLORS.emerald, COLORS.blue] },
-    { id: 'stat14', title: '14. Culverts by Structure Type', type: 'pie', labels: Object.keys(cType), data: Object.values(cType), colors: [COLORS.teal, COLORS.green, COLORS.lime, COLORS.amber, COLORS.orange] },
-    { id: 'stat15', title: '15. Bridge Crossings by Type', type: 'bar', labels: Object.keys(bCrossing), data: Object.values(bCrossing), color: COLORS.cyan },
-    { id: 'stat16', title: '16. Culverts by Roadway Condition', type: 'bar', labels: Object.keys(cRoadway), data: Object.values(cRoadway), color: COLORS.emerald },
-    { id: 'stat17', title: '17. Bridges Built per Decade', type: 'bar', labels: Object.keys(bDecade).sort(), data: Object.keys(bDecade).sort().map(k => bDecade[k]), color: COLORS.indigo },
-    { id: 'stat18', title: '18. Total Structures by Asset Type', type: 'doughnut', labels: ['Bridges', 'Major Culverts'], data: [bridges.length, culverts.length], colors: [COLORS.cyan, COLORS.emerald] },
-    { id: 'stat19', title: '19. Bridge Scour Risk Profile', type: 'pie', labels: Object.keys(bScour), data: Object.values(bScour), colors: [COLORS.red, COLORS.orange, COLORS.amber, COLORS.green, COLORS.blue] },
-    { id: 'stat20', title: '20. Bridge Length Distribution', type: 'bar', labels: Object.keys(bLength), data: Object.values(bLength), color: COLORS.cyan }
+    { id: 'stat1', title: 'Bridges by Region', type: 'bar', labels: Object.keys(bRegion), data: Object.values(bRegion), color: COLORS.cyan },
+    { id: 'stat2', title: 'Culverts by Region', type: 'bar', labels: Object.keys(cRegion), data: Object.values(cRegion), color: COLORS.emerald },
+    { id: 'stat3', title: 'Bridges by Road Class', type: 'pie', labels: Object.keys(bClass), data: Object.values(bClass), colors: [COLORS.cyan, COLORS.blue, COLORS.indigo, COLORS.violet] },
+    { id: 'stat4', title: 'Culverts by Road Class', type: 'pie', labels: Object.keys(cClass), data: Object.values(cClass), colors: [COLORS.emerald, COLORS.teal, COLORS.green, COLORS.lime] },
+    { id: 'stat5', title: 'Bridges by Maintenance Station', type: 'bar', indexAxis: 'y', labels: Object.keys(bStation), data: Object.values(bStation), color: COLORS.cyan },
+    { id: 'stat6', title: 'Culverts by Maintenance Station', type: 'bar', indexAxis: 'y', labels: Object.keys(cStation), data: Object.values(cStation), color: COLORS.emerald },
+    { id: 'stat7', title: 'Bridges by Overall Condition', type: 'bar', labels: Object.keys(bCond), data: Object.values(bCond), color: COLORS.blue },
+    { id: 'stat8', title: 'Culverts by Overall Condition', type: 'bar', labels: Object.keys(cCond), data: Object.values(cCond), color: COLORS.teal },
+    { id: 'stat9', title: 'Bridges Superstructure Condition', type: 'bar', labels: Object.keys(bSuper), data: Object.values(bSuper), color: COLORS.indigo },
+    { id: 'stat10', title: 'Culverts Waterway Condition', type: 'bar', labels: Object.keys(cWater), data: Object.values(cWater), color: COLORS.green },
+    { id: 'stat11', title: 'Bridges Substructure Condition', type: 'bar', labels: Object.keys(bSub), data: Object.values(bSub), color: COLORS.violet },
+    { id: 'stat12', title: 'Culverts Inlet/Outlet Condition', type: 'bar', labels: Object.keys(cInlet), data: Object.values(cInlet), color: COLORS.lime },
+    { id: 'stat13', title: 'Bridges by Deck Material', type: 'pie', labels: Object.keys(bDeck), data: Object.values(bDeck), colors: [COLORS.rose, COLORS.amber, COLORS.cyan, COLORS.emerald, COLORS.blue] },
+    { id: 'stat14', title: 'Culverts by Structure Type', type: 'pie', labels: Object.keys(cType), data: Object.values(cType), colors: [COLORS.teal, COLORS.green, COLORS.lime, COLORS.amber, COLORS.orange] },
+    { id: 'stat15', title: 'Bridge Crossings by Type', type: 'bar', labels: Object.keys(bCrossing), data: Object.values(bCrossing), color: COLORS.cyan },
+    { id: 'stat16', title: 'Culverts by Roadway Condition', type: 'bar', labels: Object.keys(cRoadway), data: Object.values(cRoadway), color: COLORS.emerald },
+    { id: 'stat17', title: 'Bridges Built per Decade', type: 'bar', labels: Object.keys(bDecade).sort(), data: Object.keys(bDecade).sort().map(k => bDecade[k]), color: COLORS.indigo },
+    { id: 'stat18', title: 'Total Structures by Asset Type', type: 'doughnut', labels: ['Bridges', 'Major Culverts'], data: [bridges.length, culverts.length], colors: [COLORS.cyan, COLORS.emerald] },
+    { id: 'stat19', title: 'Bridge Scour Risk Profile', type: 'pie', labels: Object.keys(bScour), data: Object.values(bScour), colors: [COLORS.red, COLORS.orange, COLORS.amber, COLORS.green, COLORS.blue] },
+    { id: 'stat20', title: 'Bridge Length Distribution', type: 'bar', labels: Object.keys(bLength), data: Object.values(bLength), color: COLORS.cyan }
   ];
 
   let html = '';
