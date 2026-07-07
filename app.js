@@ -8208,6 +8208,69 @@ function bindCulvertTableSortHandlers() {
   updatePagedSortIndicators('culvertTable', culvertInventorySort);
 }
 
+// ── Photos tab: structure list + thumbnail gallery (photos_data.js) ──────────
+function photoStructureName(id) {
+  if (typeof BRIDGES !== 'undefined') {
+    const b = BRIDGES.find(x => String(x.bridge_no) === id || String(x.new_bridge_no) === id);
+    if (b) return b.bridge_nam || '';
+  }
+  if (typeof MAJOR_CULVERTS !== 'undefined') {
+    const c = MAJOR_CULVERTS.find(x => String(x.culvert_no) === id);
+    if (c) return c.road_name || '';
+  }
+  return '';
+}
+
+function initPhotosTab() {
+  if (typeof PHOTOS_DATA === 'undefined') return;
+  const listEl = document.getElementById('photoStructureList');
+  const galleryEl = document.getElementById('photoGallery');
+  const searchEl = document.getElementById('photoSearch');
+  if (!listEl || !galleryEl) return;
+
+  const ids = Object.keys(PHOTOS_DATA)
+    .filter(k => k !== 'PHOTOS' && Array.isArray(PHOTOS_DATA[k]) && PHOTOS_DATA[k].length)
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  let selected = null;
+
+  const btnStyle = (active) => `display:flex;align-items:baseline;gap:8px;width:100%;text-align:left;`
+    + `padding:7px 10px;border-radius:7px;cursor:pointer;font-family:inherit;`
+    + `border:1px solid ${active ? 'var(--accent-cyan,#22d3ff)' : 'transparent'};`
+    + `background:${active ? 'rgba(34,211,255,0.12)' : 'rgba(255,255,255,0.03)'};color:var(--text-primary,#f0f3fa);`;
+
+  function renderList(filter) {
+    const f = (filter || '').trim().toUpperCase();
+    const shown = ids.filter(id => !f || id.toUpperCase().includes(f) || photoStructureName(id).toUpperCase().includes(f));
+    listEl.innerHTML = shown.length ? shown.map(id =>
+      `<button data-id="${id}" style="${btnStyle(id === selected)}">
+         <strong style="font-size:13px">${id}</strong>
+         <span style="font-size:10px;color:var(--accent-cyan,#22d3ff);font-weight:700">${PHOTOS_DATA[id].length}</span>
+         <small style="font-size:10px;color:var(--text-muted,#9aa5c4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${photoStructureName(id)}</small>
+       </button>`).join('') : '<div class="empty-state"><p>No structure matches.</p></div>';
+    listEl.querySelectorAll('button[data-id]').forEach(b => { b.onclick = () => selectStruct(b.dataset.id); });
+  }
+
+  function selectStruct(id) {
+    selected = id;
+    renderList(searchEl ? searchEl.value : '');
+    const photos = PHOTOS_DATA[id] || [];
+    const name = photoStructureName(id);
+    galleryEl.innerHTML =
+      `<div style="grid-column:1/-1;font-weight:700;font-size:14px;margin-bottom:4px">${id}${name ? ' · ' + name : ''} — ${photos.length} photo(s)</div>`
+      + photos.map(src =>
+        `<a href="${src}" target="_blank" rel="noopener" style="display:block;aspect-ratio:4/3;border-radius:8px;overflow:hidden;border:1px solid var(--border,rgba(99,130,255,0.2))">
+           <img src="${src}" loading="lazy" alt="${id}" style="width:100%;height:100%;object-fit:cover">
+         </a>`).join('');
+  }
+
+  if (searchEl && !searchEl._photoBound) {
+    searchEl.addEventListener('input', () => renderList(searchEl.value));
+    searchEl._photoBound = true;
+  }
+  renderList('');
+  if (ids.length) selectStruct(ids[0]);
+}
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', startBridgeTrafficApp, { once: true });
 } else {
