@@ -8383,7 +8383,7 @@ function initStatisticsTab() {
     else bSpans['Multi-Span']++;
   });
   const bRivers = {}; bridges.forEach(b => { const r = b.river || 'Unknown'; if (r !== 'Unknown' && r !== 'None') bRivers[r] = (bRivers[r] || 0) + 1; });
-  const topRivers = Object.entries(bRivers).sort((a,b) => b[1] - a[1]).slice(0, 15);
+  const topRivers = Object.entries(bRivers).sort((a,b) => b[1] - a[1]);
   
   const bAbutCond = {}; bridges.forEach(b => { const v = b.abutment_cond || 'Unknown'; bAbutCond[v] = (bAbutCond[v] || 0) + 1; });
   const bPierCond = {}; bridges.forEach(b => { const v = b.piers_cond || 'Unknown'; bPierCond[v] = (bPierCond[v] || 0) + 1; });
