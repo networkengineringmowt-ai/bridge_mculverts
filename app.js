@@ -8162,6 +8162,7 @@ function buildCulvertTable() {
       <td>${htmlEscape(c.chainage != null ? String(c.chainage) : 'N/A')}</td>
       <td>${c.bridge_len != null ? Number(c.bridge_len).toFixed(1) : 'N/A'}</td>
       <td>${c.bridge_wid != null ? Number(c.bridge_wid).toFixed(1) : 'N/A'}</td>
+      <td>${htmlEscape(c.cells || c.no_of_span || 'N/A')}</td>
       <td>${c.map_x != null ? Number(c.map_x).toFixed(5) : 'N/A'}</td>
       <td>${c.map_y != null ? Number(c.map_y).toFixed(5) : 'N/A'}</td>
       <td>${htmlEscape(c.region || 'N/A')}</td>
