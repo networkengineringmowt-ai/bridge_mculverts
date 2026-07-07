@@ -8166,6 +8166,201 @@ function buildCulvertTable() {
       <td class="highlight-cell">${htmlEscape(c.culvert_no || '-')}</td>
       <td>${htmlEscape((BMS_CODE_LOOKUPS.type_bridge && BMS_CODE_LOOKUPS.type_bridge[c.type_culvert]) || c.type_culvert || '-')}</td>
       <td>${htmlEscape(c.road_name || '-')}</td>
+        if (selectedMapBridge) {
+          hoveredBridge = selectedMapBridge;
+          mapInfluenceCache = { key: null, links: [] };
+          setBridgeTrafficControlsForBridge(selectedMapBridge);
+          focusBridgeInventoryPageForBridge(selectedMapBridge);
+          focusBridgeTrafficPageForBridge(selectedMapBridge);
+          buildKPIs();
+          updateBridgeAnalyticsPane(selectedMapBridge);
+          applyActiveBridgeSelectionToTables();
+        } else {
+          buildKPIs();
+          updateBridgeAnalyticsPane(null);
+          applyActiveBridgeSelectionToTables();
+        }
+        
+        drawMap();
+        filterODData();
+        renderAll();
+      });
+    }
+
+    document.querySelectorAll('.od-view-toggle button').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.od-view-toggle button').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var view = btn.dataset.view;
+        document.getElementById('odTableView').style.display = view === 'table' ? '' : 'none';
+        document.getElementById('odHeatmapView').style.display = view === 'heatmap' ? '' : 'none';
+        if (view === 'heatmap') renderODHeatmap();
+      });
+    });
+  }
+
+  function renderAll() {
+    var empty = document.getElementById('odEmptyState2');
+    var tableView = document.getElementById('odTableView');
+    var heatmapView = document.getElementById('odHeatmapView');
+
+    if (!odFilteredData.length) {
+      if (empty) empty.style.display = 'flex';
+      if (tableView) tableView.style.display = 'none';
+      if (heatmapView) heatmapView.style.display = 'none';
+    } else {
+      if (empty) empty.style.display = 'none';
+      var activeView = document.querySelector('.od-view-toggle button.active');
+      var isHeatmap = activeView && activeView.dataset.view === 'heatmap';
+      if (tableView) tableView.style.display = isHeatmap ? 'none' : '';
+      if (heatmapView) heatmapView.style.display = isHeatmap ? '' : 'none';
+    }
+
+    renderODSummary();
+    renderODTable();
+    var activeBtn = document.querySelector('.od-view-toggle button.active');
+    if (activeBtn && activeBtn.dataset.view === 'heatmap') renderODHeatmap();
+
+    var label = document.getElementById('odBridgeLabel');
+    var bridgeVal = (document.getElementById('odBridgeFilter') || {}).value || 'all';
+    if (label) label.textContent = bridgeVal === 'all' ? 'All Bridges' : bridgeVal;
+  }
+
+  window.buildODMatrixTab = function() {
+    const store = sqlBotTrafficStore();
+    if (!store) {
+      // Show loading state in the OD tab elements
+      const tbody = document.getElementById('odTableBody2');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 40px; color: var(--accent-cyan); font-weight: bold;">Loading Origin-Destination Matrix data...</td></tr>';
+      }
+      const hbody = document.getElementById('odHeatmapBody');
+      if (hbody) {
+        hbody.innerHTML = '<tr><td colspan="30" style="text-align:center; padding: 40px; color: var(--accent-cyan); font-weight: bold;">Loading Origin-Destination Matrix data...</td></tr>';
+      }
+      const summary = document.getElementById('odSummaryRow');
+      if (summary) {
+        summary.innerHTML = '<div style="color:var(--accent-cyan); font-weight:bold; padding: 10px;">Loading data...</div>';
+      }
+      
+      loadSqlBotTrafficBackend().then(data => {
+        if (data) {
+          prepareODData();
+          initODControls();
+          syncODBridgeFilter();
+          filterODData();
+          renderAll();
+        } else {
+          const tbody = document.getElementById('odTableBody2');
+          if (tbody) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 40px; color: var(--accent-rose);">Failed to load Origin-Destination data.</td></tr>';
+        }
+      });
+      return;
+    }
+
+    if (!odAllData.length) {
+      prepareODData();
+      initODControls();
+    }
+    syncODBridgeFilter();
+    filterODData();
+    renderAll();
+  };
+
+  window.initODMatrixControls = function() {};
+})();
+
+
+let culvertPage = 1;
+const CULVERTS_PAGE_SIZE = 50;
+let culvertSort = { key: 'culvert_no', desc: false };
+
+function buildMajorCulvertsTab() {
+  buildCulvertTable();
+  if (!window._culvertSortBound) {
+    document.querySelectorAll('#culvertTableHeadRow th[data-sort]').forEach(th => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sort;
+        if (culvertSort.key === key) {
+          culvertSort.desc = !culvertSort.desc;
+        } else {
+          culvertSort.key = key;
+          culvertSort.desc = false;
+        }
+        buildCulvertTable();
+      });
+    });
+    window._culvertSortBound = true;
+  }
+}
+
+function updateCulvertPager(totalRows, totalPages) {
+  const prevBtn = document.getElementById('culvertTablePrev');
+  const nextBtn = document.getElementById('culvertTableNext');
+  const info = document.getElementById('culvertTablePageInfo');
+  
+  if (info) info.textContent = `Page ${culvertPage} of ${totalPages} (${totalRows} total)`;
+  if (prevBtn) {
+    prevBtn.disabled = culvertPage <= 1;
+    prevBtn.onclick = () => { culvertPage--; buildCulvertTable(); };
+  }
+  if (nextBtn) {
+    nextBtn.disabled = culvertPage >= totalPages;
+    nextBtn.onclick = () => { culvertPage++; buildCulvertTable(); };
+  }
+}
+
+function buildCulvertTable() {
+  const tbody = document.getElementById('culvertTableBody');
+  const emptyState = document.getElementById('culvertEmptyState');
+  const table = document.getElementById('culvertTable');
+  if (!tbody) return;
+  
+  let sorted = [...(typeof MAJOR_CULVERTS !== 'undefined' ? MAJOR_CULVERTS : [])];
+  
+  // Apply sorting
+  if (culvertSort.key) {
+    sorted.sort((a, b) => {
+      let va = a[culvertSort.key];
+      let vb = b[culvertSort.key];
+      if (va == null) va = '';
+      if (vb == null) vb = '';
+      if (typeof va === 'string') va = va.toLowerCase();
+      if (typeof vb === 'string') vb = vb.toLowerCase();
+      if (va < vb) return culvertSort.desc ? 1 : -1;
+      if (va > vb) return culvertSort.desc ? -1 : 1;
+      return 0;
+    });
+  }
+
+  if (sorted.length === 0) {
+    tbody.innerHTML = '';
+    table.style.display = 'none';
+    if(emptyState) emptyState.style.display = 'block';
+    return;
+  }
+
+  table.style.display = 'table';
+  if(emptyState) emptyState.style.display = 'none';
+  
+  const totalPages = Math.max(1, Math.ceil(sorted.length / CULVERTS_PAGE_SIZE));
+  culvertPage = Math.max(1, Math.min(culvertPage, totalPages));
+  
+  const pageRows = sorted.slice((culvertPage - 1) * CULVERTS_PAGE_SIZE, culvertPage * CULVERTS_PAGE_SIZE);
+  function getCulvertCategoryPill(cond) {
+    if (!cond) return '-';
+    const c = String(cond).toLowerCase();
+    let cls = 'low';
+    if (c.includes('good') || c.includes('excellent')) cls = '7';
+    else if (c.includes('satisfactory') || c.includes('fair') || c.includes('marginal')) cls = '5';
+    return `<span class="rating-badge rating-${cls}">${htmlEscape(cond)}</span>`;
+  }
+
+  tbody.innerHTML = pageRows.map(c => `
+    <tr data-culvert-id="${c._id}">
+      <td class="highlight-cell">${htmlEscape(c.culvert_no || '-')}</td>
+      <td>${htmlEscape((BMS_CODE_LOOKUPS.type_bridge && BMS_CODE_LOOKUPS.type_bridge[c.type_culvert]) || c.type_culvert || '-')}</td>
+      <td>${htmlEscape(c.road_name || '-')}</td>
       <td>${htmlEscape(c.link_name || '-')}</td>
       <td>${htmlEscape(c.chainage != null ? String(c.chainage) : '-')}</td>
       <td>${c.map_x != null ? Number(c.map_x).toFixed(5) : '-'}</td>
@@ -8173,7 +8368,11 @@ function buildCulvertTable() {
       <td>${htmlEscape(c.region || '-')}</td>
       <td>${htmlEscape(c.station || '-')}</td>
       <td>${htmlEscape(c.span_diameter || '-')}</td>
-      <td>${getCulvertCategoryPill(c.condition_category)}</td>
+      <td>${getCulvertCategoryPill(c.waterway_cond)}</td>
+      <td>${getCulvertCategoryPill(c.inlet_outlet_cond)}</td>
+      <td>${getCulvertCategoryPill(c.structure_cond)}</td>
+      <td>${getCulvertCategoryPill(c.roadway_cond)}</td>
+      <td>${getCulvertCategoryPill(c.overall_cond)}</td>
       <td>${bridgeInventoryRatingCell(c.overall_rating, 'overall')}</td>
     </tr>
   `).join('');
