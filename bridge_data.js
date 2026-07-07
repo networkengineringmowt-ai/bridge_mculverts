@@ -17,7 +17,10 @@ const SQLBOT_TRAFFIC_INTELLIGENCE = {"generated_at":"2026-05-29T11:43:20","link_
 
 
 
-\n\n\nconst MAJOR_CULVERTS = [
+
+
+
+const MAJOR_CULVERTS = [
   {
     "_id": "c001",
     "culvert_no": "C001",
@@ -11318,4 +11321,4 @@ const SQLBOT_TRAFFIC_INTELLIGENCE = {"generated_at":"2026-05-29T11:43:20","link_
     "station": "Kampala",
     "type": "culvert"
   }
-];\n
+];

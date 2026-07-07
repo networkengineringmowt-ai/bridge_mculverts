@@ -69,6 +69,7 @@ const chartDefaults = () => ({
 // ===========================================
 //  CONTROLLER & STATE
 // ===========================================
+let selectedMapBridge = null;
 let chartInstances = {};
 let sortDir = {};
 let bridgeInventorySort = null;
@@ -178,11 +179,7 @@ function startBridgeTrafficApp() {
   }, 1500));
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', startBridgeTrafficApp, { once: true });
-} else {
-  startBridgeTrafficApp();
-}
+// Trigger moved to bottom of file
 
 // KPIs
 function quickBridgeAssignedAdt(bridge) {
@@ -5231,7 +5228,6 @@ let isMapDragging = false;
 let mapStartX = 0;
 let mapStartY = 0;
 let hoveredBridge = null;
-let selectedMapBridge = null;
 let timelineYear = 2026;
 let timelineMonth = 4;
 let timelineDay = 22;
@@ -7419,6 +7415,9 @@ function drawWaterBodies(ctx, canvas) {
       ctx.stroke();
     });
     ctx.restore();
+  }
+}
+
 function drawMapLegend(ctx, canvas) {
   // Disabled in favor of HTML legend
 }
@@ -8125,4 +8124,10 @@ function buildCulvertTable() {
   `).join('');
 
   updateCulvertPager(sorted.length, totalPages);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startBridgeTrafficApp, { once: true });
+} else {
+  startBridgeTrafficApp();
 }
