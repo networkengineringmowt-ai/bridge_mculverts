@@ -14,8 +14,8 @@ const ATC_SITE_ITEMS = asArray(ATC_SITES);
 const ATC_CLASS_ITEMS = asArray(ATC_CLASS);
 const ATC_SPEED_ITEMS = asArray(ATC_SPEED);
 const LEGACY_ATC_STATIONS = [{"id":"L01","name":"Kasangati - Kyaliwajala","sheet":"Kasangati - Kyaliwajala","observations":222,"avg_adt":804.2,"max_adt":2742,"class_totals":{"Buses / medium - large unit Trucks":3045,"Medium buses / Light single unit truck":12001,"Minibuses/matatus / Pickups / Vans / 4WD":53215,"Mortocycles / bicycles":47955,"Saloon cars":62004,"Trailers":305,"Grand Total":178525}},{"id":"L02","name":"Kalagi - Bukoloto-Kayunga","sheet":"Kalagi - Bukoloto-Kayunga","observations":276,"avg_adt":818.3,"max_adt":3629,"class_totals":{"Buses / medium - large unit Trucks":7234,"Medium buses / Light single unit truck":18280,"Minibuses/matatus / Pickups / Vans / 4WD":49405,"Mortocycles / bicycles":77701,"Saloon cars":71700,"Trailers":1539,"Grand Total":225859}},{"id":"L03","name":"Njeru - Bukoloto","sheet":"Njeru - Bukoloto","observations":216,"avg_adt":674.6,"max_adt":2608,"class_totals":{"Buses / medium - large unit Trucks":4553.5,"Medium buses / Light single unit truck":10485.5,"Minibuses/matatus / Pickups / Vans / 4WD":21899,"Mortocycles / bicycles":61849.5,"Saloon cars":45647.5,"Trailers":1283.5,"Grand Total":145718.5}},{"id":"L04","name":"Kampala - Mukono","sheet":"Kampala - Mukono","observations":240,"avg_adt":5228.1,"max_adt":18100,"class_totals":{"Buses / medium - large unit Trucks":51702,"Medium buses / Light single unit truck":111868,"Minibuses/matatus / Pickups / Vans / 4WD":229040.67,"Mortocycles / bicycles":480531.67,"Saloon cars":336610.33,"Trailers":44980.67,"Grand Total":1254733.33}},{"id":"L05","name":"Buwama - Nyendo","sheet":"Buwama - Nyendo","observations":234,"avg_adt":969.9,"max_adt":2564,"class_totals":{"Buses / medium - large unit Trucks":28326,"Medium buses / Light single unit truck":28222.67,"Minibuses/matatus / Pickups / Vans / 4WD":40090.17,"Mortocycles / bicycles":41910.67,"Saloon cars":63544.33,"Trailers":24864.17,"Grand Total":226958}},{"id":"L06","name":"Lyantonde - Ntusi","sheet":"Lyantonde - Ntusi","observations":294,"avg_adt":109.8,"max_adt":573,"class_totals":{"Buses / medium - large unit Trucks":604.5,"Medium buses / Light single unit truck":1851.5,"Minibuses/matatus / Pickups / Vans / 4WD":4739.5,"Mortocycles / bicycles":11628.5,"Saloon cars":13295.5,"Trailers":153,"Grand Total":32272.5}},{"id":"L07","name":"Ishaka - Katunguru","sheet":"Ishaka - Katunguru","observations":204,"avg_adt":262.7,"max_adt":903,"class_totals":{"Buses / medium - large unit Trucks":3296,"Medium buses / Light single unit truck":4827,"Minibuses/matatus / Pickups / Vans / 4WD":10805,"Mortocycles / bicycles":15823,"Saloon cars":15943,"Trailers":2892,"Grand Total":53586}},{"id":"L08","name":"Kyenjojo - Fortportal","sheet":"Kyenjojo - Fortportal","observations":204,"avg_adt":389.5,"max_adt":1223,"class_totals":{"Buses / medium - large unit Trucks":5663,"Medium buses / Light single unit truck":7979,"Minibuses/matatus / Pickups / Vans / 4WD":20000,"Mortocycles / bicycles":17713,"Saloon cars":25206,"Trailers":2904,"Grand Total":79465}},{"id":"L09","name":"Ibanda - Kamwenge","sheet":"Ibanda - Kamwenge","observations":318,"avg_adt":403.9,"max_adt":2010,"class_totals":{"Buses / medium - large unit Trucks":2271,"Medium buses / Light single unit truck":6382,"Minibuses/matatus / Pickups / Vans / 4WD":14900,"Mortocycles / bicycles":66126,"Saloon cars":37897,"Trailers":860,"Grand Total":128436}},{"id":"L10","name":"Tirinyi - Budaka - Kamonkoli","sheet":"Tirinyi - Budaka - Kamonkoli","observations":198,"avg_adt":782.4,"max_adt":3790,"class_totals":{"Buses / medium - large unit Trucks":7771,"Medium buses / Light single unit truck":14604,"Minibuses/matatus / Pickups / Vans / 4WD":22641,"Mortocycles / bicycles":62067,"Saloon cars":45357,"Trailers":2469,"Grand Total":154909}},{"id":"L11","name":"Pallisa - Kanyago Bridge","sheet":"Pallisa - Kanyago Bridge","observations":132,"avg_adt":315.9,"max_adt":1873,"class_totals":{"Buses / medium - large unit Trucks":302,"Medium buses / Light single unit truck":1288,"Minibuses/matatus / Pickups / Vans / 4WD":1895,"Mortocycles / bicycles":22133,"Saloon cars":15998,"Trailers":82,"Grand Total":41698}},{"id":"L12","name":"Kumi - Brooks corner","sheet":"Kumi - Brooks corner","observations":265,"avg_adt":377.1,"max_adt":1969,"class_totals":{"Buses / medium - large unit Trucks":927,"Medium buses / Light single unit truck":3485,"Minibuses/matatus / Pickups / Vans / 4WD":6288,"Mortocycles / bicycles":57074,"Saloon cars":31899,"Trailers":250,"Grand Total":99923}},{"id":"L13","name":"Lira - Corner Kilak","sheet":"Lira - Corner Kilak","observations":275,"avg_adt":266.5,"max_adt":1672,"class_totals":{"Buses / medium - large unit Trucks":1099,"Medium buses / Light single unit truck":3707,"Minibuses/matatus / Pickups / Vans / 4WD":3593,"Mortocycles / bicycles":46319,"Saloon cars":18369,"Trailers":187,"Grand Total":73274}},{"id":"L14","name":"Lamogi - Amuru Junction","sheet":"Lamogi - Amuru Junction","observations":288,"avg_adt":176.6,"max_adt":1186,"class_totals":{"Buses / medium - large unit Trucks":1204,"Medium buses / Light single unit truck":2532,"Minibuses/matatus / Pickups / Vans / 4WD":3948,"Mortocycles / bicycles":29705,"Saloon cars":13041,"Trailers":442,"Grand Total":50872}},{"id":"L15","name":"Nebbi - Olevu","sheet":"Nebbi - Olevu","observations":264,"avg_adt":179,"max_adt":1624,"class_totals":{"Buses / medium - large unit Trucks":5988.5,"Medium buses / Light single unit truck":3967.5,"Minibuses/matatus / Pickups / Vans / 4WD":7807.5,"Mortocycles / bicycles":14097.5,"Saloon cars":10730.5,"Trailers":4670,"Grand Total":47261.5}}];
-const fmt = (n, d=0) => n != null && n !== '' ? Number(n).toLocaleString(undefined, {maximumFractionDigits: d}) : '-';
-const fmtB = n => n != null ? (n / 1e9).toFixed(2) : '-';
+const fmt = (n, d=0) => n != null && n !== '' ? Number(n).toLocaleString(undefined, {maximumFractionDigits: d}) : 'N/A';
+const fmtB = n => n != null ? (n / 1e9).toFixed(2) : 'N/A';
 
 const LEGACY_ATC_ACCURACY_DATA = {"Kasangati - Kyaliwajala":{"name":"Kasangati - Kyaliwajala","link_id":"C194_Link02","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":37,"avg_adt_2016_2022":4825.0,"median_adt_2016_2022":4866.0,"max_adt_2016_2022":6786.0,"latest_year":2020,"latest_year_avg_adt":5898.67,"monthly_avg_adt":{"1":4081.0,"2":5238.33,"3":3952.33,"4":1989.0,"5":4337.0,"6":5294.5,"7":4827.0,"8":5081.25,"9":5210.0,"10":5326.0,"11":5572.2,"12":4658.0},"seasonal_factors":[0.8458,1.0857,0.8191,0.4122,0.8989,1.0973,1.0004,1.0531,1.0798,1.1038,1.1549,0.9654],"class_totals":{"Buses / medium - large unit Trucks":3045.0,"Medium buses / Light single unit truck":12001.0,"Minibuses/matatus / Pickups / Vans / 4WD":53215.0,"Mortocycles / bicycles":47955.0,"Saloon cars":62004.0,"Trailers":305.0},"class_shares":{"Buses / medium - large unit Trucks":0.017056,"Medium buses / Light single unit truck":0.067223,"Minibuses/matatus / Pickups / Vans / 4WD":0.298082,"Mortocycles / bicycles":0.268618,"Saloon cars":0.347313,"Trailers":0.001708}},"Kalagi - Bukoloto-Kayunga":{"name":"Kalagi - Bukoloto-Kayunga","link_id":"B101_Link02","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":46,"avg_adt_2016_2022":4909.98,"median_adt_2016_2022":4849.5,"max_adt_2016_2022":8546.0,"latest_year":2022,"latest_year_avg_adt":3161.5,"monthly_avg_adt":{"1":5009.5,"2":4834.75,"3":5157.0,"4":4022.5,"5":5683.0,"6":6860.0,"7":4860.0,"8":5135.5,"9":4903.8,"10":5091.33,"11":4371.75,"12":4372.4},"seasonal_factors":[1.0203,0.9847,1.0503,0.8193,1.1574,1.3972,0.9898,1.0459,0.9987,1.0369,0.8904,0.8905],"class_totals":{"Buses / medium - large unit Trucks":7234.0,"Medium buses / Light single unit truck":18280.0,"Minibuses/matatus / Pickups / Vans / 4WD":49405.0,"Mortocycles / bicycles":77701.0,"Saloon cars":71700.0,"Trailers":1539.0},"class_shares":{"Buses / medium - large unit Trucks":0.032029,"Medium buses / Light single unit truck":0.080935,"Minibuses/matatus / Pickups / Vans / 4WD":0.218743,"Mortocycles / bicycles":0.344024,"Saloon cars":0.317455,"Trailers":0.006814}},"Njeru - Bukoloto":{"name":"Njeru - Bukoloto","link_id":"B102_Link01","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":36,"avg_adt_2016_2022":4047.74,"median_adt_2016_2022":3950.0,"max_adt_2016_2022":5405.0,"latest_year":2021,"latest_year_avg_adt":4213.29,"monthly_avg_adt":{"1":3936.33,"2":4542.33,"3":2741.17,"4":4137.5,"5":4317.33,"6":3863.5,"7":4253.0,"8":4253.0,"9":3789.5,"10":4011.6,"11":4070.0,"12":4408.2},"seasonal_factors":[0.9725,1.1222,0.6772,1.0222,1.0666,0.9545,1.0507,1.0507,0.9362,0.9911,1.0055,1.0891],"class_totals":{"Buses / medium - large unit Trucks":4553.5,"Medium buses / Light single unit truck":10485.5,"Minibuses/matatus / Pickups / Vans / 4WD":21899.0,"Mortocycles / bicycles":61849.5,"Saloon cars":45647.5,"Trailers":1283.5},"class_shares":{"Buses / medium - large unit Trucks":0.031249,"Medium buses / Light single unit truck":0.071957,"Minibuses/matatus / Pickups / Vans / 4WD":0.150283,"Mortocycles / bicycles":0.424445,"Saloon cars":0.313258,"Trailers":0.008808}},"Kampala - Mukono":{"name":"Kampala - Mukono","link_id":"A001_Link01","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":40,"avg_adt_2016_2022":31368.33,"median_adt_2016_2022":30868.5,"max_adt_2016_2022":41484.0,"latest_year":2020,"latest_year_avg_adt":35029.0,"monthly_avg_adt":{"1":31948.67,"2":32329.5,"3":31499.11,"4":30843.0,"5":29879.33,"6":34389.33,"7":30721.33,"8":30089.25,"9":30568.33,"10":30496.0,"11":31066.5,"12":32439.25},"seasonal_factors":[1.0185,1.0306,1.0042,0.9833,0.9525,1.0963,0.9794,0.9592,0.9745,0.9722,0.9904,1.0341],"class_totals":{"Buses / medium - large unit Trucks":51702.0,"Medium buses / Light single unit truck":111868.0,"Minibuses/matatus / Pickups / Vans / 4WD":229040.67,"Mortocycles / bicycles":480531.67,"Saloon cars":336610.33,"Trailers":44980.67},"class_shares":{"Buses / medium - large unit Trucks":0.041206,"Medium buses / Light single unit truck":0.089157,"Minibuses/matatus / Pickups / Vans / 4WD":0.182541,"Mortocycles / bicycles":0.382975,"Saloon cars":0.268272,"Trailers":0.035849}},"Buwama - Nyendo":{"name":"Buwama - Nyendo","link_id":"A002_Link04","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":39,"avg_adt_2016_2022":5819.44,"median_adt_2016_2022":6651.0,"max_adt_2016_2022":8336.0,"latest_year":2020,"latest_year_avg_adt":2236.5,"monthly_avg_adt":{"2":5533.67,"3":7026.0,"4":7165.67,"5":7150.33,"6":6996.67,"7":7691.5,"8":5509.0,"9":5085.6,"10":5203.2,"11":4953.8,"12":5152.2},"seasonal_factors":[1.0,0.9509,1.2073,1.2313,1.2287,1.2023,1.3217,0.9467,0.8739,0.8941,0.8513,0.8853],"class_totals":{"Buses / medium - large unit Trucks":28326.0,"Medium buses / Light single unit truck":28222.67,"Minibuses/matatus / Pickups / Vans / 4WD":40090.17,"Mortocycles / bicycles":41910.67,"Saloon cars":63544.33,"Trailers":24864.17},"class_shares":{"Buses / medium - large unit Trucks":0.124807,"Medium buses / Light single unit truck":0.124352,"Minibuses/matatus / Pickups / Vans / 4WD":0.176641,"Mortocycles / bicycles":0.184663,"Saloon cars":0.279983,"Trailers":0.109554}},"Lyantonde - Ntusi":{"name":"Lyantonde - Ntusi","link_id":"C227_Link01","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":50,"avg_adt_2016_2022":645.45,"median_adt_2016_2022":620.0,"max_adt_2016_2022":1342.0,"latest_year":2021,"latest_year_avg_adt":685.0,"monthly_avg_adt":{"1":596.75,"2":655.75,"3":604.67,"4":531.33,"5":633.33,"6":659.25,"7":600.33,"8":649.67,"9":771.8,"10":622.33,"11":643.08,"12":686.0},"seasonal_factors":[0.9245,1.016,0.9368,0.8232,0.9812,1.0214,0.9301,1.0065,1.1958,0.9642,0.9963,1.0628],"class_totals":{"Buses / medium - large unit Trucks":604.5,"Medium buses / Light single unit truck":1851.5,"Minibuses/matatus / Pickups / Vans / 4WD":4739.5,"Mortocycles / bicycles":11628.5,"Saloon cars":13295.5,"Trailers":153.0},"class_shares":{"Buses / medium - large unit Trucks":0.018731,"Medium buses / Light single unit truck":0.057371,"Minibuses/matatus / Pickups / Vans / 4WD":0.146859,"Mortocycles / bicycles":0.360322,"Saloon cars":0.411976,"Trailers":0.004741}},"Ishaka - Katunguru":{"name":"Ishaka - Katunguru","link_id":"B152_Link03","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":34,"avg_adt_2016_2022":1576.06,"median_adt_2016_2022":1565.0,"max_adt_2016_2022":1833.0,"latest_year":2022,"latest_year_avg_adt":1627.0,"monthly_avg_adt":{"1":1568.0,"2":1546.0,"3":1528.0,"4":1523.67,"5":1454.5,"6":1600.0,"7":1612.0,"8":1657.67,"9":1532.33,"10":1599.5,"11":1640.0,"12":1622.67},"seasonal_factors":[0.9949,0.9809,0.9695,0.9668,0.9229,1.0152,1.0228,1.0518,0.9723,1.0149,1.0406,1.0296],"class_totals":{"Buses / medium - large unit Trucks":3296.0,"Medium buses / Light single unit truck":4827.0,"Minibuses/matatus / Pickups / Vans / 4WD":10805.0,"Mortocycles / bicycles":15823.0,"Saloon cars":15943.0,"Trailers":2892.0},"class_shares":{"Buses / medium - large unit Trucks":0.061509,"Medium buses / Light single unit truck":0.090079,"Minibuses/matatus / Pickups / Vans / 4WD":0.201638,"Mortocycles / bicycles":0.295282,"Saloon cars":0.297522,"Trailers":0.053969}},"Kyenjojo - Fortportal":{"name":"Kyenjojo - Fortportal","link_id":"A005_Link10","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":34,"avg_adt_2016_2022":2337.21,"median_adt_2016_2022":2308.5,"max_adt_2016_2022":3049.0,"latest_year":2022,"latest_year_avg_adt":1758.0,"monthly_avg_adt":{"1":2316.0,"2":2621.33,"3":2079.5,"4":2191.33,"5":2508.0,"6":2203.5,"7":2246.0,"8":1986.0,"9":2060.67,"10":2443.67,"11":2450.67,"12":2703.0},"seasonal_factors":[0.9909,1.1216,0.8897,0.9376,1.0731,0.9428,0.961,0.8497,0.8817,1.0456,1.0485,1.1565],"class_totals":{"Buses / medium - large unit Trucks":5663.0,"Medium buses / Light single unit truck":7979.0,"Minibuses/matatus / Pickups / Vans / 4WD":20000.0,"Mortocycles / bicycles":17713.0,"Saloon cars":25206.0,"Trailers":2904.0},"class_shares":{"Buses / medium - large unit Trucks":0.071264,"Medium buses / Light single unit truck":0.100409,"Minibuses/matatus / Pickups / Vans / 4WD":0.251683,"Mortocycles / bicycles":0.222903,"Saloon cars":0.317196,"Trailers":0.036544}},"Ibanda - Kamwenge":{"name":"Ibanda - Kamwenge","link_id":"B150_Link03","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":53,"avg_adt_2016_2022":2423.32,"median_adt_2016_2022":2438.0,"max_adt_2016_2022":3044.0,"latest_year":2022,"latest_year_avg_adt":656.0,"monthly_avg_adt":{"1":2414.2,"2":2632.5,"3":2400.67,"4":2081.0,"5":2570.5,"6":2481.5,"7":2024.0,"8":2171.75,"9":2395.4,"10":2386.6,"11":2382.67,"12":2846.5},"seasonal_factors":[0.9962,1.0863,0.9907,0.8587,1.0607,1.024,0.8352,0.8962,0.9885,0.9848,0.9832,1.1746],"class_totals":{"Buses / medium - large unit Trucks":2271.0,"Medium buses / Light single unit truck":6382.0,"Minibuses/matatus / Pickups / Vans / 4WD":14900.0,"Mortocycles / bicycles":66126.0,"Saloon cars":37897.0,"Trailers":860.0},"class_shares":{"Buses / medium - large unit Trucks":0.017682,"Medium buses / Light single unit truck":0.04969,"Minibuses/matatus / Pickups / Vans / 4WD":0.116011,"Mortocycles / bicycles":0.514856,"Saloon cars":0.295065,"Trailers":0.006696}},"Tirinyi - Budaka - Kamonkoli":{"name":"Tirinyi - Budaka - Kamonkoli","link_id":"A012_Link03","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":33,"avg_adt_2016_2022":4694.21,"median_adt_2016_2022":4593.0,"max_adt_2016_2022":6780.0,"latest_year":2021,"latest_year_avg_adt":4956.62,"monthly_avg_adt":{"1":4470.67,"2":4932.0,"3":4409.0,"4":4651.67,"5":5147.0,"6":4103.0,"7":4676.0,"8":4435.67,"9":3396.5,"10":4406.0,"11":4916.67,"12":5435.2},"seasonal_factors":[0.9524,1.0507,0.9392,0.9909,1.0965,0.8741,0.9961,0.9449,0.7236,0.9386,1.0474,1.1579],"class_totals":{"Buses / medium - large unit Trucks":7771.0,"Medium buses / Light single unit truck":14604.0,"Minibuses/matatus / Pickups / Vans / 4WD":22641.0,"Mortocycles / bicycles":62067.0,"Saloon cars":45357.0,"Trailers":2469.0},"class_shares":{"Buses / medium - large unit Trucks":0.050165,"Medium buses / Light single unit truck":0.094275,"Minibuses/matatus / Pickups / Vans / 4WD":0.146157,"Mortocycles / bicycles":0.400667,"Saloon cars":0.292798,"Trailers":0.015938}},"Pallisa - Kanyago Bridge":{"name":"Pallisa - Kanyago Bridge","link_id":"B305_Link02","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":22,"avg_adt_2016_2022":1895.36,"median_adt_2016_2022":1803.0,"max_adt_2016_2022":3100.0,"latest_year":2018,"latest_year_avg_adt":1706.5,"monthly_avg_adt":{"1":1988.0,"2":1641.5,"3":1538.5,"4":2343.5,"5":2097.0,"6":1885.5,"7":1716.0,"8":2156.0,"9":1905.5,"10":1931.0,"11":1707.5,"12":1762.5},"seasonal_factors":[1.0489,0.8661,0.8117,1.2364,1.1064,0.9948,0.9054,1.1375,1.0053,1.0188,0.9009,0.9299],"class_totals":{"Buses / medium - large unit Trucks":302.0,"Medium buses / Light single unit truck":1288.0,"Minibuses/matatus / Pickups / Vans / 4WD":1895.0,"Mortocycles / bicycles":22133.0,"Saloon cars":15998.0,"Trailers":82.0},"class_shares":{"Buses / medium - large unit Trucks":0.007243,"Medium buses / Light single unit truck":0.030889,"Minibuses/matatus / Pickups / Vans / 4WD":0.045446,"Mortocycles / bicycles":0.530793,"Saloon cars":0.383663,"Trailers":0.001967}},"Kumi - Brooks corner":{"name":"Kumi - Brooks corner","link_id":"C920_Link01","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":45,"avg_adt_2016_2022":2220.51,"median_adt_2016_2022":2383.0,"max_adt_2016_2022":3125.0,"latest_year":2022,"latest_year_avg_adt":450.0,"monthly_avg_adt":{"1":1845.25,"2":2429.75,"3":2415.33,"4":2295.5,"5":2439.5,"6":2371.5,"7":2472.67,"8":2158.0,"9":2529.67,"10":2170.8,"11":2396.8,"12":1668.0},"seasonal_factors":[0.831,1.0942,1.0877,1.0338,1.0986,1.068,1.1136,0.9718,1.1392,0.9776,1.0794,0.7512],"class_totals":{"Buses / medium - large unit Trucks":927.0,"Medium buses / Light single unit truck":3485.0,"Minibuses/matatus / Pickups / Vans / 4WD":6288.0,"Mortocycles / bicycles":57074.0,"Saloon cars":31899.0,"Trailers":250.0},"class_shares":{"Buses / medium - large unit Trucks":0.009277,"Medium buses / Light single unit truck":0.034877,"Minibuses/matatus / Pickups / Vans / 4WD":0.062928,"Mortocycles / bicycles":0.57118,"Saloon cars":0.319236,"Trailers":0.002502}},"Lira - Corner Kilak":{"name":"Lira - Corner Kilak","link_id":"B252_Link01","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":46,"avg_adt_2016_2022":1592.91,"median_adt_2016_2022":1644.5,"max_adt_2016_2022":2636.0,"latest_year":2022,"latest_year_avg_adt":1590.67,"monthly_avg_adt":{"1":1669.0,"2":1769.33,"3":1630.4,"4":1575.5,"5":1694.33,"6":835.5,"7":1684.0,"8":1621.0,"9":1859.75,"10":1428.67,"11":1513.2,"12":1519.33},"seasonal_factors":[1.0478,1.1108,1.0235,0.9891,1.0637,0.5245,1.0572,1.0176,1.1675,0.8969,0.95,0.9538],"class_totals":{"Buses / medium - large unit Trucks":1099.0,"Medium buses / Light single unit truck":3707.0,"Minibuses/matatus / Pickups / Vans / 4WD":3593.0,"Mortocycles / bicycles":46319.0,"Saloon cars":18369.0,"Trailers":187.0},"class_shares":{"Buses / medium - large unit Trucks":0.014998,"Medium buses / Light single unit truck":0.050591,"Minibuses/matatus / Pickups / Vans / 4WD":0.049035,"Mortocycles / bicycles":0.632134,"Saloon cars":0.250689,"Trailers":0.002552}},"Lamogi - Amuru Junction":{"name":"Lamogi - Amuru Junction","link_id":"C686_Link01","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":48,"avg_adt_2016_2022":1059.83,"median_adt_2016_2022":1030.5,"max_adt_2016_2022":2300.0,"latest_year":2022,"latest_year_avg_adt":964.0,"monthly_avg_adt":{"1":1123.75,"2":1150.33,"3":1074.33,"4":1063.33,"5":1192.8,"6":906.75,"7":920.0,"8":1231.75,"9":959.67,"10":1004.6,"11":1124.0,"12":947.6},"seasonal_factors":[1.0603,1.0854,1.0137,1.0033,1.1255,0.8556,0.8681,1.1622,0.9055,0.9479,1.0605,0.8941],"class_totals":{"Buses / medium - large unit Trucks":1204.0,"Medium buses / Light single unit truck":2532.0,"Minibuses/matatus / Pickups / Vans / 4WD":3948.0,"Mortocycles / bicycles":29705.0,"Saloon cars":13041.0,"Trailers":442.0},"class_shares":{"Buses / medium - large unit Trucks":0.023667,"Medium buses / Light single unit truck":0.049772,"Minibuses/matatus / Pickups / Vans / 4WD":0.077607,"Mortocycles / bicycles":0.583916,"Saloon cars":0.256349,"Trailers":0.008688}},"Nebbi - Olevu":{"name":"Nebbi - Olevu","link_id":"A008_Link04","source":"ATC DATA SUMMARY 2016-2022.xlsx","observation_count":44,"avg_adt_2016_2022":1074.12,"median_adt_2016_2022":1011.0,"max_adt_2016_2022":2206.0,"latest_year":2021,"latest_year_avg_adt":1258.88,"monthly_avg_adt":{"1":1293.33,"2":1380.5,"3":738.88,"4":1119.0,"5":1148.0,"6":1060.0,"7":949.0,"8":1063.25,"9":1008.0,"10":1038.5,"11":1007.67,"12":1171.6},"seasonal_factors":[1.2041,1.2852,0.6879,1.0418,1.0688,0.9868,0.8835,0.9899,0.9384,0.9668,0.9381,1.0907],"class_totals":{"Buses / medium - large unit Trucks":5988.5,"Medium buses / Light single unit truck":3967.5,"Minibuses/matatus / Pickups / Vans / 4WD":7807.5,"Mortocycles / bicycles":14097.5,"Saloon cars":10730.5,"Trailers":4670.0},"class_shares":{"Buses / medium - large unit Trucks":0.12671,"Medium buses / Light single unit truck":0.083948,"Minibuses/matatus / Pickups / Vans / 4WD":0.165198,"Mortocycles / bicycles":0.298287,"Saloon cars":0.227045,"Trailers":0.098812}}};
 
@@ -458,7 +458,7 @@ const TABLE_CASE_ACRONYMS = {
 function preserveTableCase(key, text) {
   const k = String(key || '').toLowerCase();
   const t = String(text || '').trim();
-  if (!t || t === '-') return true;
+  if (!t || t === 'N/A') return true;
   if (/(^|_)(id|no|number|lon|lng|lat|coordinate|chainage|km|year|aadt|adt|count|volume|speed|rate|factor|score|pct|percent)($|_)/.test(k)) return true;
   if (['road_class', 'class_code'].includes(k)) return true;
   if (/^(?:A|B|C|M)$/i.test(t)) return true;
@@ -470,7 +470,7 @@ function preserveTableCase(key, text) {
 
 function properCaseCategory(value) {
   const text = String(value ?? '').replace(/\s+/g, ' ').trim();
-  if (!text || text === '-') return text || '-';
+  if (!text || text === 'N/A') return text || 'N/A';
   return text.toLocaleLowerCase('en-UG').replace(/\b[a-z0-9][a-z0-9']*\b/g, (word, idx, full) => {
     const acronym = TABLE_CASE_ACRONYMS[word];
     if (acronym) return acronym;
@@ -481,7 +481,7 @@ function properCaseCategory(value) {
 }
 
 function tableDisplayText(value, key = '') {
-  if (value === undefined || value === null || value === '') return '-';
+  if (value === undefined || value === null || value === '') return 'N/A';
   if (typeof value === 'number') return Number.isInteger(value) ? String(value) : fmt(value, 3);
   if (value instanceof Date) return value.toISOString().slice(0, 10);
   const text = String(value);
@@ -1159,7 +1159,7 @@ function bindTableSortHandlers(tableId) {
 function sortableNumber(value) {
   if (typeof value === 'number') return Number.isFinite(value) ? value : null;
   const text = String(value ?? '').trim();
-  if (!text || text === '-') return null;
+  if (!text || text === 'N/A') return null;
   if (!/^[+-]?[\d,]+(?:\.\d+)?(?:\s*(?:%|x|km|m))?$/i.test(text)) return null;
   const n = Number(text.replace(/,/g, '').replace(/(?:%|x|km|m)$/i, '').trim());
   return Number.isFinite(n) ? n : null;
@@ -1317,7 +1317,7 @@ function normalizedBmsCode(value) {
 
 function cleanBmsDescription(description) {
   const text = String(description ?? '').trim();
-  if (!text) return 'Unknown';
+  if (!text) return 'N/A';
   return text
     .replace(/\s*\((?:code\s*)?\d+\)\s*$/i, '')
     .replace(/\s+/g, ' ')
@@ -1325,15 +1325,15 @@ function cleanBmsDescription(description) {
 }
 
 function bmsCodeDescription(field, value) {
-  if (value === undefined || value === null || value === '') return '-';
+  if (value === undefined || value === null || value === '') return 'N/A';
   const code = normalizedBmsCode(value);
-  if (code === '00' || code === '0' || code === '?' || code === 'UNKNOWN') return 'Unknown';
+  if (code === '00' || code === '0' || code === '?' || code === 'UNKNOWN') return 'N/A';
   const direct = BMS_CODE_LOOKUPS[field]?.[code] || BMS_CODE_LOOKUPS[field]?.[String(parseInt(code, 10))];
-  return cleanBmsDescription(direct || 'Unknown');
+  return cleanBmsDescription(direct || 'N/A');
 }
 
 function bmsYesNoUnknown(value) {
-  if (value === undefined || value === null || value === '') return '-';
+  if (value === undefined || value === null || value === '') return 'N/A';
   const raw = String(value).trim().toUpperCase();
   const key = /^\d+(\.0+)?$/.test(raw) ? String(parseInt(raw, 10)) : raw;
   const desc = BMS_CODE_LOOKUPS.yes_no_unknown[key];
@@ -1398,7 +1398,7 @@ function ensureRiverNameLabel(value) {
 }
 
 function bridgeRiverName(b) {
-  if (!isRoadOverRiverBridge(b)) return b?.river || '-';
+  if (!isRoadOverRiverBridge(b)) return b?.river || 'N/A';
   const direct = cleanRiverNameCandidate(b?.river) || cleanRiverNameCandidate(b?.reference_attributes?.river);
   if (direct) return ensureRiverNameLabel(direct);
   const candidates = [
@@ -1493,7 +1493,7 @@ const BMS_BRIDGE_INVENTORY_COLUMNS = [
 ];
 
 function effectiveBridgeNumber(b) {
-  return b?.new_bridge_no || b?.bridge_no || b?.original_bridge_no || '-';
+  return b?.new_bridge_no || b?.bridge_no || b?.original_bridge_no || 'N/A';
 }
 
 function bridgeCurrentPredictedAadt(b, year = timelineYear, monthIndex = timelineMonth) {
@@ -1510,11 +1510,11 @@ function bridgeCurrentPredictedAadt(b, year = timelineYear, monthIndex = timelin
 
 function bridgeInventoryValue(b, col) {
   const value = col.value ? col.value(b) : b[col.key];
-  return value === undefined || value === null || value === '' ? '-' : value;
+  return value === undefined || value === null || value === '' ? 'N/A' : value;
 }
 
 function bridgeInventoryCellText(value, key = '') {
-  if (value === undefined || value === null || value === '') return '-';
+  if (value === undefined || value === null || value === '') return 'N/A';
   if (typeof value === 'number') return Number.isInteger(value) ? String(value) : fmt(value, 3);
   if (value instanceof Date) return value.toISOString().slice(0, 10);
   return tableDisplayText(value, key);
@@ -1689,7 +1689,7 @@ function normalizedConditionRating(value) {
 }
 
 function bridgeInventoryRatingLabel(value) {
-  if (value === undefined || value === null || value === '') return '-';
+  if (value === undefined || value === null || value === '') return 'N/A';
   const n = normalizedConditionRating(value);
   return n == null ? String(value) : CONDITION_RATING_LABELS[n];
 }
@@ -1702,7 +1702,7 @@ function bridgeConditionRatingTooltip(value, scope = 'structural') {
 }
 
 function bridgeInventoryRatingCell(value, scope = 'structural') {
-  if (value === undefined || value === null || value === '') return '-';
+  if (value === undefined || value === null || value === '') return 'N/A';
   const n = Number(value);
   const cls = n >= 7 ? 'rating-7' : n >= 4 ? 'rating-5' : 'rating-low';
   return `<span class="rating-badge ${cls}" title="${htmlEscape(bridgeConditionRatingTooltip(value, scope))}">${htmlEscape(bridgeInventoryRatingLabel(value))}</span>`;
@@ -2994,7 +2994,7 @@ function cachedBridgeAnnualWeightedGrowthModel(bridge) {
 
 function formatGrowthPercent(value, digits = 2) {
   const n = Number(value);
-  return Number.isFinite(n) ? `${(n * 100).toFixed(digits)}%` : '-';
+  return Number.isFinite(n) ? `${(n * 100).toFixed(digits)}%` : 'N/A';
 }
 
 function weightedAnnualTrafficGrowthRate(rows) {
@@ -3043,9 +3043,9 @@ function buildBridgeTrafficRows(options = {}) {
       ...b,
       _id: b._id,
       river: bridgeRiverName(b),
-      nearest_manual_id: nearestManual?.name || nearestManual?.id || '-',
-      nearest_manual_link: nearestManual?.link_id || '-',
-      nearest_manual_road: nearestManual?.link_name || '-',
+      nearest_manual_id: nearestManual?.name || nearestManual?.id || 'N/A',
+      nearest_manual_link: nearestManual?.link_id || 'N/A',
+      nearest_manual_road: nearestManual?.link_name || 'N/A',
       nearest_manual_lat: nearestManual?.lat ?? null,
       nearest_manual_lng: nearestManual?.lng ?? null,
       nearest_manual_distance_km: nearestManual?.distanceKm ?? null,
@@ -3055,8 +3055,8 @@ function buildBridgeTrafficRows(options = {}) {
       legacy_atc_count: evidence.legacyAtcStations.length,
       prediction_atc_count: evidence.atcStations.length,
       prediction_atc_ids: evidence.atcStations.map(s => s.id).join('; '),
-      nearest_atc_id: nearest?.id || '-',
-      nearest_atc_road: nearest?.road || '-',
+      nearest_atc_id: nearest?.id || 'N/A',
+      nearest_atc_road: nearest?.road || 'N/A',
       nearest_atc_source: nearest?.source || '',
       nearest_atc_lat: nearest?.lat ?? null,
       nearest_atc_lng: nearest?.lng ?? null,
@@ -3183,14 +3183,14 @@ function buildBridgeTrafficAnalytics() {
         <td>${tableCellHtml(r.region, 'region')}</td>
         <td>${tableCellHtml(r.station, 'station')}</td>
         <td><span class="pill pill-${canonicalRoadClass(r.road_class).toLowerCase()}">${canonicalRoadClass(r.road_class)}</span></td>
-        <td>${bridgeMapLat(r) != null ? Number(bridgeMapLat(r)).toFixed(6) : '-'}</td>
-        <td>${bridgeMapLon(r) != null ? Number(bridgeMapLon(r)).toFixed(6) : '-'}</td>
+        <td>${bridgeMapLat(r) != null ? Number(bridgeMapLat(r)).toFixed(6) : 'N/A'}</td>
+        <td>${bridgeMapLon(r) != null ? Number(bridgeMapLon(r)).toFixed(6) : 'N/A'}</td>
         <td style="color:var(--accent-cyan);font-weight:800">${fmt(r.assigned_adt_incl_motorcycles, 0)}</td>
         <td>${formatGrowthPercent(r.annual_traffic_growth_rate)}</td>
         <td title="${tableCellHtml(r.nearest_manual_road, 'link_name')}">${tableCellHtml(r.nearest_manual_id, 'station_name')}</td>
-        <td>${r.nearest_manual_distance_km != null ? fmt(r.nearest_manual_distance_km, 1) + ' km' : '-'}</td>
-        <td>${r.nearest_manual_lat != null ? Number(r.nearest_manual_lat).toFixed(5) : '-'}, ${r.nearest_manual_lng != null ? Number(r.nearest_manual_lng).toFixed(5) : '-'}</td>
-        <td>${r.seasonal_factor != null ? fmt(r.seasonal_factor, 3) + 'x' : '-'}</td>
+        <td>${r.nearest_manual_distance_km != null ? fmt(r.nearest_manual_distance_km, 1) + ' km' : 'N/A'}</td>
+        <td>${r.nearest_manual_lat != null ? Number(r.nearest_manual_lat).toFixed(5) : 'N/A'}, ${r.nearest_manual_lng != null ? Number(r.nearest_manual_lng).toFixed(5) : 'N/A'}</td>
+        <td>${r.seasonal_factor != null ? fmt(r.seasonal_factor, 3) + 'x' : 'N/A'}</td>
         <td style="color:var(--accent-emerald);font-weight:700">${fmt(r.assigned_adt_excl_motorcycles, 0)}</td>
         <td style="color:var(--accent-amber);font-weight:700">${fmt(r.motorcycle_adt, 0)}</td>
         <td>${fmt(r.light_vehicle_adt, 0)}</td>
@@ -3208,8 +3208,8 @@ function buildBridgeTrafficAnalytics() {
         <td>${fmt(bridgeDetailedClassAdt(r, 'Medium Trucks (Fusos, Lorries)'), 0)}</td>
         <td>${fmt(bridgeDetailedClassAdt(r, 'Heavy Trucks & Semi-Trailers'), 0)}</td>
         <td>${fmt(r.count_evidence_score, 0)} / 100</td>
-        <td>${r.monthly_heavy != null ? fmt(r.monthly_heavy) : '-'}</td>
-        <td>${r.avg_speed != null ? fmt(r.avg_speed, 1) + ' km/h' : '-'}</td>
+        <td>${r.monthly_heavy != null ? fmt(r.monthly_heavy) : 'N/A'}</td>
+        <td>${r.avg_speed != null ? fmt(r.avg_speed, 1) + ' km/h' : 'N/A'}</td>
         <td style="color:var(--text-primary);font-weight:800">${fmt(r.influence_score, 1)}</td>
         <td class="${priorityClass(r.priority)}">${tableCellHtml(r.priority, 'priority')}</td>
       </tr>
@@ -3258,7 +3258,7 @@ const MONTH_FACTOR_COLUMNS = [
 
 function seasonalFactorCell(value, monthIndex = -1) {
   const n = Number(value);
-  if (!Number.isFinite(n)) return '-';
+  if (!Number.isFinite(n)) return 'N/A';
   const activeStyle = monthIndex === timelineMonth ? ' style="color:var(--accent-cyan);font-weight:900"' : '';
   return `<span${activeStyle}>${n.toFixed(4)}x</span>`;
 }
@@ -3360,8 +3360,8 @@ function buildBridgeOdFlowTable(rows = buildBridgeTrafficRows()) {
       <td>${fmt(r.od_estimated_adt, 0)}</td>
       <td>${fmt(r.directional_od_adt, 0)}</td>
       <td>${tableCellHtml(r.od_year, 'year')}</td>
-      <td>${r.od_observed_days ? fmt(r.od_observed_days, 0) : '-'}</td>
-      <td>${r.od_observed_links ? fmt(r.od_observed_links, 0) : '-'}</td>
+      <td>${r.od_observed_days ? fmt(r.od_observed_days, 0) : 'N/A'}</td>
+      <td>${r.od_observed_links ? fmt(r.od_observed_links, 0) : 'N/A'}</td>
       <td style="white-space:normal;min-width:260px" title="${htmlEscape(r.od_match_basis)}">${tableCellHtml(r.od_match_basis, 'od_match_basis')}</td>
     </tr>
   `).join('');
@@ -3549,7 +3549,7 @@ function buildBridgeVehicleClassFocus(rows) {
     [fmt(totalExcl, 0), 'Assigned ADT excl. motorcycles'],
     [fmt(motorcycle, 0), 'Motorcycle ADT'],
     [fmt(busHeavy, 0), 'Bus + heavy goods ADT'],
-    [topRow ? fmt(topRow.assigned_adt_incl_motorcycles, 0) : '-', 'Highest Assigned ADT']
+    [topRow ? fmt(topRow.assigned_adt_incl_motorcycles, 0) : 'N/A', 'Highest Assigned ADT']
   ].map(([v, l]) => `<div class="traffic-metric"><strong>${v}</strong><span>${l}</span></div>`).join('');
 
   tbody.innerHTML = rankedRows.length ? rankedRows.map(r => `
@@ -3563,7 +3563,7 @@ function buildBridgeVehicleClassFocus(rows) {
       <td>${tableCellHtml(r.flow_direction_model, 'flow_direction_model')}</td>
       <td>${fmt(r.directional_adt_incl_motorcycles, 0)}</td>
       <td>${formatGrowthPercent(r.annual_traffic_growth_rate)}</td>
-      <td>${r.seasonal_factor != null ? fmt(r.seasonal_factor, 4) : '-'}</td>
+      <td>${r.seasonal_factor != null ? fmt(r.seasonal_factor, 4) : 'N/A'}</td>
       <td>${fmt(bridgeDetailedClassAdt(r, 'Bicycles'), 0)}</td>
       <td>${fmt(bridgeDetailedClassAdt(r, 'Carts'), 0)}</td>
       <td>${fmt(bridgeDetailedClassAdt(r, 'Motorcycles & Scooters'), 0)}</td>
@@ -4048,8 +4048,8 @@ function buildManualStationsTable() {
       <td style="white-space:normal; min-width:260px">${tableCellHtml(s.link_name, 'link_name')}</td>
       <td>${tableCellHtml(s.station, 'station')}</td>
       <td>${tableCellHtml(s.region, 'region')}</td>
-      <td>${s.lat != null ? Number(s.lat).toFixed(6) : '-'}</td>
-      <td>${s.lng != null ? Number(s.lng).toFixed(6) : '-'}</td>
+      <td>${s.lat != null ? Number(s.lat).toFixed(6) : 'N/A'}</td>
+      <td>${s.lng != null ? Number(s.lng).toFixed(6) : 'N/A'}</td>
     </tr>
   `).join('');
   document.querySelectorAll('#manualStationsTable thead th').forEach(th => {
@@ -4059,7 +4059,7 @@ function buildManualStationsTable() {
 
 function dominantClassFromTotals(totals) {
   const entries = Object.entries(totals || {}).filter(([k]) => k !== 'Grand Total');
-  if (!entries.length) return '-';
+  if (!entries.length) return 'N/A';
   return entries.sort((a, b) => Number(b[1]) - Number(a[1]))[0][0];
 }
 
@@ -4074,9 +4074,9 @@ function buildLegacyAtcTable() {
       <td style="white-space:normal; min-width:260px">${tableCellHtml(s.name, 'station_name')}</td>
       <td>${tableCellHtml(profile?.link_id, 'link_no')}</td>
       <td>${fmt(profile?.observation_count ?? s.observations)}</td>
-      <td>${profile?.avg_adt_2016_2022 != null ? fmt(profile.avg_adt_2016_2022, 1) : (s.avg_adt != null ? fmt(s.avg_adt, 1) : '-')}</td>
-      <td>${profile?.latest_year_avg_adt != null ? `${fmt(profile.latest_year_avg_adt, 1)} (${profile.latest_year})` : '-'}</td>
-      <td>${profile?.max_adt_2016_2022 != null ? fmt(profile.max_adt_2016_2022, 1) : (s.max_adt != null ? fmt(s.max_adt, 1) : '-')}</td>
+      <td>${profile?.avg_adt_2016_2022 != null ? fmt(profile.avg_adt_2016_2022, 1) : (s.avg_adt != null ? fmt(s.avg_adt, 1) : 'N/A')}</td>
+      <td>${profile?.latest_year_avg_adt != null ? `${fmt(profile.latest_year_avg_adt, 1)} (${profile.latest_year})` : 'N/A'}</td>
+      <td>${profile?.max_adt_2016_2022 != null ? fmt(profile.max_adt_2016_2022, 1) : (s.max_adt != null ? fmt(s.max_adt, 1) : 'N/A')}</td>
       <td style="white-space:normal">${tableCellHtml(dominantClassFromTotals(profile?.class_totals || s.class_totals), 'vehicle_class')}</td>
     </tr>
   `;
@@ -4251,10 +4251,10 @@ function openBridgeModal(bridgeId) {
   if (!b) return;
 
   document.getElementById('modalBridgeName').textContent = b.bridge_nam;
-  document.getElementById('mBridgeNo').textContent = b.bridge_no || '-';
+  document.getElementById('mBridgeNo').textContent = b.bridge_no || 'N/A';
   document.getElementById('mRiver').textContent = bridgeRiverName(b);
-  document.getElementById('mLength').textContent = b.bridge_len ? fmt(b.bridge_len, 1) + ' meters' : '-';
-  document.getElementById('mWidth').textContent = b.bridge_wid ? fmt(b.bridge_wid, 1) + ' meters' : '-';
+  document.getElementById('mLength').textContent = b.bridge_len ? fmt(b.bridge_len, 1) + ' meters' : 'N/A';
+  document.getElementById('mWidth').textContent = b.bridge_wid ? fmt(b.bridge_wid, 1) + ' meters' : 'N/A';
   document.getElementById('mSpansPiersLanes').textContent = `Spans: ${b.no_of_span ?? '-'} | Piers: ${b.no_of_pier ?? '-'} | Lanes: ${b.no_of_lane ?? '-'}`;
 
   const modalRatingBadge = (value, scope) => {
@@ -4264,22 +4264,22 @@ function openBridgeModal(bridgeId) {
   document.getElementById('mRating').innerHTML = modalRatingBadge(b.overall_rating, 'overall');
 
   // Link corridor Info
-  document.getElementById('mLinkNo').textContent = b.link_no || '-';
-  document.getElementById('mLinkName').textContent = b.link_name || '-';
-  document.getElementById('mLinkLengthClass').textContent = `Length: ${b.link_len_km ? fmt(b.link_len_km, 1) + ' km' : '-'} | Class: ${canonicalRoadClass(b.road_class)}`;
-  document.getElementById('mLinkSurface').textContent = b.surface_link || b.surface_ty || '-';
+  document.getElementById('mLinkNo').textContent = b.link_no || 'N/A';
+  document.getElementById('mLinkName').textContent = b.link_name || 'N/A';
+  document.getElementById('mLinkLengthClass').textContent = `Length: ${b.link_len_km ? fmt(b.link_len_km, 1) + ' km' : 'N/A'} | Class: ${canonicalRoadClass(b.road_class)}`;
+  document.getElementById('mLinkSurface').textContent = b.surface_link || b.surface_ty || 'N/A';
 
   const paveAgeText = b.pave_age != null
     ? `${b.pave_year} (${b.pave_age} years old)`
-    : b.pave_year ? `${b.pave_year}` : '-';
+    : b.pave_year ? `${b.pave_year}` : 'N/A';
   document.getElementById('mLinkPaveAge').textContent = paveAgeText;
-  document.getElementById('mNdp4Station').textContent = `NDP4 Link: ${b.ndp4 ? 'Yes' : 'No'} | Station: ${b.station || '-'}`;
+  document.getElementById('mNdp4Station').textContent = `NDP4 Link: ${b.ndp4 ? 'Yes' : 'No'} | Station: ${b.station || 'N/A'}`;
 
   // Traffic / Coordinates Info
   const trafficRow = bridgeTrafficRowForBridge(b);
-  document.getElementById('mLinkAADT').textContent = trafficRow?.assigned_adt_incl_motorcycles != null ? fmt(trafficRow.assigned_adt_incl_motorcycles, 0) + ' vehicles / day' : '-';
+  document.getElementById('mLinkAADT').textContent = trafficRow?.assigned_adt_incl_motorcycles != null ? fmt(trafficRow.assigned_adt_incl_motorcycles, 0) + ' vehicles / day' : 'N/A';
   document.getElementById('mAnnualGrowthRate').textContent = formatGrowthPercent(trafficRow?.annual_traffic_growth_rate);
-  document.getElementById('mRegion').textContent = b.region || '-';
+  document.getElementById('mRegion').textContent = b.region || 'N/A';
 
   if (b.x_new && b.y_new) {
     const sourceText = b.location_source_lat != null && b.location_source_lon != null
@@ -4287,12 +4287,12 @@ function openBridgeModal(bridgeId) {
       : 'Source: -';
     const correctedText = `Corrected: ${Number(b.y_new).toFixed(6)}, ${Number(b.x_new).toFixed(6)}`;
     const moveText = b.location_correction_distance_km != null ? `Moved: ${fmt(b.location_correction_distance_km, 3)} km` : 'Moved: -';
-    document.getElementById('mCoordinates').textContent = `${correctedText} | ${sourceText} | ${moveText} | ${b.location_correction_method || '-'}`;
+    document.getElementById('mCoordinates').textContent = `${correctedText} | ${sourceText} | ${moveText} | ${b.location_correction_method || 'N/A'}`;
   } else {
     document.getElementById('mCoordinates').textContent = '-';
   }
 
-  const refText = (...vals) => vals.filter(v => v != null && String(v).trim() !== '').join(' | ') || '-';
+  const refText = (...vals) => vals.filter(v => v != null && String(v).trim() !== '').join(' | ') || 'N/A';
   const componentRatings = [
     ['Approaches', b.approaches_rating, 'approaches'],
     ['Roadway', b.roadway_rating, 'roadway'],
@@ -4302,15 +4302,15 @@ function openBridgeModal(bridgeId) {
   ].map(([label, value, scope]) => {
     return `<span title="${htmlEscape(bridgeConditionRatingTooltip(value, scope))}">${htmlEscape(label)}: ${modalRatingBadge(value, scope)}</span>`;
   }).join(' <span style="color:var(--border)">|</span> ');
-  document.getElementById('mReferenceSource').textContent = `${b.source_workbook || 'Bridges and Culverts 2026.xlsx'} / ${b.source_sheet || 'tblB-Bridge2'} / row ${b.source_row || '-'}`;
-  document.getElementById('mReferenceNumbers').textContent = refText(`Original: ${b.original_bridge_no || '-'}`, `New: ${b.new_bridge_no || '-'}`);
-  document.getElementById('mBridgeTypes').textContent = refText(`Bridge: ${b.type_bridge || '-'}`, `Deck: ${b.type_deck || '-'}`, `Crossing: ${b.type_crossing || '-'}`);
-  document.getElementById('mDeckMaterial').textContent = refText(`Material: ${b.type_deck_material || '-'}`, `Wearing: ${b.type_wearing_surface || '-'}`, `Surface: ${b.surface_link || '-'}`);
-  document.getElementById('mWaterwayScour').textContent = refText(`Scour risk: ${b.scour_risk || '-'}`, `Protection: ${b.scour_protection || '-'}`);
+  document.getElementById('mReferenceSource').textContent = `${b.source_workbook || 'Bridges and Culverts 2026.xlsx'} / ${b.source_sheet || 'tblB-Bridge2'} / row ${b.source_row || 'N/A'}`;
+  document.getElementById('mReferenceNumbers').textContent = refText(`Original: ${b.original_bridge_no || 'N/A'}`, `New: ${b.new_bridge_no || 'N/A'}`);
+  document.getElementById('mBridgeTypes').textContent = refText(`Bridge: ${b.type_bridge || 'N/A'}`, `Deck: ${b.type_deck || 'N/A'}`, `Crossing: ${b.type_crossing || 'N/A'}`);
+  document.getElementById('mDeckMaterial').textContent = refText(`Material: ${b.type_deck_material || 'N/A'}`, `Wearing: ${b.type_wearing_surface || 'N/A'}`, `Surface: ${b.surface_link || 'N/A'}`);
+  document.getElementById('mWaterwayScour').textContent = refText(`Scour risk: ${b.scour_risk || 'N/A'}`, `Protection: ${b.scour_protection || 'N/A'}`);
   document.getElementById('mComponentRatings').innerHTML = componentRatings;
   document.getElementById('mTownEndpoints').textContent = refText(b.town_left, b.town_right);
   document.getElementById('mInspectionReference').textContent = refText(b.inspector, b.firm, b.date_modified);
-  document.getElementById('mReferenceComment').textContent = b.comment || b.remarks || '-';
+  document.getElementById('mReferenceComment').textContent = b.comment || b.remarks || 'N/A';
 
   document.getElementById('bridgeModal').classList.add('active');
 }
@@ -4336,14 +4336,14 @@ function buildATCClassification() {
       <tr>
         <td class="highlight-cell">${tableCellHtml(normalizeAtcId(s.id), 'station_id')}</td>
         <td>${tableCellHtml(s.road, 'road_name')}</td>
-        <td style="color:var(--accent-cyan);font-weight:700">${flow ? fmt(flow.aadt) : '-'}</td>
-        <td style="color:var(--accent-emerald);font-weight:700">${adt ? fmt(adt.excludingMotorcycles, 0) : '-'}</td>
-        <td style="color:var(--accent-amber);font-weight:700">${adt ? fmt(adt.motorcycleAdt, 0) : '-'}</td>
-        <td>${flow ? flow.light_pct + '%' : '-'}</td>
-        <td style="color:var(--accent-amber);font-weight:700">${flow ? flow.heavy_pct + '%' : '-'}</td>
-        <td>${speed ? speed.avg_speed : '-'} km/h</td>
-        <td>${speed ? speed.p85_speed : '-'} km/h</td>
-        <td>${flow ? flow.days : '-'} days</td>
+        <td style="color:var(--accent-cyan);font-weight:700">${flow ? fmt(flow.aadt) : 'N/A'}</td>
+        <td style="color:var(--accent-emerald);font-weight:700">${adt ? fmt(adt.excludingMotorcycles, 0) : 'N/A'}</td>
+        <td style="color:var(--accent-amber);font-weight:700">${adt ? fmt(adt.motorcycleAdt, 0) : 'N/A'}</td>
+        <td>${flow ? flow.light_pct + '%' : 'N/A'}</td>
+        <td style="color:var(--accent-amber);font-weight:700">${flow ? flow.heavy_pct + '%' : 'N/A'}</td>
+        <td>${speed ? speed.avg_speed : 'N/A'} km/h</td>
+        <td>${speed ? speed.p85_speed : 'N/A'} km/h</td>
+        <td>${flow ? flow.days : 'N/A'} days</td>
       </tr>
     `;
   }).join('');
@@ -4637,7 +4637,7 @@ function exportCSV() {
     csv = 'Bridge Name,Bridge No,Link ID,Link Name,Road Class,Region,Manual Count Evidence,ADT incl Motorcycles,ADT excl Motorcycles,Annual Weighted Growth Rate,Annual Weighted Growth Source,Motorcycle ADT,Light Vehicle ADT,Bus ADT,Heavy Goods ADT,Other ADT,Heavy %,Detailed Vehicle Class Volumes,Priority\n';
     csv += rows.map(r => [
       escapeCSV(r.bridge_nam), escapeCSV(r.bridge_no), escapeCSV(r.link_no), escapeCSV(r.link_name), escapeCSV(r.road_class), escapeCSV(r.region),
-      escapeCSV(r.nearest_manual_id || '-'),
+      escapeCSV(r.nearest_manual_id || 'N/A'),
       r.assigned_adt_incl_motorcycles != null ? r.assigned_adt_incl_motorcycles.toFixed(2) : '',
       r.assigned_adt_excl_motorcycles != null ? r.assigned_adt_excl_motorcycles.toFixed(2) : '',
       r.annual_traffic_growth_rate != null ? r.annual_traffic_growth_rate.toFixed(5) : '',
@@ -5140,11 +5140,11 @@ function allBridgeTrafficReportLines(rows, trafficRows, periodRows, annualFactor
     '',
     'Top Bridge Crossings by Assigned ADT',
     'Bridge No | Bridge Name | Link ID | Region | ADT incl MC | Annual Weighted Growth | Heavy Goods | Evidence | Priority',
-    ...topBridges.map(r => `${r.bridge_no || '-'} | ${r.bridge_nam || '-'} | ${r.link_no || '-'} | ${r.region || '-'} | ${fmt(r.assigned_adt_incl_motorcycles, 0)} | ${formatGrowthPercent(r.annual_traffic_growth_rate)} | ${fmt(r.heavy_goods_adt, 0)} | ${fmt(r.count_evidence_score, 0)}/100 | ${r.priority || '-'}`),
+    ...topBridges.map(r => `${r.bridge_no || 'N/A'} | ${r.bridge_nam || 'N/A'} | ${r.link_no || 'N/A'} | ${r.region || 'N/A'} | ${fmt(r.assigned_adt_incl_motorcycles, 0)} | ${formatGrowthPercent(r.annual_traffic_growth_rate)} | ${fmt(r.heavy_goods_adt, 0)} | ${fmt(r.count_evidence_score, 0)}/100 | ${r.priority || 'N/A'}`),
     '',
     'Bridge Geodata Audit',
     'Bridge No | Bridge Name | Original Link | Corrected Link | Corrected Lat,Lon | Network Scope | Review',
-    ...rows.map(r => `${r.bridge_no || '-'} | ${r.bridge_nam || '-'} | ${r.link_no || '-'} | ${r.corrected_link_id || '-'} | ${Number(r.lat).toFixed(6)}, ${Number(r.lon).toFixed(6)} | ${r.network_match_scope || '-'} | ${r.requires_review || 'No'}`)
+    ...rows.map(r => `${r.bridge_no || 'N/A'} | ${r.bridge_nam || 'N/A'} | ${r.link_no || 'N/A'} | ${r.corrected_link_id || 'N/A'} | ${Number(r.lat).toFixed(6)}, ${Number(r.lon).toFixed(6)} | ${r.network_match_scope || 'N/A'} | ${r.requires_review || 'No'}`)
   ];
 }
 
@@ -5160,9 +5160,9 @@ function selectedBridgeTrafficReportLines(bridge) {
     'Agency: Ministry of Works and Transport - Department of National Roads',
     `Generated: ${new Date().toISOString().slice(0, 10)}`,
     '',
-    `Bridge: ${row.bridge_nam || '-'} (${row.bridge_no || '-'})`,
-    `Host link: ${row.link_no || '-'} | ${row.link_name || '-'}`,
-    `Region / Station: ${row.region || '-'} / ${row.station || '-'}`,
+    `Bridge: ${row.bridge_nam || 'N/A'} (${row.bridge_no || 'N/A'})`,
+    `Host link: ${row.link_no || 'N/A'} | ${row.link_name || 'N/A'}`,
+    `Region / Station: ${row.region || 'N/A'} / ${row.station || 'N/A'}`,
     `Corrected coordinate: ${Number(bridgeMapLat(row) ?? row.y_new).toFixed(6)}, ${Number(bridgeMapLon(row) ?? row.x_new).toFixed(6)}`,
     '',
     'Traffic Summary',
@@ -5170,10 +5170,10 @@ function selectedBridgeTrafficReportLines(bridge) {
     `Projected ADT excl. motorcycles: ${fmt(projected.projectedExclMotorcycles, 0)}`,
     `Base assigned ADT incl. motorcycles: ${fmt(row.assigned_adt_incl_motorcycles, 0)}`,
     `Base assigned ADT excl. motorcycles: ${fmt(row.assigned_adt_excl_motorcycles, 0)}`,
-    `Seasonal factor: ${row.seasonal_factor != null ? Number(row.seasonal_factor).toFixed(4) + 'x' : '-'}`,
+    `Seasonal factor: ${row.seasonal_factor != null ? Number(row.seasonal_factor).toFixed(4) + 'x' : 'N/A'}`,
     `Annual weighted growth rate: ${formatGrowthPercent(row.annual_traffic_growth_rate)}`,
-    `Annual weighted growth source: ${row.annual_traffic_growth_source || '-'}`,
-    `Evidence score: ${fmt(row.count_evidence_score, 0)}/100 | Priority: ${row.priority || '-'}`,
+    `Annual weighted growth source: ${row.annual_traffic_growth_source || 'N/A'}`,
+    `Evidence score: ${fmt(row.count_evidence_score, 0)}/100 | Priority: ${row.priority || 'N/A'}`,
     '',
     'Major Vehicle-Class Daily ADT',
     ...MAJOR_PERIOD_CLASSES.map(cls => `${cls} | ${fmt(bridgeClassDailyVolume(row, cls), 0)}`),
@@ -5186,12 +5186,12 @@ function selectedBridgeTrafficReportLines(bridge) {
     ...classRows.map(([label, value]) => `${label} | ${fmt(value, 0)} | ${majorVehicleBucket(label)}`),
     '',
     'Traffic Count Evidence Summary',
-    `Manual stations used: ${manualPool.length} | nearest ${row.nearest_manual_id || '-'} at ${row.nearest_manual_distance_km != null ? fmt(row.nearest_manual_distance_km, 1) + ' km' : '-'}`,
+    `Manual stations used: ${manualPool.length} | nearest ${row.nearest_manual_id || 'N/A'} at ${row.nearest_manual_distance_km != null ? fmt(row.nearest_manual_distance_km, 1) + ' km' : 'N/A'}`,
     '',
     'Bridge Asset Context',
     `Length: ${fmt(row.bridge_len, 1)} m | Width: ${fmt(row.bridge_wid, 1)} m | Spans: ${row.no_of_span ?? '-'}`,
     `Overall rating: ${bridgeInventoryRatingLabel(row.overall_rating)}`,
-    `River: ${row.river || '-'} | Year completed: ${row.year_compl || '-'}`
+    `River: ${row.river || 'N/A'} | Year completed: ${row.year_compl || 'N/A'}`
   ];
 }
 
@@ -5335,13 +5335,13 @@ function initSpatialMap() {
       canvas.style.cursor = 'pointer';
 
       document.getElementById('mTooltipTitle').textContent = found.bridge_nam;
-      document.getElementById('mTooltipRegion').textContent = found.region || '-';
-      document.getElementById('mTooltipRiver').textContent = found.river || '-';
+      document.getElementById('mTooltipRegion').textContent = found.region || 'N/A';
+      document.getElementById('mTooltipRiver').textContent = found.river || 'N/A';
       document.getElementById('mTooltipClass').textContent = `Class ${canonicalRoadClass(found.road_class)}`;
       const foundEvidence = bridgeTrafficEvidence(found);
       document.getElementById('mTooltipAadt').textContent = foundEvidence?.assignedAdt
         ? `${fmt(Number(foundEvidence.assignedAdt) * trafficProjectionFactor(), 0)} projected ADT (${foundEvidence.assignedBasis || 'traffic evidence'})`
-        : '-';
+        : 'N/A';
 
       tooltip.style.display = 'block';
       tooltip.style.left = (mouseX + 15) + 'px';
@@ -5664,12 +5664,12 @@ function selectedBridgeCsvText(bridge) {
     'Bridge Summary', 'Selected Bridge', row.bridge_no, row.bridge_nam, row.source_workbook, row.link_no, row.link_name, canonicalRoadClass(row.road_class), row.region, row.station,
     bridgeMapLat(row) ?? row.y_new ?? '', bridgeMapLon(row) ?? row.x_new ?? '', '', row.assigned_adt_incl_motorcycles ?? '', row.assigned_adt_excl_motorcycles ?? '', row.seasonal_factor ?? '',
     row.annual_traffic_growth_rate ?? '', row.annual_traffic_growth_source || '', '', 'Bridge crossing',
-    `Current assigned ADT is the single traffic value shown in the dashboard; Evidence: ${fmt(row.count_evidence_score, 0)}/100; Priority: ${row.priority || '-'}`
+    `Current assigned ADT is the single traffic value shown in the dashboard; Evidence: ${fmt(row.count_evidence_score, 0)}/100; Priority: ${row.priority || 'N/A'}`
   ].map(escapeCSV).join(','));
   roads.forEach(r => {
     lines.push([
       'Influencing Roads', 'Road Link', r.id, r.name, '2026 national road network', r.id, r.name, r.cls, r.region, r.station,
-      r.latitude ?? '', r.longitude ?? '', '', '', '', '', '', '', r.role, `Length km: ${r.length ?? '-'}; Surface: ${r.surface || '-'}`
+      r.latitude ?? '', r.longitude ?? '', '', '', '', '', '', '', r.role, `Length km: ${r.length ?? '-'}; Surface: ${r.surface || 'N/A'}`
     ].map(escapeCSV).join(','));
   });
   evidence.manualStations.forEach(s => {
@@ -5688,12 +5688,12 @@ function selectedBridgeCsvText(bridge) {
   bridgeOdFlowRows([row]).forEach(od => {
     lines.push([
       'Origin Destination Flow', 'Road-link OD direction', `${od.link_no || row.link_no}-${od.od_direction_index || 1}`,
-      `${od.od_origin || '-'} to ${od.od_destination || '-'}`, od.od_match_basis || 'Bridge road-link OD model',
+      `${od.od_origin || 'N/A'} to ${od.od_destination || 'N/A'}`, od.od_match_basis || 'Bridge road-link OD model',
       od.link_no || row.link_no, od.link_name || row.link_name, canonicalRoadClass(od.road_class || row.road_class), od.region || row.region, od.station || row.station,
       bridgeMapLat(row) ?? row.y_new ?? '', bridgeMapLon(row) ?? row.x_new ?? '', '', od.directional_current_adt ?? '', od.directional_current_adt_excl_motorcycles ?? '',
       row.seasonal_factor ?? '', row.annual_traffic_growth_rate ?? '', row.annual_traffic_growth_source || '', od.od_match_score || '',
       od.od_direction || 'Road-link direction',
-      `OD year: ${od.od_year || '-'}; OD evidence ADT: ${od.od_estimated_adt != null ? Number(od.od_estimated_adt).toFixed(2) : '-'}; Current assigned ADT: ${od.current_assigned_adt != null ? Number(od.current_assigned_adt).toFixed(2) : '-'}`
+      `OD year: ${od.od_year || 'N/A'}; OD evidence ADT: ${od.od_estimated_adt != null ? Number(od.od_estimated_adt).toFixed(2) : 'N/A'}; Current assigned ADT: ${od.current_assigned_adt != null ? Number(od.current_assigned_adt).toFixed(2) : 'N/A'}`
     ].map(escapeCSV).join(','));
   });
   return lines.join('\n');
@@ -5749,7 +5749,7 @@ function downloadSelectedBridgeCsv(bridge = selectedMapBridge) {
   };
 
   function getConditionColor(score) {
-    if (score == null || score === '' || score === '-') return 'transparent';
+    if (score == null || score === '' || score === 'N/A') return 'transparent';
     const n = Number(score);
     if (isNaN(n)) return 'transparent';
     if (n >= 8) return 'var(--accent-green, #4caf50)'; 
@@ -5759,14 +5759,14 @@ function downloadSelectedBridgeCsv(bridge = selectedMapBridge) {
   }
 
   function getDictName(type, val) {
-    if (!val) return '-';
+    if (!val) return 'N/A';
     let strVal = String(val).padStart(2, '0');
-    if (strVal === '00' || strVal === '0' || strVal === '?' || strVal.toUpperCase() === 'UNKNOWN') return 'Unknown';
+    if (strVal === '00' || strVal === '0' || strVal === '?' || strVal.toUpperCase() === 'UNKNOWN') return 'N/A';
     return cleanBmsDescription(ELEMENT_DICT[type] && ELEMENT_DICT[type][strVal] ? ELEMENT_DICT[type][strVal] : 'Unknown');
   }
 
   function getCondName(val) {
-    if (val == null || val === '' || val === '-') return '-';
+    if (val == null || val === '' || val === 'N/A') return 'N/A';
     const num = Math.floor(Number(val));
     if (isNaN(num)) return val;
     return CONDITION_RATING_LABELS[num] ? `${num} ${CONDITION_RATING_LABELS[num]}` : (CONDITION_DICT[num] ? `${num} ${CONDITION_DICT[num]}` : val);
@@ -5916,7 +5916,7 @@ function updateBridgeAnalyticsPane(bridge) {
   const classRows = get11ClassBreakdown(row, projected);
   const maxClass = Math.max(1, ...classRows.map(r => r[1]));
   title.innerHTML = `${escapeHTML(row.bridge_nam || row.bridge_no || 'Bridge crossing')} ${row.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:8px;">CRITICAL STRUCTURE</span>' : ''}`;
-  subtitle.innerHTML = `${escapeHTML(row.link_no || '-')} | ${escapeHTML(row.link_name || '-')} | Class ${canonicalRoadClass(row.road_class)} | ${timelineYear} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][timelineMonth]}
+  subtitle.innerHTML = `${escapeHTML(row.link_no || 'N/A')} | ${escapeHTML(row.link_name || 'N/A')} | Class ${canonicalRoadClass(row.road_class)} | ${timelineYear} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][timelineMonth]}
 ${row.is_critical && row.critical_comment ? `<br><span style="color:#ef4444; font-weight:500; font-size:11px; display:inline-block; margin-top:4px;">Warning: ${escapeHTML(row.critical_comment)}</span>` : ''}`;
   const condRef = bridge.reference_attributes || {};
   const approachRating = bridge.approaches_rating ?? bridge.approaches;
@@ -5962,7 +5962,7 @@ ${row.is_critical && row.critical_comment ? `<br><span style="color:#ef4444; fon
       <div class="pane-metric"><strong>${fmt(projected.projectedExclMotorcycles, 0)}</strong><span>Projected ADT excl. MC</span></div>
       <div class="pane-metric"><strong>${formatGrowthPercent(row.annual_traffic_growth_rate)}</strong><span>Annual weighted growth</span></div>
       <div class="pane-metric"><strong>${fmt(projected.factor, 2)}x</strong><span>Projection factor</span></div>
-      <div class="pane-metric"><strong>${row.seasonal_factor != null ? fmt(row.seasonal_factor, 3) + 'x' : '-'}</strong><span>Seasonal factor</span></div>
+      <div class="pane-metric"><strong>${row.seasonal_factor != null ? fmt(row.seasonal_factor, 3) + 'x' : 'N/A'}</strong><span>Seasonal factor</span></div>
     </div>
     <div class="pane-section-title">Projected Vehicle Class Loading</div>
     ${classRows.map(([label, value, color]) => `
@@ -5978,7 +5978,7 @@ ${row.is_critical && row.critical_comment ? `<br><span style="color:#ef4444; fon
       <div class="pane-metric"><strong>${fmt(row.bridge_len, 1)} m</strong><span>Length</span></div>
       <div class="pane-metric"><strong>${fmt(row.bridge_wid, 1)} m</strong><span>Width</span></div>
       <div class="pane-metric"><strong>${bridgeInventoryRatingLabel(row.overall_rating)}</strong><span>Overall Rating</span></div>
-      <div class="pane-metric"><strong>${row.priority || '-'}</strong><span>Traffic priority</span></div>
+      <div class="pane-metric"><strong>${row.priority || 'N/A'}</strong><span>Traffic priority</span></div>
     </div>
     ${condHtml}
     <button class="btn pane-action" id="paneOpenModalBtn">Open Full Bridge Details</button>
@@ -6000,8 +6000,8 @@ function buildBridgeWorksTable() {
     funder: 'Candidate',
     contractor_consultant: `Road link: ${row.link_id}\n${row.link_name || ''}`,
     financial_status: 'Not available in candidate list',
-    status: `${row.status}\nChainage: ${row.chainage_km == null ? '-' : `${row.chainage_km} km`}`,
-    compensation: '-',
+    status: `${row.status}\nChainage: ${row.chainage_km == null ? 'N/A' : `${row.chainage_km} km`}`,
+    compensation: 'N/A',
     _rowType: 'Candidate bridge work'
   }));
   const rows = [...detailedRows, ...candidateRows];
@@ -7737,14 +7737,14 @@ function drawMap() {
               td.appendChild(span);
             });
           } else {
-            td.textContent = '-';
+            td.textContent = 'N/A';
           }
         } else if (col.key === 'estimated_adt' || col.key === 'total_count') {
           td.textContent = fmt(r[col.key]);
         } else if (col.key === 'origin' || col.key === 'destination') {
-          td.textContent = toTitleCase(r[col.key]) || '-';
+          td.textContent = toTitleCase(r[col.key]) || 'N/A';
         } else {
-          td.textContent = r[col.key] || '-';
+          td.textContent = r[col.key] || 'N/A';
         }
         tr.appendChild(td);
       }
@@ -7832,7 +7832,7 @@ function drawMap() {
         var td = document.createElement('td');
         var val = (matrix[o] && matrix[o][d]) || 0;
         td.className = heatCls(val);
-        td.textContent = val ? fmt(Math.round(val)) : '-';
+        td.textContent = val ? fmt(Math.round(val)) : 'N/A';
         td.title = o + ' \u2192 ' + d + ': ' + (val ? fmt(Math.round(val)) : '0') + ' ADT (Click to view details)';
         if (val) {
           td.style.cursor = 'pointer';
@@ -8134,7 +8134,7 @@ function buildCulvertTable() {
   
   const pageRows = sorted.slice((culvertPage - 1) * CULVERTS_PAGE_SIZE, culvertPage * CULVERTS_PAGE_SIZE);
   function getCulvertCategoryPill(cond) {
-    if (!cond) return '-';
+    if (!cond) return 'N/A';
     const c = String(cond).toLowerCase();
     let cls = 'low';
     if (c.includes('good') || c.includes('excellent')) cls = '7';
@@ -8146,16 +8146,16 @@ function buildCulvertTable() {
   
   tbody.innerHTML = pageRows.map(c => `
     <tr data-culvert-id="${c._id}">
-      <td class="highlight-cell">${htmlEscape(c.culvert_no || '-')}</td>
-      <td>${htmlEscape(lookupType[c.type_culvert] || c.type_culvert || '-')}</td>
-      <td>${htmlEscape(c.road_name || '-')}</td>
-      <td>${htmlEscape(c.link_name || '-')}</td>
-      <td>${htmlEscape(c.chainage != null ? String(c.chainage) : '-')}</td>
-      <td>${c.map_x != null ? Number(c.map_x).toFixed(5) : '-'}</td>
-      <td>${c.map_y != null ? Number(c.map_y).toFixed(5) : '-'}</td>
-      <td>${htmlEscape(c.region || '-')}</td>
-      <td>${htmlEscape(c.station || '-')}</td>
-      <td>${htmlEscape(c.span_diameter || '-')}</td>
+      <td class="highlight-cell">${htmlEscape(c.culvert_no || 'N/A')}</td>
+      <td>${htmlEscape(lookupType[c.type_culvert] || c.type_culvert || 'N/A')}</td>
+      <td>${htmlEscape(c.road_name || 'N/A')}</td>
+      <td>${htmlEscape(c.link_name || 'N/A')}</td>
+      <td>${htmlEscape(c.chainage != null ? String(c.chainage) : 'N/A')}</td>
+      <td>${c.map_x != null ? Number(c.map_x).toFixed(5) : 'N/A'}</td>
+      <td>${c.map_y != null ? Number(c.map_y).toFixed(5) : 'N/A'}</td>
+      <td>${htmlEscape(c.region || 'N/A')}</td>
+      <td>${htmlEscape(c.station || 'N/A')}</td>
+      <td>${htmlEscape(c.span_diameter || 'N/A')}</td>
       <td>${getCulvertCategoryPill(c.waterway_cond)}</td>
       <td>${getCulvertCategoryPill(c.inlet_outlet_cond)}</td>
       <td>${getCulvertCategoryPill(c.structure_cond)}</td>
