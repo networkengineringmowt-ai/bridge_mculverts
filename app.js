@@ -144,6 +144,12 @@ function bindBridgeRowSelectionHandlers() {
       selectBridgeRow(tr.dataset.bridgeId);
     }
   });
+  document.getElementById('culvertTableBody')?.addEventListener('click', e => {
+    const tr = e.target.closest('tr');
+    if (tr && tr.dataset.culvertId) {
+      selectBridgeRow(tr.dataset.culvertId);
+    }
+  });
   document.getElementById('bridgeVehicleClassBody')?.addEventListener('click', e => {
     const tr = e.target.closest('tr');
     if (tr && tr.dataset.bridgeId) {
@@ -987,6 +993,10 @@ function refreshMapSelectionForFilters() {
 }
 
 function resolveBridgeById(bridgeId) {
+  if (typeof MAJOR_CULVERTS !== 'undefined') {
+    const culv = MAJOR_CULVERTS.find(b => String(b._id) === String(bridgeId)) || MAJOR_CULVERTS.find(b => String(b.culvert_no) === String(bridgeId));
+    if (culv) return culv;
+  }
   return BRIDGES.find(b => String(b._id) === String(bridgeId))
     || BRIDGES.find(b => String(b.bridge_no) === String(bridgeId))
     || BRIDGES.find(b => String(b.bridge_nam) === String(bridgeId))
@@ -5359,8 +5369,11 @@ function initSpatialMap() {
     let minDist = 12 / mapScale;
 
     BRIDGES.concat(MAJOR_CULVERTS).forEach(b => {
-      if (bridgeMapLon(b) == null || bridgeMapLat(b) == null) return;
-      if (!activeSet.has(b._id)) return; // Exclude hovered events on inactive (faded out) bridges
+      const isCulvert = b.culvert_no !== undefined;
+      const lon = isCulvert ? (b.map_x || b.x_new) : bridgeMapLon(b);
+      const lat = isCulvert ? (b.map_y || b.y_new) : bridgeMapLat(b);
+      if (lon == null || lat == null) return;
+      if (!isCulvert && !activeSet.has(b._id)) return; // Exclude hovered events on inactive (faded out) bridges
       const pt = getProjection(bridgeMapLon(b), bridgeMapLat(b), canvas.width, canvas.height);
       const dist = Math.hypot(pt.x - tx, pt.y - ty);
       if (dist < minDist) {
@@ -5969,11 +5982,11 @@ function updateBridgeAnalyticsPane(bridge) {
   subtitle.innerHTML = `${escapeHTML(row.link_no || 'N/A')} | ${escapeHTML(row.link_name || 'N/A')} | Class ${canonicalRoadClass(row.road_class)} | ${timelineYear} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][timelineMonth]}
 ${row.is_critical && row.critical_comment ? `<br><span style="color:#ef4444; font-weight:500; font-size:11px; display:inline-block; margin-top:4px;">Warning: ${escapeHTML(row.critical_comment)}</span>` : ''}`;
   const condRef = bridge.reference_attributes || {};
-  const approachRating = bridge.approaches_rating ?? bridge.approaches;
-  const roadwayRating = bridge.roadway_rating ?? bridge.roadway;
-  const substructureRating = bridge.substructure_rating ?? bridge.substructure;
-  const superstructureRating = bridge.superstructure_rating ?? bridge.superstructure;
-  const waterwayRating = bridge.waterway_rating ?? bridge.waterway;
+  const approachRating = bridge.approaches_rating ?? bridge.approaches ?? bridge.inlet_outlet_cond;
+  const roadwayRating = bridge.roadway_rating ?? bridge.roadway ?? bridge.roadway_cond;
+  const substructureRating = bridge.substructure_rating ?? bridge.substructure ?? bridge.structure_cond;
+  const superstructureRating = bridge.superstructure_rating ?? bridge.superstructure ?? bridge.structure_cond;
+  const waterwayRating = bridge.waterway_rating ?? bridge.waterway ?? bridge.waterway_cond;
   const condHtml = `
     <div class="pane-section-title">Structural Elements & Condition</div>
     <div class="pane-metrics">
@@ -7587,11 +7600,12 @@ function drawMap() {
       const lat = c.map_y || c.y_new;
       if (lon == null || lat == null) return;
       const pt = getProjection(Number(lon), Number(lat), canvas.width, canvas.height);
-      const size = 4.2;
+      const baseSize = 4.2;
+      const size = baseSize / mapScale;
       ctx.save();
       ctx.fillStyle = '#f59e0b';
       ctx.strokeStyle = '#78350f';
-      ctx.lineWidth = 1.2;
+      ctx.lineWidth = 1.2 / mapScale;
       ctx.globalAlpha = 0.92;
       ctx.fillRect(pt.x - size/2, pt.y - size/2, size, size);
       ctx.strokeRect(pt.x - size/2, pt.y - size/2, size, size);
