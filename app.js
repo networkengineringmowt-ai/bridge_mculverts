@@ -1421,29 +1421,6 @@ function bridgeRiverName(b) {
 }
 
 function normalizeBridgeRiverNames() {
-
-
-  if (typeof MAJOR_CULVERTS !== 'undefined') {
-    MAJOR_CULVERTS.forEach(c => {
-      if (c.map_x == null || c.map_y == null) return;
-      const isActive = activeSet.has(c._id);
-      if (!isActive) return;
-      
-      const pt = getProjection(c.map_x, c.map_y, canvas.width, canvas.height);
-      const isHovered = hoveredBridge && c._id === hoveredBridge._id;
-      
-      const sz = isHovered ? 8 : 5;
-      
-      ctx.beginPath();
-      ctx.rect(pt.x - sz/2, pt.y - sz/2, sz, sz);
-      ctx.fillStyle = isHovered ? '#fbbf24' : '#f59e0b'; // Amber/Orange color for culverts
-      ctx.fill();
-      ctx.strokeStyle = '#78350f'; // Dark amber stroke
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    });
-  }
-
   BRIDGES.forEach(b => {
     if (!isRoadOverRiverBridge(b)) return;
     const original = b.river;
