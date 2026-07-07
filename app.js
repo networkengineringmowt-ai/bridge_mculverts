@@ -7505,33 +7505,10 @@ function drawMap() {
 
   drawNationalRoadNetwork(ctx, canvas);
   drawRoadLayer(ctx, canvas, activeLinkSet);
-  drawInfluenceFlowLayer(ctx, canvas, activeBridges);
+  
 
   drawMapLabels(ctx, canvas);
-  let stationPoints = [
-    ...MANUAL_COUNT_STATIONS.map(s => ({ ...s, type: 'manual' })),
-    ...ATC_SITE_ITEMS.map(s => ({ id: normalizeAtcId(s.id), name: normalizeAtcId(s.id), lat: s.lat, lng: s.lng, type: 'atc' })),
-    ...getLegacyAtcMapStations()
-  ];
-  stationPoints.forEach(s => {
-    if (!validLonLat(s.lng, s.lat)) return;
-    const pt = getProjection(s.lng, s.lat, canvas.width, canvas.height);
-    const isCurrentAtc = s.type === 'atc';
-    const isLegacyAtc = s.type === 'legacy-atc';
-    ctx.globalAlpha = isCurrentAtc || isLegacyAtc ? 0.98 : 0.72;
-    ctx.fillStyle = 'rgba(2,6,23,0.78)';
-    ctx.beginPath();
-    ctx.arc(pt.x, pt.y, (isCurrentAtc || isLegacyAtc ? 7.4 : 5.2) / mapScale, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = isCurrentAtc ? COLORS.rose : isLegacyAtc ? COLORS.amber : 'rgba(255,255,255,0.75)';
-    ctx.strokeStyle = isCurrentAtc || isLegacyAtc ? '#ffffff' : 'rgba(244,63,94,0.8)';
-    ctx.lineWidth = 1.6 / mapScale;
-    ctx.beginPath();
-    ctx.arc(pt.x, pt.y, (isCurrentAtc || isLegacyAtc ? 5.8 : 3.9) / mapScale, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.stroke();
-  });
+  
 
   BRIDGES.forEach(b => {
     if (bridgeMapLon(b) == null || bridgeMapLat(b) == null) return;
