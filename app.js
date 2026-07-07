@@ -5339,7 +5339,7 @@ function initSpatialMap() {
     let found = null;
     let minDist = 12 / mapScale;
 
-    BRIDGES.forEach(b => {
+    BRIDGES.concat(MAJOR_CULVERTS).forEach(b => {
       if (bridgeMapLon(b) == null || bridgeMapLat(b) == null) return;
       if (!activeSet.has(b._id)) return; // Exclude hovered events on inactive (faded out) bridges
       const pt = getProjection(bridgeMapLon(b), bridgeMapLat(b), canvas.width, canvas.height);
@@ -5355,14 +5355,24 @@ function initSpatialMap() {
       hoveredBridge = found;
       canvas.style.cursor = 'pointer';
 
-      document.getElementById('mTooltipTitle').textContent = found.bridge_nam;
-      document.getElementById('mTooltipRegion').textContent = found.region || 'N/A';
-      document.getElementById('mTooltipRiver').textContent = found.river || 'N/A';
-      document.getElementById('mTooltipClass').textContent = `Class ${canonicalRoadClass(found.road_class)}`;
-      const foundEvidence = bridgeTrafficEvidence(found);
-      document.getElementById('mTooltipAadt').textContent = foundEvidence?.assignedAdt
-        ? `${fmt(Number(foundEvidence.assignedAdt) * trafficProjectionFactor(), 0)} projected ADT (${foundEvidence.assignedBasis || 'traffic evidence'})`
-        : 'N/A';
+      if (found.type === 'culvert') {
+        const lookupType = BMS_CODE_LOOKUPS.type_bridge || {};
+        const isPipe = found.type_culvert === '26' || found.type_culvert === '27';
+        document.getElementById('mTooltipTitle').textContent = `Culvert ${found.culvert_no || '-'}`;
+        document.getElementById('mTooltipRegion').textContent = `Type: ${lookupType[found.type_culvert] || found.type_culvert || '-'}`;
+        document.getElementById('mTooltipRiver').textContent = `Cells/Pipes: ${found.cells || found.no_of_span || 1} | ${isPipe ? 'Diameter' : 'Span'}: ${found.span_diameter || '-'}m`;
+        document.getElementById('mTooltipClass').textContent = `Class ${canonicalRoadClass(found.road_class)}`;
+        document.getElementById('mTooltipAadt').textContent = found.road_name || '-';
+      } else {
+        document.getElementById('mTooltipTitle').textContent = found.bridge_nam || '-';
+        document.getElementById('mTooltipRegion').textContent = found.region || '-';
+        document.getElementById('mTooltipRiver').textContent = found.river || '-';
+        document.getElementById('mTooltipClass').textContent = `Class ${canonicalRoadClass(found.road_class)}`;
+        const foundEvidence = bridgeTrafficEvidence(found);
+        document.getElementById('mTooltipAadt').textContent = foundEvidence?.assignedAdt
+          ? `${fmt(Number(foundEvidence.assignedAdt) * trafficProjectionFactor(), 0)} projected ADT (${foundEvidence.assignedBasis || 'traffic evidence'})`
+          : '-';
+      }
 
       tooltip.style.display = 'block';
       tooltip.style.left = (mouseX + 15) + 'px';
@@ -8153,21 +8163,26 @@ function buildCulvertTable() {
 
   const lookupType = BMS_CODE_LOOKUPS.type_bridge || {};
   
-  tbody.innerHTML = pageRows.map(c => `
+  tbody.innerHTML = pageRows.map(c => {
+    const isPipe = c.type_culvert === '26' || c.type_culvert === '27';
+    const spanVal = !isPipe ? c.span_diameter : '-';
+    const diaVal = isPipe ? c.span_diameter : '-';
+    return `
     <tr data-culvert-id="${c._id}">
-      <td class="highlight-cell">${htmlEscape(c.culvert_no || 'N/A')}</td>
-      <td>${htmlEscape(lookupType[c.type_culvert] || c.type_culvert || 'N/A')}</td>
-      <td>${htmlEscape(c.road_name || 'N/A')}</td>
-      <td>${htmlEscape(c.link_name || 'N/A')}</td>
-      <td>${htmlEscape(c.chainage != null ? String(c.chainage) : 'N/A')}</td>
-      <td>${c.bridge_len != null ? Number(c.bridge_len).toFixed(1) : 'N/A'}</td>
-      <td>${c.bridge_wid != null ? Number(c.bridge_wid).toFixed(1) : 'N/A'}</td>
-      <td>${htmlEscape(c.cells || c.no_of_span || 'N/A')}</td>
-      <td>${c.map_x != null ? Number(c.map_x).toFixed(5) : 'N/A'}</td>
-      <td>${c.map_y != null ? Number(c.map_y).toFixed(5) : 'N/A'}</td>
-      <td>${htmlEscape(c.region || 'N/A')}</td>
-      <td>${htmlEscape(c.station || 'N/A')}</td>
-      <td>${htmlEscape(c.span_diameter || 'N/A')}</td>
+      <td class="highlight-cell">${htmlEscape(c.culvert_no || '-')}</td>
+      <td>${htmlEscape(lookupType[c.type_culvert] || c.type_culvert || '-')}</td>
+      <td>${htmlEscape(c.road_name || '-')}</td>
+      <td>${htmlEscape(c.link_name || '-')}</td>
+      <td>${htmlEscape(c.chainage != null ? String(c.chainage) : '-')}</td>
+      <td>${c.bridge_len != null ? Number(c.bridge_len).toFixed(1) : '-'}</td>
+      <td>${c.bridge_wid != null ? Number(c.bridge_wid).toFixed(1) : '-'}</td>
+      <td>${htmlEscape(c.cells || c.no_of_span || '1')}</td>
+      <td>${c.map_x != null ? Number(c.map_x).toFixed(5) : '-'}</td>
+      <td>${c.map_y != null ? Number(c.map_y).toFixed(5) : '-'}</td>
+      <td>${htmlEscape(c.region || '-')}</td>
+      <td>${htmlEscape(c.station || '-')}</td>
+      <td>${htmlEscape(spanVal || '-')}</td>
+      <td>${htmlEscape(diaVal || '-')}</td>
       <td>${getCulvertCategoryPill(c.waterway_cond)}</td>
       <td>${getCulvertCategoryPill(c.inlet_outlet_cond)}</td>
       <td>${getCulvertCategoryPill(c.structure_cond)}</td>
@@ -8175,7 +8190,7 @@ function buildCulvertTable() {
       <td>${getCulvertCategoryPill(c.overall_cond || c.condition_category)}</td>
       <td>${bridgeInventoryRatingCell(c.overall_rating, 'overall')}</td>
     </tr>
-  `).join('');
+  `}).join('');
 
   updateCulvertPager(sorted.length, totalPages);
 }
