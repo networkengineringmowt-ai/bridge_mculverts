@@ -1739,7 +1739,7 @@ function bridgeConditionRatingTooltip(value, scope = 'structural') {
 function bridgeInventoryRatingCell(value, scope = 'structural') {
   if (value === undefined || value === null || value === '') return 'N/A';
   const n = Number(value);
-  const cls = n >= 7 ? 'rating-7' : n >= 4 ? 'rating-5' : 'rating-low';
+  const cls = n >= 7 ? 'rating-7' : n >= 5 ? 'rating-5' : n >= 3 ? 'rating-3' : 'rating-low';
   return `<span class="rating-badge ${cls}" title="${htmlEscape(bridgeConditionRatingTooltip(value, scope))}">${htmlEscape(bridgeInventoryRatingLabel(value))}</span>`;
 }
 
@@ -5802,10 +5802,10 @@ function downloadSelectedBridgeCsv(bridge = selectedMapBridge) {
     if (score == null || score === '' || score === 'N/A') return 'transparent';
     const n = Number(score);
     if (isNaN(n)) return 'transparent';
-    if (n >= 8) return 'var(--accent-green, #4caf50)'; 
-    if (n >= 5) return 'var(--accent-amber, #ff9800)'; 
-    if (n >= 3) return 'var(--accent-orange, #ff5722)'; 
-    return 'var(--accent-red, #f44336)'; 
+    if (n >= 7) return 'var(--accent-green, #10b981)'; 
+    if (n >= 5) return 'var(--accent-amber, #f59e0b)'; 
+    if (n >= 3) return 'var(--accent-orange, #f97316)'; 
+    return 'var(--accent-red, #ef4444)'; 
   }
 
   function getDictName(type, val) {
@@ -5819,7 +5819,7 @@ function downloadSelectedBridgeCsv(bridge = selectedMapBridge) {
     if (val == null || val === '' || val === 'N/A') return 'N/A';
     const num = Math.floor(Number(val));
     if (isNaN(num)) return val;
-    return CONDITION_RATING_LABELS[num] ? `${num} ${CONDITION_RATING_LABELS[num]}` : (CONDITION_DICT[num] ? `${num} ${CONDITION_DICT[num]}` : val);
+    return CONDITION_RATING_LABELS[num] ? CONDITION_RATING_LABELS[num] : (CONDITION_DICT[num] ? CONDITION_DICT[num] : val);
   }
 
 function updateBridgeAnalyticsPane(bridge) {
