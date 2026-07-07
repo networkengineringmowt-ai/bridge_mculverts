@@ -1092,6 +1092,12 @@ function initTabs() {
           }
         }, 120);
       }
+      if (tab.dataset.tab === 'photos') {
+        if (typeof initPhotosTab === 'function') setTimeout(initPhotosTab, 60);
+      }
+      if (tab.dataset.tab === 'statistics') {
+        if (typeof initStatisticsTab === 'function') setTimeout(initStatisticsTab, 60);
+      }
       if (tab.dataset.tab === 'bridge-traffic') {
         setTimeout(buildBridgeTrafficTab, 60);
       }
@@ -7413,74 +7419,8 @@ function drawWaterBodies(ctx, canvas) {
       ctx.stroke();
     });
     ctx.restore();
-  }
-}
-
 function drawMapLegend(ctx, canvas) {
-  const dpr = window.devicePixelRatio || 1;
-  const x = 18 * dpr;
-  const y = 82 * dpr;
-  const w = 210 * dpr;
-  const h = 230 * dpr;
-  const row = 22 * dpr;
-  ctx.save();
-  ctx.fillStyle = 'rgba(8,13,28,0.84)';
-  ctx.strokeStyle = 'rgba(103,232,249,0.38)';
-  ctx.lineWidth = 1 * dpr;
-  ctx.beginPath();
-  ctx.roundRect(x, y, w, h, 8 * dpr);
-  ctx.fill();
-  ctx.stroke();
-  ctx.font = `${11 * dpr}px Plus Jakarta Sans, Arial, sans-serif`;
-  ctx.fillStyle = '#67e8f9';
-  ctx.textAlign = 'left';
-  ctx.fillText('MAP LEGEND', x + 14 * dpr, y + 22 * dpr);
-
-  const lineItems = [
-    ['Class M Expressway', 'rgba(168,85,247,1)'],
-    ['Class A International Trunk', 'rgba(239,68,68,1)'],
-    ['Class B National Trunk', 'rgba(249,115,22,1)'],
-    ['Class C Primary Road', 'rgba(34,197,94,1)']
-  ];
-  lineItems.forEach(([label, color], i) => {
-    const yy = y + (46 + i * 22) * dpr;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = (i === 0 ? 3 : i === 1 ? 2.7 : i === 2 ? 2.2 : 1.7) * dpr;
-    ctx.beginPath();
-    ctx.moveTo(x + 14 * dpr, yy);
-    ctx.lineTo(x + 42 * dpr, yy);
-    ctx.stroke();
-    ctx.fillStyle = '#e5edf7';
-    ctx.fillText(label, x + 52 * dpr, yy + 4 * dpr);
-  });
-
-  const pointY = y + 144 * dpr;
-  const drawPoint = (yy, fill, stroke, label, diamond = false) => {
-    ctx.fillStyle = fill;
-    ctx.strokeStyle = stroke;
-    ctx.lineWidth = 1.5 * dpr;
-    ctx.beginPath();
-    if (diamond) {
-      const cx = x + 28 * dpr, r = 6 * dpr;
-      ctx.moveTo(cx, yy - r);
-      ctx.lineTo(cx + r, yy);
-      ctx.lineTo(cx, yy + r);
-      ctx.lineTo(cx - r, yy);
-      ctx.closePath();
-    } else {
-      ctx.arc(x + 28 * dpr, yy, 5.5 * dpr, 0, Math.PI * 2);
-    }
-    ctx.fill();
-    ctx.stroke();
-    ctx.fillStyle = '#e5edf7';
-    ctx.fillText(label, x + 52 * dpr, yy + 4 * dpr);
-  };
-  drawPoint(pointY, BRIDGE_SYMBOL.fill, '#ffffff', 'Bridge crossing', true);
-  drawPoint(pointY + row, 'rgba(255,255,255,0.82)', 'rgba(244,63,94,0.9)', 'Manual count station');
-  drawPoint(pointY + row * 2, COLORS.rose, '#ffffff', 'Current ATC station');
-  drawPoint(pointY + row * 3, COLORS.amber, '#ffffff', 'Legacy ATC station');
-  drawPoint(pointY + row * 4, 'rgba(56,189,248,0.45)', 'rgba(56,189,248,0.8)', 'Lakes and major rivers');
-  ctx.restore();
+  // Disabled in favor of HTML legend
 }
 
 function drawMap() {
@@ -8161,205 +8101,12 @@ function buildCulvertTable() {
     return `<span class="rating-badge rating-${cls}">${htmlEscape(cond)}</span>`;
   }
 
+  const lookupType = BMS_CODE_LOOKUPS.type_bridge || {};
+  
   tbody.innerHTML = pageRows.map(c => `
     <tr data-culvert-id="${c._id}">
       <td class="highlight-cell">${htmlEscape(c.culvert_no || '-')}</td>
-      <td>${htmlEscape((BMS_CODE_LOOKUPS.type_bridge && BMS_CODE_LOOKUPS.type_bridge[c.type_culvert]) || c.type_culvert || '-')}</td>
-      <td>${htmlEscape(c.road_name || '-')}</td>
-        if (selectedMapBridge) {
-          hoveredBridge = selectedMapBridge;
-          mapInfluenceCache = { key: null, links: [] };
-          setBridgeTrafficControlsForBridge(selectedMapBridge);
-          focusBridgeInventoryPageForBridge(selectedMapBridge);
-          focusBridgeTrafficPageForBridge(selectedMapBridge);
-          buildKPIs();
-          updateBridgeAnalyticsPane(selectedMapBridge);
-          applyActiveBridgeSelectionToTables();
-        } else {
-          buildKPIs();
-          updateBridgeAnalyticsPane(null);
-          applyActiveBridgeSelectionToTables();
-        }
-        
-        drawMap();
-        filterODData();
-        renderAll();
-      });
-    }
-
-    document.querySelectorAll('.od-view-toggle button').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.od-view-toggle button').forEach(function(b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        var view = btn.dataset.view;
-        document.getElementById('odTableView').style.display = view === 'table' ? '' : 'none';
-        document.getElementById('odHeatmapView').style.display = view === 'heatmap' ? '' : 'none';
-        if (view === 'heatmap') renderODHeatmap();
-      });
-    });
-  }
-
-  function renderAll() {
-    var empty = document.getElementById('odEmptyState2');
-    var tableView = document.getElementById('odTableView');
-    var heatmapView = document.getElementById('odHeatmapView');
-
-    if (!odFilteredData.length) {
-      if (empty) empty.style.display = 'flex';
-      if (tableView) tableView.style.display = 'none';
-      if (heatmapView) heatmapView.style.display = 'none';
-    } else {
-      if (empty) empty.style.display = 'none';
-      var activeView = document.querySelector('.od-view-toggle button.active');
-      var isHeatmap = activeView && activeView.dataset.view === 'heatmap';
-      if (tableView) tableView.style.display = isHeatmap ? 'none' : '';
-      if (heatmapView) heatmapView.style.display = isHeatmap ? '' : 'none';
-    }
-
-    renderODSummary();
-    renderODTable();
-    var activeBtn = document.querySelector('.od-view-toggle button.active');
-    if (activeBtn && activeBtn.dataset.view === 'heatmap') renderODHeatmap();
-
-    var label = document.getElementById('odBridgeLabel');
-    var bridgeVal = (document.getElementById('odBridgeFilter') || {}).value || 'all';
-    if (label) label.textContent = bridgeVal === 'all' ? 'All Bridges' : bridgeVal;
-  }
-
-  window.buildODMatrixTab = function() {
-    const store = sqlBotTrafficStore();
-    if (!store) {
-      // Show loading state in the OD tab elements
-      const tbody = document.getElementById('odTableBody2');
-      if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 40px; color: var(--accent-cyan); font-weight: bold;">Loading Origin-Destination Matrix data...</td></tr>';
-      }
-      const hbody = document.getElementById('odHeatmapBody');
-      if (hbody) {
-        hbody.innerHTML = '<tr><td colspan="30" style="text-align:center; padding: 40px; color: var(--accent-cyan); font-weight: bold;">Loading Origin-Destination Matrix data...</td></tr>';
-      }
-      const summary = document.getElementById('odSummaryRow');
-      if (summary) {
-        summary.innerHTML = '<div style="color:var(--accent-cyan); font-weight:bold; padding: 10px;">Loading data...</div>';
-      }
-      
-      loadSqlBotTrafficBackend().then(data => {
-        if (data) {
-          prepareODData();
-          initODControls();
-          syncODBridgeFilter();
-          filterODData();
-          renderAll();
-        } else {
-          const tbody = document.getElementById('odTableBody2');
-          if (tbody) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 40px; color: var(--accent-rose);">Failed to load Origin-Destination data.</td></tr>';
-        }
-      });
-      return;
-    }
-
-    if (!odAllData.length) {
-      prepareODData();
-      initODControls();
-    }
-    syncODBridgeFilter();
-    filterODData();
-    renderAll();
-  };
-
-  window.initODMatrixControls = function() {};
-})();
-
-
-let culvertPage = 1;
-const CULVERTS_PAGE_SIZE = 50;
-let culvertSort = { key: 'culvert_no', desc: false };
-
-function buildMajorCulvertsTab() {
-  buildCulvertTable();
-  if (!window._culvertSortBound) {
-    document.querySelectorAll('#culvertTableHeadRow th[data-sort]').forEach(th => {
-      th.addEventListener('click', () => {
-        const key = th.dataset.sort;
-        if (culvertSort.key === key) {
-          culvertSort.desc = !culvertSort.desc;
-        } else {
-          culvertSort.key = key;
-          culvertSort.desc = false;
-        }
-        buildCulvertTable();
-      });
-    });
-    window._culvertSortBound = true;
-  }
-}
-
-function updateCulvertPager(totalRows, totalPages) {
-  const prevBtn = document.getElementById('culvertTablePrev');
-  const nextBtn = document.getElementById('culvertTableNext');
-  const info = document.getElementById('culvertTablePageInfo');
-  
-  if (info) info.textContent = `Page ${culvertPage} of ${totalPages} (${totalRows} total)`;
-  if (prevBtn) {
-    prevBtn.disabled = culvertPage <= 1;
-    prevBtn.onclick = () => { culvertPage--; buildCulvertTable(); };
-  }
-  if (nextBtn) {
-    nextBtn.disabled = culvertPage >= totalPages;
-    nextBtn.onclick = () => { culvertPage++; buildCulvertTable(); };
-  }
-}
-
-function buildCulvertTable() {
-  const tbody = document.getElementById('culvertTableBody');
-  const emptyState = document.getElementById('culvertEmptyState');
-  const table = document.getElementById('culvertTable');
-  if (!tbody) return;
-  
-  let sorted = [...(typeof MAJOR_CULVERTS !== 'undefined' ? MAJOR_CULVERTS : [])];
-  
-  // Apply sorting
-  if (culvertSort.key) {
-    sorted.sort((a, b) => {
-      let va = a[culvertSort.key];
-      let vb = b[culvertSort.key];
-      if (va == null) va = '';
-      if (vb == null) vb = '';
-      if (typeof va === 'string') va = va.toLowerCase();
-      if (typeof vb === 'string') vb = vb.toLowerCase();
-      if (va < vb) return culvertSort.desc ? 1 : -1;
-      if (va > vb) return culvertSort.desc ? -1 : 1;
-      return 0;
-    });
-  }
-
-  if (sorted.length === 0) {
-    tbody.innerHTML = '';
-    table.style.display = 'none';
-    if(emptyState) emptyState.style.display = 'block';
-    return;
-  }
-
-  table.style.display = 'table';
-  if(emptyState) emptyState.style.display = 'none';
-  
-  const totalPages = Math.max(1, Math.ceil(sorted.length / CULVERTS_PAGE_SIZE));
-  culvertPage = Math.max(1, Math.min(culvertPage, totalPages));
-  
-  const pageRows = sorted.slice((culvertPage - 1) * CULVERTS_PAGE_SIZE, culvertPage * CULVERTS_PAGE_SIZE);
-  function getCulvertCategoryPill(cond) {
-    if (!cond) return '-';
-    const c = String(cond).toLowerCase();
-    let cls = 'low';
-    if (c.includes('good') || c.includes('excellent')) cls = '7';
-    else if (c.includes('satisfactory') || c.includes('fair') || c.includes('marginal')) cls = '5';
-    return `<span class="rating-badge rating-${cls}">${htmlEscape(cond)}</span>`;
-  }
-
-  tbody.innerHTML = pageRows.map(c => `
-    <tr data-culvert-id="${c._id}">
-      <td class="highlight-cell">${htmlEscape(c.culvert_no || '-')}</td>
-      <td>${htmlEscape((BMS_CODE_LOOKUPS.type_bridge && BMS_CODE_LOOKUPS.type_bridge[c.type_culvert]) || c.type_culvert || '-')}</td>
+      <td>${htmlEscape(lookupType[c.type_culvert] || c.type_culvert || '-')}</td>
       <td>${htmlEscape(c.road_name || '-')}</td>
       <td>${htmlEscape(c.link_name || '-')}</td>
       <td>${htmlEscape(c.chainage != null ? String(c.chainage) : '-')}</td>
@@ -8372,7 +8119,7 @@ function buildCulvertTable() {
       <td>${getCulvertCategoryPill(c.inlet_outlet_cond)}</td>
       <td>${getCulvertCategoryPill(c.structure_cond)}</td>
       <td>${getCulvertCategoryPill(c.roadway_cond)}</td>
-      <td>${getCulvertCategoryPill(c.overall_cond)}</td>
+      <td>${getCulvertCategoryPill(c.overall_cond || c.condition_category)}</td>
       <td>${bridgeInventoryRatingCell(c.overall_rating, 'overall')}</td>
     </tr>
   `).join('');
