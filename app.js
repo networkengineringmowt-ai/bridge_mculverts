@@ -7007,14 +7007,12 @@ function roadColor(road) {
 }
 
 function roadWidth(road) {
-  const cls = canonicalRoadClass(road.cls);
-  const base = cls === 'M' ? 2.7 : cls === 'A' ? 2.4 : cls === 'B' ? 1.9 : 1.25;
+  const base = 1.8;
   return base / Math.sqrt(Math.max(1, mapScale));
 }
 
 function networkRoadWidth(road) {
-  const cls = canonicalRoadClass(road.cls);
-  const base = cls === 'M' ? 1.1 : cls === 'A' ? 0.9 : cls === 'B' ? 0.7 : 0.45;
+  const base = 0.75;
   return base / Math.sqrt(Math.max(1, mapScale));
 }
 
