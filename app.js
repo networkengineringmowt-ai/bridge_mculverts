@@ -1424,12 +1424,19 @@ function normalizeBridgeRiverNames() {
   if (typeof MAJOR_CULVERTS !== 'undefined') {
     MAJOR_CULVERTS.forEach(c => {
       if (c.map_x == null || c.map_y == null) return;
+      const isActive = activeSet.has(c._id);
+      if (!isActive) return;
+      
       const pt = getProjection(c.map_x, c.map_y, canvas.width, canvas.height);
+      const isHovered = hoveredBridge && c._id === hoveredBridge._id;
+      
+      const sz = isHovered ? 8 : 5;
+      
       ctx.beginPath();
-      ctx.rect(pt.x - 2, pt.y - 2, 4, 4);
-      ctx.fillStyle = '#10b981';
+      ctx.rect(pt.x - sz/2, pt.y - sz/2, sz, sz);
+      ctx.fillStyle = isHovered ? '#fbbf24' : '#f59e0b'; // Amber/Orange color for culverts
       ctx.fill();
-      ctx.strokeStyle = '#064e3b';
+      ctx.strokeStyle = '#78350f'; // Dark amber stroke
       ctx.lineWidth = 1;
       ctx.stroke();
     });
@@ -1754,7 +1761,7 @@ function buildBridgeTable() {
   emptyState.style.display = 'none';
   
   
-  const BRIDGE_INVENTORY_PAGE_SIZE = 50;
+  const BRIDGE_INVENTORY_PAGE_SIZE = 999999;
   const totalPages = Math.max(1, Math.ceil(filtered.length / BRIDGE_INVENTORY_PAGE_SIZE));
   if (typeof window.bridgeInventoryPage === 'undefined') window.bridgeInventoryPage = 1;
   window.bridgeInventoryPage = Math.max(1, Math.min(window.bridgeInventoryPage, totalPages));
@@ -5253,7 +5260,7 @@ let timelineYear = 2026;
 let timelineMonth = 4;
 let timelineDay = 22;
 let mapTileLoadState = { loaded: 0, requested: 0, failed: 0, queued: 0 };
-let mapTilesEnabled = false;
+let mapTilesEnabled = true;
 let mapTileStartTimer = null;
 let mapTileActiveRequests = 0;
 let mapTileRedrawPending = false;
@@ -8077,7 +8084,7 @@ function drawMap() {
 
 
 let culvertPage = 1;
-const CULVERTS_PAGE_SIZE = 50;
+const CULVERTS_PAGE_SIZE = 999999;
 let culvertSort = { key: 'culvert_no', desc: false };
 
 function buildMajorCulvertsTab() {
