@@ -1520,6 +1520,34 @@ const BMS_BRIDGE_INVENTORY_COLUMNS = [
   { key: 'current_predicted_aadt', label: 'Current Predicted AADT', value: b => bridgeCurrentPredictedAadt(b), render: b => fmt(bridgeCurrentPredictedAadt(b), 0) }
 ];
 
+
+const BMS_CULVERT_INVENTORY_COLUMNS = [
+  { key: 'culvert_no', label: 'Culvert No', value: c => c.culvert_no, highlight: true },
+  { key: 'type_culvert', label: 'Culvert Type', value: c => bmsCodeDescription('type_bridge', c.type_culvert) },
+  { key: 'road_no', label: 'Road Number', value: c => c.road_no },
+  { key: 'link_no', label: 'Link ID', value: c => c.link_no },
+  { key: 'road_name', label: 'Road Name', value: c => c.road_name },
+  { key: 'link_name', label: 'Road Link Name', value: c => c.link_name },
+  { key: 'road_class', label: 'Road Class', value: c => canonicalRoadClass(c.road_class), render: c => `<span class="pill pill-${canonicalRoadClass(c.road_class).toLowerCase()}">${canonicalRoadClass(c.road_class)}</span>` },
+  { key: 'region', label: 'Maintenance Region', value: c => c.region },
+  { key: 'station', label: 'Maintenance Station', value: c => c.station },
+  { key: 'chainage', label: 'Chainage (km)', value: c => c.chainage },
+  { key: 'map_x', label: 'Longitude', value: c => c.map_x != null ? Number(c.map_x).toFixed(5) : null },
+  { key: 'map_y', label: 'Latitude', value: c => c.map_y != null ? Number(c.map_y).toFixed(5) : null },
+  { key: 'bridge_len', label: 'Length (m)', value: c => c.bridge_len != null ? Number(c.bridge_len).toFixed(1) : null },
+  { key: 'bridge_wid', label: 'Width (m)', value: c => c.bridge_wid != null ? Number(c.bridge_wid).toFixed(1) : null },
+  { key: 'cells', label: 'No. of Cells/Pipes', value: c => c.cells || c.no_of_span || '1' },
+  { key: 'span_m', label: 'Span (m)', value: c => { const isPipe = c.type_culvert === '26' || c.type_culvert === '27'; return !isPipe ? c.span_diameter : null; } },
+  { key: 'diameter_m', label: 'Diameter (m)', value: c => { const isPipe = c.type_culvert === '26' || c.type_culvert === '27'; return isPipe ? c.span_diameter : null; } },
+  { key: 'waterway_cond', label: 'Waterway Condition', value: c => c.waterway_cond, render: c => bridgeInventoryRatingCell(c.waterway_cond, 'waterway'), tooltip: c => bridgeConditionRatingTooltip(c.waterway_cond, 'waterway') },
+  { key: 'inlet_outlet_cond', label: 'Inlet/Outlet Condition', value: c => c.inlet_outlet_cond, render: c => bridgeInventoryRatingCell(c.inlet_outlet_cond, 'structural'), tooltip: c => bridgeConditionRatingTooltip(c.inlet_outlet_cond, 'structural') },
+  { key: 'structure_cond', label: 'Structure Condition', value: c => c.structure_cond, render: c => bridgeInventoryRatingCell(c.structure_cond, 'structural'), tooltip: c => bridgeConditionRatingTooltip(c.structure_cond, 'structural') },
+  { key: 'roadway_cond', label: 'Roadway Condition', value: c => c.roadway_cond, render: c => bridgeInventoryRatingCell(c.roadway_cond, 'approaches'), tooltip: c => bridgeConditionRatingTooltip(c.roadway_cond, 'approaches') },
+  { key: 'overall_cond', label: 'Overall Condition', value: c => c.overall_cond || c.condition_category, render: c => bridgeInventoryRatingCell(c.overall_cond || c.condition_category, 'overall'), tooltip: c => bridgeConditionRatingTooltip(c.overall_cond || c.condition_category, 'overall') },
+  { key: 'overall_rating', label: 'Overall Rating', value: c => c.overall_rating, render: c => bridgeInventoryRatingCell(c.overall_rating, 'overall'), tooltip: c => bridgeConditionRatingTooltip(c.overall_rating, 'overall') },
+  { key: 'comment', label: 'Inspection Comment', value: c => c.comment || c.remarks },
+];
+
 function effectiveBridgeNumber(b) {
   return b?.new_bridge_no || b?.bridge_no || b?.original_bridge_no || 'N/A';
 }
@@ -8086,24 +8114,10 @@ function drawMap() {
 let culvertPage = 1;
 const CULVERTS_PAGE_SIZE = 999999;
 let culvertSort = { key: 'culvert_no', desc: false };
+let culvertInventorySort = { key: 'culvert_no', ascending: true };
 
 function buildMajorCulvertsTab() {
   buildCulvertTable();
-  if (!window._culvertSortBound) {
-    document.querySelectorAll('#culvertTableHeadRow th[data-sort]').forEach(th => {
-      th.addEventListener('click', () => {
-        const key = th.dataset.sort;
-        if (culvertSort.key === key) {
-          culvertSort.desc = !culvertSort.desc;
-        } else {
-          culvertSort.key = key;
-          culvertSort.desc = false;
-        }
-        buildCulvertTable();
-      });
-    });
-    window._culvertSortBound = true;
-  }
 }
 
 function updateCulvertPager(totalRows, totalPages) {
@@ -8123,83 +8137,72 @@ function updateCulvertPager(totalRows, totalPages) {
 }
 
 function buildCulvertTable() {
+  const columns = BMS_CULVERT_INVENTORY_COLUMNS;
+  const filtered = applyCulvertInventorySort([...(typeof MAJOR_CULVERTS !== 'undefined' ? MAJOR_CULVERTS : [])]);
   const tbody = document.getElementById('culvertTableBody');
   const emptyState = document.getElementById('culvertEmptyState');
   const table = document.getElementById('culvertTable');
+  const headRow = document.getElementById('culvertTableHeadRow');
   if (!tbody) return;
-  
-  let sorted = [...(typeof MAJOR_CULVERTS !== 'undefined' ? MAJOR_CULVERTS : [])];
-  
-  // Apply sorting
-  if (culvertSort.key) {
-    sorted.sort((a, b) => {
-      let va = a[culvertSort.key];
-      let vb = b[culvertSort.key];
-      if (va == null) va = '';
-      if (vb == null) vb = '';
-      if (typeof va === 'string') va = va.toLowerCase();
-      if (typeof vb === 'string') vb = vb.toLowerCase();
-      if (va < vb) return culvertSort.desc ? 1 : -1;
-      if (va > vb) return culvertSort.desc ? -1 : 1;
-      return 0;
-    });
+
+  if (headRow && headRow.dataset.rendered !== '1') {
+    headRow.innerHTML = columns.map(col => `<th data-sort="${htmlEscape(col.key)}">${htmlEscape(col.label)}</th>`).join('');
+    headRow.dataset.rendered = '1';
   }
 
-  if (sorted.length === 0) {
+  if (filtered.length === 0) {
     tbody.innerHTML = '';
     table.style.display = 'none';
-    if(emptyState) emptyState.style.display = 'block';
+    if (emptyState) emptyState.style.display = 'block';
     return;
   }
 
   table.style.display = 'table';
-  if(emptyState) emptyState.style.display = 'none';
-  
-  const totalPages = Math.max(1, Math.ceil(sorted.length / CULVERTS_PAGE_SIZE));
+  if (emptyState) emptyState.style.display = 'none';
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / CULVERTS_PAGE_SIZE));
   culvertPage = Math.max(1, Math.min(culvertPage, totalPages));
-  
-  const pageRows = sorted.slice((culvertPage - 1) * CULVERTS_PAGE_SIZE, culvertPage * CULVERTS_PAGE_SIZE);
-  function getCulvertCategoryPill(cond) {
-    if (!cond) return 'N/A';
-    const c = String(cond).toLowerCase();
-    let cls = 'low';
-    if (c.includes('good') || c.includes('excellent')) cls = '7';
-    else if (c.includes('satisfactory') || c.includes('fair') || c.includes('marginal')) cls = '5';
-    return `<span class="rating-badge rating-${cls}">${htmlEscape(cond)}</span>`;
-  }
 
-  const lookupType = BMS_CODE_LOOKUPS.type_bridge || {};
-  
-  tbody.innerHTML = pageRows.map(c => {
-    const isPipe = c.type_culvert === '26' || c.type_culvert === '27';
-    const spanVal = !isPipe ? c.span_diameter : '-';
-    const diaVal = isPipe ? c.span_diameter : '-';
-    return `
+  const pageRows = filtered.slice((culvertPage - 1) * CULVERTS_PAGE_SIZE, culvertPage * CULVERTS_PAGE_SIZE);
+
+  tbody.innerHTML = pageRows.map(c => `
     <tr data-culvert-id="${c._id}">
-      <td class="highlight-cell">${htmlEscape(c.culvert_no || '-')}</td>
-      <td>${htmlEscape(lookupType[c.type_culvert] || c.type_culvert || '-')}</td>
-      <td>${htmlEscape(c.road_name || '-')}</td>
-      <td>${htmlEscape(c.link_name || '-')}</td>
-      <td>${htmlEscape(c.chainage != null ? String(c.chainage) : '-')}</td>
-      <td>${c.bridge_len != null ? Number(c.bridge_len).toFixed(1) : '-'}</td>
-      <td>${c.bridge_wid != null ? Number(c.bridge_wid).toFixed(1) : '-'}</td>
-      <td>${htmlEscape(c.cells || c.no_of_span || '1')}</td>
-      <td>${c.map_x != null ? Number(c.map_x).toFixed(5) : '-'}</td>
-      <td>${c.map_y != null ? Number(c.map_y).toFixed(5) : '-'}</td>
-      <td>${htmlEscape(c.region || '-')}</td>
-      <td>${htmlEscape(c.station || '-')}</td>
-      <td>${htmlEscape(spanVal || '-')}</td>
-      <td>${htmlEscape(diaVal || '-')}</td>
-      <td>${getCulvertCategoryPill(c.waterway_cond)}</td>
-      <td>${getCulvertCategoryPill(c.inlet_outlet_cond)}</td>
-      <td>${getCulvertCategoryPill(c.structure_cond)}</td>
-      <td>${getCulvertCategoryPill(c.roadway_cond)}</td>
-      <td>${getCulvertCategoryPill(c.overall_cond || c.condition_category)}</td>
-      <td>${bridgeInventoryRatingCell(c.overall_rating, 'overall')}</td>
+      ${columns.map(col => {
+        const raw = bridgeInventoryValue(c, col);
+        const rendered = col.render ? col.render(c) : htmlEscape(bridgeInventoryCellText(raw, col.key));
+        const titleAttr = col.tooltip ? ` title="${htmlEscape(col.tooltip(c))}"` : '';
+        return `<td class="${col.highlight ? 'highlight-cell' : ''}"${titleAttr}>${rendered}</td>`;
+      }).join('')}
     </tr>
-  `}).join('');
+  `).join('');
 
-  updateCulvertPager(sorted.length, totalPages);
+  bindCulvertTableSortHandlers();
+  updateCulvertPager(filtered.length, totalPages);
+}
+
+function applyCulvertInventorySort(rows) {
+  return sortRowsByState(rows, culvertInventorySort, (culvert, key) => {
+    const col = BMS_CULVERT_INVENTORY_COLUMNS.find(c => c.key === key);
+    if (!col) return culvert?.[key];
+    const direct = culvert?.[key];
+    return direct !== undefined && direct !== null && direct !== ''
+      ? direct
+      : bridgeInventoryValue(culvert, col);
+  });
+}
+
+function bindCulvertTableSortHandlers() {
+  document.querySelectorAll('#culvertTable thead th[data-sort]').forEach(th => {
+    th.onclick = () => {
+      const key = th.dataset.sort;
+      if (!key) return;
+      const next = { key, ascending: culvertInventorySort?.key === key ? !culvertInventorySort.ascending : true };
+      culvertInventorySort = next;
+      culvertPage = 1;
+      buildCulvertTable();
+    };
+  });
+  updatePagedSortIndicators('culvertTable', culvertInventorySort);
 }
 
 if (document.readyState === 'loading') {

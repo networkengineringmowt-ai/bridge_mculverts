@@ -2422,42 +2422,25 @@ header h1 {
   <div class="panel" id="panel-major-culverts">
     <div class="card" style="width: 100%; max-width: 100%; min-width: 0;">
       <div class="card-title">Major Culvert Inventory &amp; Condition Rating</div>
-      <div class="card-subtitle">Complete 2026 major culvert inventory. Includes chainage and extrapolated coordinates.</div>
+      <div class="card-subtitle">Complete 2026 major culvert inventory from Bridges and Culverts 2026.xlsx. Includes BMS structural element codes, chainage from start of road, and actual 0-9 element condition ratings. <strong>Click on any row to select the culvert.</strong></div>
       <div class="table-wrap bridge-inventory-scroll" style="margin-top:12px;">
         <table class="table" id="culvertTable">
           <thead>
             <tr id="culvertTableHeadRow">
-              <th data-sort="culvert_no">Culvert No</th>
-              <th data-sort="type_culvert">Type</th>
-              <th data-sort="road_name">Road Name</th>
-              <th data-sort="link_name">Link Name</th>
-              <th data-sort="chainage">Chainage (km)</th>
-              <th data-sort="bridge_len">Length (m)</th>
-              <th data-sort="bridge_wid">Width (m)</th>
-              <th data-sort="cells">No. of Cells</th>
-              <th data-sort="map_x">Map X</th>
-              <th data-sort="map_y">Map Y</th>
-              <th data-sort="region">Region</th>
-              <th data-sort="station">Station</th>
-              <th data-sort="span_m">Span (m)</th>
-              <th data-sort="diameter_m">Diameter (m)</th>
-              <th data-sort="waterway_cond">Waterway</th>
-              <th data-sort="inlet_outlet_cond">Inlet/Outlet</th>
-              <th data-sort="structure_cond">Structure</th>
-              <th data-sort="roadway_cond">Roadway</th>
-              <th data-sort="overall_cond">Overall Cond.</th>
-              <th data-sort="overall_rating">Rating</th>
             </tr>
           </thead>
           <tbody id="culvertTableBody"></tbody>
         </table>
       </div>
-      <div class="inventory-pager" style="display:none">
-        <button id="culvertTablePrev" disabled>&lt; Prev</button>
-        <span id="culvertTablePageInfo">Page 1 / 1</span>
-        <button id="culvertTableNext" disabled>Next &gt;</button>
-      </div>
-      <div id="culvertEmptyState" class="empty-state" style="display:none">
+
+      
+    <div class="inventory-pager" style="display:none">
+      <button id="culvertTablePrev" disabled>&lt; Prev</button>
+      <span id="culvertTablePageInfo">Page 1 / 1</span>
+      <button id="culvertTableNext" disabled>Next &gt;</button>
+    </div>
+
+    <div id="culvertEmptyState" class="empty-state" style="display:none">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
         <p>No major culverts matched the active search filters. Please adjust your toolbar filters and try again.</p>
       </div>
