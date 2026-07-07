@@ -7535,7 +7535,7 @@ function drawMap() {
   ctx.scale(mapScale, mapScale);
 
   // Render Waterbodies (Lakes & Rivers)
-  drawWaterBodies(ctx, canvas);
+  // drawWaterBodies(ctx, canvas); // Disabled per user request
 
   const activeBridges = getFilteredBridges();
   const activeSet = new Set(activeBridges.map(b => b._id));
