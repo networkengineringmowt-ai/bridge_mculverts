@@ -2186,14 +2186,125 @@ header h1 {
   color: #fff !important;
   text-shadow: 0 0 6px var(--accent-cyan);
 }
+
+    /* Photo Album Masonry & Neon Glow Styles */
+    .masonry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+    .photo-card {
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .photo-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+    
+    /* Condition Neon Glows */
+    .photo-card[data-condition="good"]:hover {
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(16, 185, 129, 0.4);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+    .photo-card[data-condition="fair"]:hover {
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(245, 158, 11, 0.4);
+      border-color: rgba(245, 158, 11, 0.5);
+    }
+    .photo-card[data-condition="critical"]:hover {
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(239, 68, 68, 0.4);
+      border-color: rgba(239, 68, 68, 0.5);
+    }
+
+    .photo-card-img-container {
+      width: 100%;
+      padding-top: 75%; /* 4:3 Aspect Ratio */
+      position: relative;
+      overflow: hidden;
+      background: #0f172a;
+    }
+    .photo-card img {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .photo-card:hover img {
+      transform: scale(1.05);
+    }
+    .photo-card-body {
+      padding: 16px;
+      position: relative;
+    }
+    .photo-card-title {
+      font-weight: 600;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .photo-card-subtitle {
+      color: #94a3b8;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .photo-card-hover-details {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-top: 0;
+    }
+    .photo-card:hover .photo-card-hover-details {
+      max-height: 60px;
+      opacity: 1;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .condition-ring {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .ring-good { background: #10b981; box-shadow: 0 0 8px #10b981; }
+    .ring-fair { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+    .ring-critical { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+    .ring-unknown { background: #64748b; }
+    
+    .filmstrip-thumb {
+      height: 60px;
+      width: 80px;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 0.6;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      transition: 0.2s;
+    }
+    .filmstrip-thumb:hover, .filmstrip-thumb.active {
+      opacity: 1;
+      border-color: #38bdf8;
+    }
 </style>
-  <script src="bridge_data.js?v=3" defer></script>
-  <script src="water_data.js?v=3" defer></script>
-  <script src="bridge_works_data.js?v=3" defer></script>
-  <script src="photos_data.js?v=3" defer></script>
+  <script src="bridge_data.js?v=4" defer></script>
+  <script src="water_data.js?v=4" defer></script>
+  <script src="bridge_works_data.js?v=4" defer></script>
+  <script src="photos_data.js?v=4" defer></script>
   <script src="chart.umd.js" defer></script>
-  <script src="extensions.js?v=3" defer></script>
-  <script src="app.js?v=3" defer></script>
+  <script src="extensions.js?v=4" defer></script>
+  <script src="app.js?v=4" defer></script>
 </head>
 <body>
 
@@ -2398,27 +2509,125 @@ header h1 {
     </div>
   </div>
 
+  
   <!-- PHOTOS PANEL -->
-  <div class="panel" id="panel-photos">
-    <div class="card" style="height: 100%;">
-      <div class="card-title">Bridge &amp; Culvert Photos Gallery</div>
-      <div class="card-subtitle">Showing photos linked directly from G:\ Drive repository.</div>
-      
-      <div style="display: flex; gap: 12px; margin-top: 16px;">
-        <div style="width: 250px; flex-shrink: 0; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px; overflow-y: auto; max-height: 70vh;">
-          <input type="text" id="photoSearch" placeholder="Search structure ID..." class="od-search-input" style="width:100%; margin-bottom: 12px;">
-          <div id="photoStructureList" style="display: flex; flex-direction: column; gap: 4px;"></div>
+  <div class="panel" id="panel-photos" style="padding: 0; display: none; height: 100vh; overflow: hidden;">
+    
+    <!-- Top Filter Bar -->
+    <div style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 24px; position: sticky; top: 0; z-index: 10;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div>
+          <h2 style="margin: 0; font-size: 24px; font-weight: 600; color: white;">Structure Photo Gallery</h2>
+          <div style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Sourced locally from G:\ Drive repository</div>
         </div>
-        <div style="flex-grow: 1; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 16px; overflow-y: auto; max-height: 70vh;">
-          <div id="photoGallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
-            <div class="empty-state"><p>Select a structure to view photos</p></div>
+        
+        <!-- Search and Quick Filters -->
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <input type="text" id="photoGallerySearch" placeholder="Search ID, Road, or District..." style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px 16px; border-radius: 20px; outline: none; width: 250px;">
+          
+          <select id="photoFilterType" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px 16px; border-radius: 20px; outline: none;">
+            <option value="all">All Structures</option>
+            <option value="bridges">Bridges</option>
+            <option value="culverts">Major Culverts</option>
+          </select>
+          
+          <select id="photoFilterCondition" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px 16px; border-radius: 20px; outline: none;">
+            <option value="all">Any Condition</option>
+            <option value="critical">Critical / Poor</option>
+            <option value="fair">Fair</option>
+            <option value="good">Good</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Condition Heatmap Strip -->
+      <div id="photoHeatmap" style="height: 4px; width: 100%; border-radius: 2px; display: flex; overflow: hidden; background: #333;">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+
+    <!-- Masonry Grid Container -->
+    <div id="photoMasonryContainer" style="padding: 24px; height: calc(100vh - 110px); overflow-y: auto;">
+        
+        <!-- Pinned Critical Section (Optional, injected via JS if active) -->
+        <div id="photoPinnedCritical" style="display: none; margin-bottom: 32px;">
+            <h3 style="color: #ef4444; border-bottom: 1px solid rgba(239, 68, 68, 0.3); padding-bottom: 8px; margin-bottom: 16px;">Critical Structures</h3>
+            <div id="photoPinnedGrid" class="masonry-grid"></div>
+        </div>
+
+        <div id="photoMainGrid" class="masonry-grid">
+            <!-- Cards injected here -->
+        </div>
+    </div>
+
+    <!-- Fullscreen Lightbox -->
+    <div id="photoLightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 9999; backdrop-filter: blur(5px); flex-direction: row;">
+      
+      <!-- Left: Image Viewer -->
+      <div style="flex-grow: 1; position: relative; display: flex; flex-direction: column;">
+        <button id="lightboxClose" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 32px; cursor: pointer; z-index: 10;">&times;</button>
+        
+        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; position: relative;">
+          <button id="lightboxPrev" style="position: absolute; left: 20px; background: rgba(255,255,255,0.1); border: none; color: white; padding: 16px; border-radius: 50%; cursor: pointer; transition: 0.2s;">&#10094;</button>
+          
+          <img id="lightboxImage" src="" style="max-width: 90%; max-height: 80vh; object-fit: contain; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.3s ease;">
+          
+          <button id="lightboxNext" style="position: absolute; right: 20px; background: rgba(255,255,255,0.1); border: none; color: white; padding: 16px; border-radius: 50%; cursor: pointer; transition: 0.2s;">&#10095;</button>
+        </div>
+        
+        <!-- Filmstrip -->
+        <div id="lightboxFilmstrip" style="height: 100px; background: rgba(0,0,0,0.5); display: flex; gap: 8px; padding: 12px; overflow-x: auto; align-items: center; justify-content: center;">
+          <!-- Thumbs injected here -->
+        </div>
+      </div>
+
+      <!-- Right: Metadata Panel -->
+      <div style="width: 380px; background: #0f172a; border-left: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; overflow-y: auto;">
+        <div style="padding: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+            <h2 id="lightboxTitle" style="margin: 0; color: white; font-size: 24px;">Bridge Name</h2>
+            <div id="lightboxConditionRing" style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid #10b981; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;">1</div>
           </div>
+          
+          <div id="lightboxSubtitle" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1);">B001 • Kampala District</div>
+
+          <!-- Attributes Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+            <div>
+              <div style="color: #64748b; font-size: 11px; text-transform: uppercase;">Span / Diameter</div>
+              <div id="lightboxSpan" style="color: white; font-size: 14px; font-weight: 500;">-</div>
+            </div>
+            <div>
+              <div style="color: #64748b; font-size: 11px; text-transform: uppercase;">Material</div>
+              <div id="lightboxMaterial" style="color: white; font-size: 14px; font-weight: 500;">-</div>
+            </div>
+            <div>
+              <div style="color: #64748b; font-size: 11px; text-transform: uppercase;">Year Built</div>
+              <div id="lightboxYear" style="color: white; font-size: 14px; font-weight: 500;">-</div>
+            </div>
+            <div>
+              <div style="color: #64748b; font-size: 11px; text-transform: uppercase;">ADT</div>
+              <div id="lightboxADT" style="color: white; font-size: 14px; font-weight: 500;">-</div>
+            </div>
+          </div>
+
+          <!-- Defect Notes -->
+          <div style="margin-bottom: 24px;">
+            <div style="color: #64748b; font-size: 11px; text-transform: uppercase; margin-bottom: 8px;">Condition Notes</div>
+            <div id="lightboxNotes" style="color: #cbd5e1; font-size: 13px; line-height: 1.5; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 6px;">-</div>
+          </div>
+
+          <!-- Cross-tab Action Buttons -->
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto;">
+            <button id="btnLightboxMap" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 500; transition: 0.2s;">📍 View on Map</button>
+            <button id="btnLightboxPDF" style="background: rgba(244, 63, 94, 0.15); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3); padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 500; transition: 0.2s;">📄 Print Inspection Report</button>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
-
-  <!-- MAJOR CULVERTS INVENTORY TABLE PANEL -->
+<!-- MAJOR CULVERTS INVENTORY TABLE PANEL -->
   <div class="panel" id="panel-major-culverts">
     <div class="card" style="width: 100%; max-width: 100%; min-width: 0;">
       <div class="card-title">Major Culvert Inventory &amp; Condition Rating</div>
