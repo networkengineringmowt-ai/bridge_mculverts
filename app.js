@@ -8259,13 +8259,95 @@ function initStatisticsTab() {
     else bLength['> 100m']++;
   });
 
-  const chartConfigs = [
+  
+  // New Aggregations
+  // Clustered Prep
+  const regions = [...new Set([...Object.keys(bRegion), ...Object.keys(cRegion)])];
+  const stations = [...new Set([...Object.keys(bStation), ...Object.keys(cStation)])];
+  const classes = [...new Set([...Object.keys(bClass), ...Object.keys(cClass)])];
+  const conditions = [...new Set([...Object.keys(bCond), ...Object.keys(cCond)])];
+  
+  // Bridges New Aggs
+  const bAbutment = {}; bridges.forEach(b => { const v = bmsCodeDescription('type_abutment', b.type_abutment); bAbutment[v] = (bAbutment[v] || 0) + 1; });
+  const bPier = {}; bridges.forEach(b => { const v = bmsCodeDescription('type_piers', b.type_piers); bPier[v] = (bPier[v] || 0) + 1; });
+  const bDeckType = {}; bridges.forEach(b => { const v = bmsCodeDescription('type_deck', b.type_deck); bDeckType[v] = (bDeckType[v] || 0) + 1; });
+  const bExpansion = {}; bridges.forEach(b => { const v = bmsCodeDescription('type_expansion', b.type_expansion); bExpansion[v] = (bExpansion[v] || 0) + 1; });
+  const bTrafficPriority = {}; bridges.forEach(b => { const v = b.priority || 'Unknown'; bTrafficPriority[v] = (bTrafficPriority[v] || 0) + 1; });
+  const bSpans = { 'Single Span': 0, 'Multi-Span': 0, 'Unknown': 0 };
+  bridges.forEach(b => {
+    if (!b.no_of_span) bSpans['Unknown']++;
+    else if (b.no_of_span == 1) bSpans['Single Span']++;
+    else bSpans['Multi-Span']++;
+  });
+  const bRivers = {}; bridges.forEach(b => { const r = b.river || 'Unknown'; if (r !== 'Unknown' && r !== 'None') bRivers[r] = (bRivers[r] || 0) + 1; });
+  const topRivers = Object.entries(bRivers).sort((a,b) => b[1] - a[1]).slice(0, 15);
+  
+  const bAbutCond = {}; bridges.forEach(b => { const v = b.abutment_cond || 'Unknown'; bAbutCond[v] = (bAbutCond[v] || 0) + 1; });
+  const bPierCond = {}; bridges.forEach(b => { const v = b.piers_cond || 'Unknown'; bPierCond[v] = (bPierCond[v] || 0) + 1; });
+  const bExpCond = {}; bridges.forEach(b => { const v = b.expansion_joints_cond || 'Unknown'; bExpCond[v] = (bExpCond[v] || 0) + 1; });
+  const bAct = { 'Routine Maintenance': 0, 'Rehabilitation': 0, 'Replacement': 0, 'Unknown': 0 };
+  bridges.forEach(b => {
+    const c = b.condition_category || '';
+    if (c === 'Good') bAct['Routine Maintenance']++;
+    else if (c === 'Fair') bAct['Rehabilitation']++;
+    else if (c === 'Poor' || c === 'Critical') bAct['Replacement']++;
+    else bAct['Unknown']++;
+  });
+  const bDecade2 = {}; bridges.forEach(b => {
+    const y = parseInt(b.year_built);
+    if (y && y > 1900) {
+      const d = Math.floor(y/10)*10 + 's';
+      bDecade2[d] = (bDecade2[d] || 0) + 1;
+    } else {
+      bDecade2['Unknown'] = (bDecade2['Unknown'] || 0) + 1;
+    }
+  });
+
+  // Culverts New Aggs
+  const cCells = {}; culverts.forEach(c => { const v = c.cells || c.no_of_span || 1; cCells[v] = (cCells[v] || 0) + 1; });
+  const cRoadCond = {}; culverts.forEach(c => { const v = c.roadway_cond || 'Unknown'; cRoadCond[v] = (cRoadCond[v] || 0) + 1; });
+  const cDiam = { '< 1m':0, '1-2m':0, '2-4m':0, '> 4m':0, 'Unknown':0 };
+  culverts.forEach(c => {
+    const v = parseFloat(c.span_diameter);
+    if (isNaN(v)) cDiam['Unknown']++;
+    else if (v < 1) cDiam['< 1m']++;
+    else if (v < 2) cDiam['1-2m']++;
+    else if (v < 4) cDiam['2-4m']++;
+    else cDiam['> 4m']++;
+  });
+  const cAct = { 'Routine Maintenance': 0, 'Rehabilitation': 0, 'Replacement': 0, 'Unknown': 0 };
+  culverts.forEach(c => {
+    const cond = c.condition_category || '';
+    if (cond === 'Good') cAct['Routine Maintenance']++;
+    else if (cond === 'Fair') cAct['Rehabilitation']++;
+    else if (cond === 'Poor' || cond === 'Critical') cAct['Replacement']++;
+    else cAct['Unknown']++;
+  });
+  
+const chartConfigs = [
+    // Clustered Column Charts
+    { id: 'stat21', title: 'Asset Distribution by Region', type: 'bar', labels: regions, datasets: [
+      { label: 'Bridges', data: regions.map(r => bRegion[r] || 0), backgroundColor: COLORS.cyan, borderRadius: 4 },
+      { label: 'Major Culverts', data: regions.map(r => cRegion[r] || 0), backgroundColor: COLORS.emerald, borderRadius: 4 }
+    ]},
+    { id: 'stat22', title: 'Asset Distribution by Station', type: 'bar', indexAxis: 'y', labels: stations, datasets: [
+      { label: 'Bridges', data: stations.map(r => bStation[r] || 0), backgroundColor: COLORS.blue, borderRadius: 4 },
+      { label: 'Major Culverts', data: stations.map(r => cStation[r] || 0), backgroundColor: COLORS.teal, borderRadius: 4 }
+    ]},
+    { id: 'stat23', title: 'Asset Distribution by Road Class', type: 'bar', labels: classes, datasets: [
+      { label: 'Bridges', data: classes.map(r => bClass[r] || 0), backgroundColor: COLORS.indigo, borderRadius: 4 },
+      { label: 'Major Culverts', data: classes.map(r => cClass[r] || 0), backgroundColor: COLORS.green, borderRadius: 4 }
+    ]},
+    { id: 'stat24', title: 'Asset Overall Condition', type: 'bar', labels: conditions, datasets: [
+      { label: 'Bridges', data: conditions.map(r => bCond[r] || 0), backgroundColor: COLORS.violet, borderRadius: 4 },
+      { label: 'Major Culverts', data: conditions.map(r => cCond[r] || 0), backgroundColor: COLORS.lime, borderRadius: 4 }
+    ]},
+
+    // Original Charts (Some adapted)
     { id: 'stat1', title: 'Bridges by Region', type: 'bar', labels: Object.keys(bRegion), data: Object.values(bRegion), color: COLORS.cyan },
     { id: 'stat2', title: 'Culverts by Region', type: 'bar', labels: Object.keys(cRegion), data: Object.values(cRegion), color: COLORS.emerald },
     { id: 'stat3', title: 'Bridges by Road Class', type: 'pie', labels: Object.keys(bClass), data: Object.values(bClass), colors: [COLORS.cyan, COLORS.blue, COLORS.indigo, COLORS.violet] },
     { id: 'stat4', title: 'Culverts by Road Class', type: 'pie', labels: Object.keys(cClass), data: Object.values(cClass), colors: [COLORS.emerald, COLORS.teal, COLORS.green, COLORS.lime] },
-    { id: 'stat5', title: 'Bridges by Maintenance Station', type: 'bar', indexAxis: 'y', labels: Object.keys(bStation), data: Object.values(bStation), color: COLORS.cyan },
-    { id: 'stat6', title: 'Culverts by Maintenance Station', type: 'bar', indexAxis: 'y', labels: Object.keys(cStation), data: Object.values(cStation), color: COLORS.emerald },
     { id: 'stat7', title: 'Bridges by Overall Condition', type: 'bar', labels: Object.keys(bCond), data: Object.values(bCond), color: COLORS.blue },
     { id: 'stat8', title: 'Culverts by Overall Condition', type: 'bar', labels: Object.keys(cCond), data: Object.values(cCond), color: COLORS.teal },
     { id: 'stat9', title: 'Bridges Superstructure Condition', type: 'bar', labels: Object.keys(bSuper), data: Object.values(bSuper), color: COLORS.indigo },
@@ -8276,10 +8358,30 @@ function initStatisticsTab() {
     { id: 'stat14', title: 'Culverts by Structure Type', type: 'pie', labels: Object.keys(cType), data: Object.values(cType), colors: [COLORS.teal, COLORS.green, COLORS.lime, COLORS.amber, COLORS.orange] },
     { id: 'stat15', title: 'Bridge Crossings by Type', type: 'bar', labels: Object.keys(bCrossing), data: Object.values(bCrossing), color: COLORS.cyan },
     { id: 'stat16', title: 'Culverts by Roadway Condition', type: 'bar', labels: Object.keys(cRoadway), data: Object.values(cRoadway), color: COLORS.emerald },
-    { id: 'stat17', title: 'Bridges Built per Decade', type: 'bar', labels: Object.keys(bDecade).sort(), data: Object.keys(bDecade).sort().map(k => bDecade[k]), color: COLORS.indigo },
+    { id: 'stat17', title: 'Bridges Built per Decade', type: 'bar', labels: Object.keys(bDecade2).sort(), data: Object.keys(bDecade2).sort().map(k => bDecade2[k]), color: COLORS.indigo },
     { id: 'stat18', title: 'Total Structures by Asset Type', type: 'doughnut', labels: ['Bridges', 'Major Culverts'], data: [bridges.length, culverts.length], colors: [COLORS.cyan, COLORS.emerald] },
     { id: 'stat19', title: 'Bridge Scour Risk Profile', type: 'pie', labels: Object.keys(bScour), data: Object.values(bScour), colors: [COLORS.red, COLORS.orange, COLORS.amber, COLORS.green, COLORS.blue] },
-    { id: 'stat20', title: 'Bridge Length Distribution', type: 'bar', labels: Object.keys(bLength), data: Object.values(bLength), color: COLORS.cyan }
+    { id: 'stat20', title: 'Bridge Length Distribution', type: 'bar', labels: Object.keys(bLength), data: Object.values(bLength), color: COLORS.cyan },
+
+    // 20+ New Charts
+    { id: 'stat25', title: 'Bridges by Abutment Type', type: 'bar', indexAxis: 'y', labels: Object.keys(bAbutment), data: Object.values(bAbutment), color: COLORS.amber },
+    { id: 'stat26', title: 'Bridges by Pier Type', type: 'bar', indexAxis: 'y', labels: Object.keys(bPier), data: Object.values(bPier), color: COLORS.orange },
+    { id: 'stat27', title: 'Bridges by Deck Type', type: 'bar', indexAxis: 'y', labels: Object.keys(bDeckType), data: Object.values(bDeckType), color: COLORS.cyan },
+    { id: 'stat28', title: 'Bridges by Expansion Joint Type', type: 'pie', labels: Object.keys(bExpansion), data: Object.values(bExpansion), colors: [COLORS.blue, COLORS.indigo, COLORS.violet, COLORS.purple] },
+    { id: 'stat29', title: 'Bridge Traffic Priority Levels', type: 'doughnut', labels: Object.keys(bTrafficPriority), data: Object.values(bTrafficPriority), colors: [COLORS.red, COLORS.orange, COLORS.amber, COLORS.emerald] },
+    { id: 'stat30', title: 'Bridge Span Configuration', type: 'pie', labels: Object.keys(bSpans), data: Object.values(bSpans), colors: [COLORS.cyan, COLORS.indigo, COLORS.slate] },
+    { id: 'stat31', title: 'Top 15 Rivers by Bridge Count', type: 'bar', indexAxis: 'y', labels: topRivers.map(x=>x[0]), data: topRivers.map(x=>x[1]), color: COLORS.blue },
+    { id: 'stat32', title: 'Bridge Suggested Interventions', type: 'pie', labels: Object.keys(bAct), data: Object.values(bAct), colors: [COLORS.emerald, COLORS.amber, COLORS.red, COLORS.slate] },
+    { id: 'stat33', title: 'Culvert Suggested Interventions', type: 'pie', labels: Object.keys(cAct), data: Object.values(cAct), colors: [COLORS.emerald, COLORS.amber, COLORS.red, COLORS.slate] },
+    { id: 'stat34', title: 'Bridges by Abutment Condition', type: 'bar', labels: Object.keys(bAbutCond), data: Object.values(bAbutCond), color: COLORS.violet },
+    { id: 'stat35', title: 'Bridges by Pier Condition', type: 'bar', labels: Object.keys(bPierCond), data: Object.values(bPierCond), color: COLORS.fuchsia },
+    { id: 'stat36', title: 'Bridges by Expansion Joint Condition', type: 'bar', labels: Object.keys(bExpCond), data: Object.values(bExpCond), color: COLORS.rose },
+    { id: 'stat37', title: 'Culverts by Number of Cells/Pipes', type: 'bar', labels: Object.keys(cCells), data: Object.values(cCells), color: COLORS.teal },
+    { id: 'stat38', title: 'Culvert Roadway Condition Rating', type: 'pie', labels: Object.keys(cRoadCond), data: Object.values(cRoadCond), colors: [COLORS.green, COLORS.lime, COLORS.amber, COLORS.red] },
+    { id: 'stat39', title: 'Culvert Span/Diameter Distribution', type: 'bar', labels: Object.keys(cDiam), data: Object.values(cDiam), color: COLORS.emerald },
+    { id: 'stat40', title: 'Total Structure Length Covered by Region', type: 'bar', labels: regions, datasets: [
+      { label: 'Total Bridge Length (m)', data: regions.map(r => bridges.filter(b=>b.region===r).reduce((s, b)=>s+(Number(b.bridge_len)||0), 0)), backgroundColor: COLORS.indigo, borderRadius: 4 }
+    ]}
   ];
 
   let html = '';
@@ -8291,7 +8393,37 @@ function initStatisticsTab() {
       </div>
     `;
   });
-  container.innerHTML = html;
+  
+  const goodCondition = bridges.filter(b => b.condition_category === 'Good').length + culverts.filter(c => c.condition_category === 'Good').length;
+  const poorCondition = bridges.filter(b => b.condition_category === 'Poor' || b.condition_category === 'Critical').length + culverts.filter(c => c.condition_category === 'Poor' || c.condition_category === 'Critical').length;
+  const totalLength = bridges.reduce((sum, b) => sum + (Number(b.bridge_len) || 0), 0);
+  
+  const summaryCardsHtml = `
+    <div style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+      <div class="card" style="border-left: 4px solid #00e5ff; padding: 16px;">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px;">Total Assets</div>
+        <div style="font-size: 28px; font-weight: 700; color: #fff;">${bridges.length + culverts.length}</div>
+        <div style="font-size: 12px; color: #64748b; margin-top: 4px;">${bridges.length} Bridges, ${culverts.length} Culverts</div>
+      </div>
+      <div class="card" style="border-left: 4px solid #10b981; padding: 16px;">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px;">Assets in Good Condition</div>
+        <div style="font-size: 28px; font-weight: 700; color: #fff;">${goodCondition}</div>
+        <div style="font-size: 12px; color: #10b981; margin-top: 4px;">${Math.round(goodCondition / (bridges.length + culverts.length) * 100)}% of network</div>
+      </div>
+      <div class="card" style="border-left: 4px solid #ef4444; padding: 16px;">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px;">Critical/Poor Assets</div>
+        <div style="font-size: 28px; font-weight: 700; color: #fff;">${poorCondition}</div>
+        <div style="font-size: 12px; color: #ef4444; margin-top: 4px;">Require immediate intervention</div>
+      </div>
+      <div class="card" style="border-left: 4px solid #a855f7; padding: 16px;">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px;">Total Bridge Span Covered</div>
+        <div style="font-size: 28px; font-weight: 700; color: #fff;">${Math.round(totalLength).toLocaleString()} m</div>
+        <div style="font-size: 12px; color: #64748b; margin-top: 4px;">Sum of all recorded lengths</div>
+      </div>
+    </div>
+  `;
+  html = summaryCardsHtml + html;
+container.innerHTML = html;
 
   chartConfigs.forEach(c => {
     const ctx = document.getElementById(c.id).getContext('2d');
@@ -8300,7 +8432,7 @@ function initStatisticsTab() {
       type: c.type,
       data: {
         labels: c.labels,
-        datasets: [{
+        datasets: c.datasets ? c.datasets : [{
           label: 'Count',
           data: c.data,
           backgroundColor: c.colors || c.color,
@@ -8313,7 +8445,7 @@ function initStatisticsTab() {
         maintainAspectRatio: false,
         indexAxis: c.indexAxis || 'x',
         plugins: {
-          legend: { display: isPie, position: 'right', labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } },
+          legend: { display: isPie || !!c.datasets, position: isPie ? 'right' : (c.datasets ? 'top' : 'right'), labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } },
           tooltip: {
             backgroundColor: 'rgba(15,23,42,0.9)',
             titleColor: '#fff',
