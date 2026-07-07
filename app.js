@@ -8152,16 +8152,29 @@ function buildCulvertTable() {
   culvertPage = Math.max(1, Math.min(culvertPage, totalPages));
   
   const pageRows = sorted.slice((culvertPage - 1) * CULVERTS_PAGE_SIZE, culvertPage * CULVERTS_PAGE_SIZE);
+  function getCulvertCategoryPill(cond) {
+    if (!cond) return '-';
+    const c = String(cond).toLowerCase();
+    let cls = 'low';
+    if (c.includes('good') || c.includes('excellent')) cls = '7';
+    else if (c.includes('satisfactory') || c.includes('fair') || c.includes('marginal')) cls = '5';
+    return `<span class="rating-badge rating-${cls}">${htmlEscape(cond)}</span>`;
+  }
 
   tbody.innerHTML = pageRows.map(c => `
     <tr data-culvert-id="${c._id}">
-      <td class="highlight-cell">${c.culvert_no || '-'}</td>
-      <td>${c.road_name || '-'}</td>
-      <td>${c.river || '-'}</td>
-      <td>${c.length_km != null ? Number(c.length_km).toFixed(3) : '-'}</td>
-      <td>${c.span_diameter != null ? c.span_diameter : '-'}</td>
-      <td>${c.condition_category || '-'}</td>
-      <td><span class="rating-badge rating-${c.overall_rating >= 6 ? '7' : (c.overall_rating >= 4 ? '5' : 'low')}">${c.overall_rating || '-'}</span></td>
+      <td class="highlight-cell">${htmlEscape(c.culvert_no || '-')}</td>
+      <td>${htmlEscape((BMS_CODE_LOOKUPS.type_bridge && BMS_CODE_LOOKUPS.type_bridge[c.type_culvert]) || c.type_culvert || '-')}</td>
+      <td>${htmlEscape(c.road_name || '-')}</td>
+      <td>${htmlEscape(c.link_name || '-')}</td>
+      <td>${htmlEscape(c.chainage != null ? String(c.chainage) : '-')}</td>
+      <td>${c.map_x != null ? Number(c.map_x).toFixed(5) : '-'}</td>
+      <td>${c.map_y != null ? Number(c.map_y).toFixed(5) : '-'}</td>
+      <td>${htmlEscape(c.region || '-')}</td>
+      <td>${htmlEscape(c.station || '-')}</td>
+      <td>${htmlEscape(c.span_diameter || '-')}</td>
+      <td>${getCulvertCategoryPill(c.condition_category)}</td>
+      <td>${bridgeInventoryRatingCell(c.overall_rating, 'overall')}</td>
     </tr>
   `).join('');
 

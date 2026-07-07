@@ -2237,9 +2237,9 @@ header h1 {
   <div class="tabs" role="tablist">
     <button class="tab active" data-tab="spatial-map" role="tab">Geospatial</button>
     <button class="tab" data-tab="bridge-table" role="tab">Bridge Inventory</button>
+    <button class="tab" data-tab="major-culverts" role="tab">Major Culvert Inventory</button>
     <button class="tab" data-tab="bridge-traffic" role="tab">Bridge Traffic Analytics</button>
       <button class="tab" data-tab="od-matrix" role="tab">Origin-Destination Matrix</button>
-<button class="tab" data-tab="major-culverts" role="tab">Major Culverts</button>
     <div style="margin-left: auto; display: flex; align-items: center; padding-right: 4px;">
       <button class="btn btn-outline" id="btnClearFiltersSort" title="Clear all filters and reset sorting" style="padding: 4px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-color: rgba(255, 60, 60, 0.4); color: #ff6b6b; height: 26px; line-height: 1;">Clear Filters &amp; Sort</button>
     </div>
@@ -2719,9 +2719,14 @@ header h1 {
         <thead>
           <tr id="culvertTableHeadRow">
             <th data-sort="culvert_no" style="cursor:pointer">Culvert No</th>
+            <th data-sort="type_culvert" style="cursor:pointer">Type</th>
             <th data-sort="road_name" style="cursor:pointer">Road Name</th>
-            <th data-sort="river" style="cursor:pointer">River</th>
-            <th data-sort="length_km" style="cursor:pointer">Length (km)</th>
+            <th data-sort="link_name" style="cursor:pointer">Link Name</th>
+            <th data-sort="chainage" style="cursor:pointer">Chainage</th>
+            <th data-sort="map_x" style="cursor:pointer">Map X</th>
+            <th data-sort="map_y" style="cursor:pointer">Map Y</th>
+            <th data-sort="region" style="cursor:pointer">Region</th>
+            <th data-sort="station" style="cursor:pointer">Station</th>
             <th data-sort="span_diameter" style="cursor:pointer">Span/Diameter</th>
             <th data-sort="condition_category" style="cursor:pointer">Condition Category</th>
             <th data-sort="overall_rating" style="cursor:pointer">Overall Rating</th>
