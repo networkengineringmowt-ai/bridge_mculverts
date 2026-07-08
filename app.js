@@ -7600,7 +7600,7 @@ function drawMap() {
       const lat = c.map_y || c.y_new;
       if (lon == null || lat == null) return;
       const pt = getProjection(Number(lon), Number(lat), canvas.width, canvas.height);
-      const baseSize = 3.8;
+      const baseSize = 4.4;
       const size = baseSize / mapScale;
       ctx.save();
       ctx.fillStyle = '#f59e0b';
