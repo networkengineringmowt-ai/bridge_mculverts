@@ -7600,7 +7600,7 @@ function drawMap() {
       const lat = c.map_y || c.y_new;
       if (lon == null || lat == null) return;
       const pt = getProjection(Number(lon), Number(lat), canvas.width, canvas.height);
-      const baseSize = 4.2;
+      const baseSize = 3.0;
       const size = baseSize / mapScale;
       ctx.save();
       ctx.fillStyle = '#f59e0b';
@@ -7619,7 +7619,7 @@ function drawMap() {
     const isActive = activeSet.has(b._id);
     const isHovered = hoveredBridge && b._id === hoveredBridge._id;
     const isSelected = selectedMapBridge && b._id === selectedMapBridge._id;
-    const symbolSize = 6.8;
+    const symbolSize = 4.8;
 
     if (isActive) {
       drawBridgeSymbol(ctx, pt.x, pt.y, symbolSize, {
@@ -7630,7 +7630,7 @@ function drawMap() {
         alpha: selectedMapBridge && !isSelected ? 0.32 : 1
       });
     } else {
-      drawBridgeSymbol(ctx, pt.x, pt.y, 4.6, {
+      drawBridgeSymbol(ctx, pt.x, pt.y, 3.2, {
         fill: BRIDGE_SYMBOL.fill,
         active: false
       });
