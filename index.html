@@ -2293,13 +2293,13 @@ header h1 {
       display: none !important;
     }
   </style>
-  <script src="bridge_data.js?v=14" defer></script>
+  <script src="bridge_data.js?v=16" defer></script>
   <script src="water_data.js?v=4" defer></script>
   <script src="bridge_works_data.js?v=4" defer></script>
   <script src="photos_data.js?v=8" defer></script>
   <script src="chart.umd.js" defer></script>
   <script src="extensions.js?v=4" defer></script>
-  <script src="app.js?v=14" defer></script>
+  <script src="app.js?v=16" defer></script>
 </head>
 <body>
 
@@ -2355,26 +2355,26 @@ header h1 {
     </div>
   </div>
 
-  <!-- Global Filters (apply across all tabs) -->
-  <div class="map-bridge-filter-strip" aria-label="Bridge traffic analytics filters">
-    <select id="regionFilter"><option value="all">All Regions</option></select>
-    <select id="roadClassFilter">
-      <option value="all">All Classes</option>
-      <option value="M">M - Motorway</option>
-      <option value="A">A - National</option>
-      <option value="B">B - Regional</option>
-      <option value="C">C - Collector</option>
-    </select>
-    <select id="bridgeTrafficNameSelect" title="Bridge name"></select>
-    <select id="bridgeTrafficNoSelect" title="Bridge number"></select>
-    <select id="bridgeTrafficRegionSelect" title="Region"></select>
-    <select id="bridgeTrafficStationSelect" title="Station"></select>
-    <select id="bridgeTrafficLinkSelect" title="Road link name"></select>
-  </div>
-
   <!-- SPATIAL NETWORK MAP PANEL -->
   <div class="panel active" id="panel-spatial-map">
-      <div class="card" style="padding: 14px;">
+    <!-- Global Filters (apply across all tabs) -->
+    <div class="map-bridge-filter-strip" aria-label="Bridge traffic analytics filters">
+      <select id="regionFilter"><option value="all">All Regions</option></select>
+      <select id="roadClassFilter">
+        <option value="all">All Classes</option>
+        <option value="M">M - Motorway</option>
+        <option value="A">A - National</option>
+        <option value="B">B - Regional</option>
+        <option value="C">C - Collector</option>
+      </select>
+      <select id="bridgeTrafficNameSelect" title="Bridge name"></select>
+      <select id="bridgeTrafficNoSelect" title="Bridge number"></select>
+      <select id="bridgeTrafficRegionSelect" title="Region"></select>
+      <select id="bridgeTrafficStationSelect" title="Station"></select>
+      <select id="bridgeTrafficLinkSelect" title="Road link name"></select>
+    </div>
+
+      <div class="card" style="padding: 14px; margin-top: 10px;">
       <div class="card-title">Interactive Spatial Network Map</div>
       <div class="card-subtitle">Single map with Esri World Imagery + reference labels when online, and an embedded offline vector fallback when tiles are unavailable. The 2026 national road network, bridge host roads, bridges, water layers, labels, and traffic count stations are drawn from embedded local data.</div>
 
@@ -2448,6 +2448,18 @@ header h1 {
         </div>
 
       </div>
+      <aside class="map-side-pane" id="bridgeAnalyticsPane">
+        <div class="pane-header">
+          <div class="pane-eyebrow">Selected Bridge Traffic Analytics</div>
+          <div class="pane-title" id="paneBridgeName">Select a bridge</div>
+          <div class="pane-subtitle" id="paneBridgeSubtitle">Click any bridge point on the map to inspect projected ADT, vehicle class loading, and bridge condition context.</div>
+        </div>
+        <div class="pane-body" id="paneBridgeBody">
+          <div class="empty-state" style="padding:28px 8px">
+            <p>No bridge selected.</p>
+          </div>
+        </div>
+      </aside>
       
       </div>
     </div>
