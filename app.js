@@ -7025,7 +7025,7 @@ function roadWidth(road) {
 }
 
 function networkRoadWidth(road) {
-  const base = 0.75;
+  const base = 1.8;
   return base / Math.sqrt(Math.max(1, mapScale));
 }
 
@@ -7600,7 +7600,7 @@ function drawMap() {
       const lat = c.map_y || c.y_new;
       if (lon == null || lat == null) return;
       const pt = getProjection(Number(lon), Number(lat), canvas.width, canvas.height);
-      const baseSize = 3.0;
+      const baseSize = 3.8;
       const size = baseSize / mapScale;
       ctx.save();
       ctx.fillStyle = '#f59e0b';
