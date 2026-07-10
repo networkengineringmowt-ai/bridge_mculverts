@@ -2563,12 +2563,12 @@ const PROPOSED_BRIDGE_NUMBER_POOLS = {
 };
 
 const BRIDGE_NUMBER_CORRECTIONS = {
-  'bridge-44': {
+  'bridge-b387': {
     bridge_no: 'B559',
     new_bridge_no: 'B559',
     note: 'Kaseiga in Kasese moved from B387 because B387 is already reserved in the Central/Jinja bridge numbering block.'
   },
-  'bridge-49': {
+  'bridge-b389': {
     bridge_no: 'B771',
     new_bridge_no: 'B771',
     region: 'North Eastern',
@@ -2578,17 +2578,17 @@ const BRIDGE_NUMBER_CORRECTIONS = {
     link_name: 'Kotido - Abim',
     note: 'Dopeth Irish Crossing moved from B389 because B389 is already reserved in the Central/Jinja bridge numbering block.'
   },
-  'bridge-67': {
+  'bridge-b888': {
     bridge_no: 'B772',
     new_bridge_no: 'B772',
     note: 'Nabilatuk Irish Crossing moved from duplicate B272 to the Eastern proposed numbering pool.'
   },
-  'bridge-51': {
+  'bridge-b890': {
     bridge_no: 'B728',
     new_bridge_no: 'B728',
     note: 'Agago Irish Crossing moved from duplicate B769 to the Northern proposed numbering pool.'
   },
-  'bridge-413': {
+  'bridge-b637': {
     bridge_no: 'B420',
     new_bridge_no: 'B420',
     note: 'Kafu duplicate moved from B637 to the Central proposed numbering pool; B637 is retained for Paraa Bridge 2 in Western.'
@@ -5524,7 +5524,7 @@ function initMapPaneResize() {
     const onMove = moveEvent => {
       const bounds = workspace.getBoundingClientRect();
       const proposed = bounds.right - moveEvent.clientX;
-      const maxWidth = Math.min(820, Math.max(360, bounds.width * 0.52));
+      const maxWidth = bounds.width - 20;
       const nextWidth = Math.max(320, Math.min(proposed, maxWidth));
       workspace.style.setProperty('--map-pane-width', `${Math.round(nextWidth)}px`);
       try { localStorage.setItem('bridgeMapPaneWidth', String(Math.round(nextWidth))); } catch (e) {}
@@ -6660,11 +6660,11 @@ function validLonLat(lon, lat) {
 }
 
 const BRIDGE_LOCATION_OVERRIDES = {
-  'bridge-12': { lng: 33.1875, lat: 0.438611, basis: 'Source of the Nile Bridge Jinja reference coordinate supplied by user' },
+  'bridge-b046': { lng: 33.1875, lat: 0.438611, basis: 'Source of the Nile Bridge Jinja reference coordinate supplied by user' },
   // Source coordinate plots east of Uganda; snapped to C866_Link01 (Munamba - Lwakhakha) road geometry.
-  'bridge-131': { lng: 34.37869, lat: 0.7946, basis: 'Snapped to C866_Link01 national road link' },
+  'bridge-b107': { lng: 34.37869, lat: 0.7946, basis: 'Snapped to C866_Link01 national road link' },
   // Source coordinate was on a missing C459 link; snapped to nearest rendered national road geometry.
-  'bridge-396': { lng: 29.85295, lat: -0.91172, basis: 'Snapped to C432_Link01 national road link' }
+  'bridge-b561': { lng: 29.85295, lat: -0.91172, basis: 'Snapped to C432_Link01 national road link' }
 };
 
 const LEGACY_ATC_LINK_MAP = {
