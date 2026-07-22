@@ -1626,10 +1626,10 @@ const CONDITION_RATING_DESCRIPTIONS = {
     6: 'Bank is beginning to slump. Control devices and bank protection has widespread minor damage. There is minor stream bed movement evident. Debris is affecting the waterway slightly.',
     5: 'Bank protection is being eroded. River control devices and/or bank protection have major damage. Trees and brush restrict the channel.',
     4: 'Bank protection is severely undermined. Large deposits of debris are in the waterway.',
-    3: 'Bank protection has failed. Stream bed aggradation, degradation or lateral movement has changed the waterway to now threaten the bridge and/or approach roadway.',
-    2: 'The waterway has changed to the extent that the bridge is near a state of collapse.',
-    1: 'Bridge closed due to channel failure. Corrective action may put it back in service.',
-    0: 'Bridge closed because of channel failure. Replacement necessary.'
+    3: 'Bank protection has failed. Stream bed aggradation, degradation or lateral movement has changed the waterway to now threaten the culvert and/or approach roadway.',
+    2: 'The waterway has changed to the extent that the culvert is near a state of collapse.',
+    1: 'Culvert closed due to channel failure. Corrective action may put it back in service.',
+    0: 'Culvert closed because of channel failure. Replacement necessary.'
   },
   structural: {
     9: 'New condition.',
@@ -1640,18 +1640,18 @@ const CONDITION_RATING_DESCRIPTIONS = {
     4: 'More general section loss due to deterioration, spalling or scour. Structural cracks with moderate rust staining visible. Heavy stratified rusting resulting in advanced section loss for steel members.',
     3: 'Advanced deterioration, spalling or scour, exposing reinforcing steel. Structural cracks with severe rust staining. Rust has caused holes in structural steel members. Loose connections, buckled or bowed steel members.',
     2: 'Advanced deterioration of structural elements. Significant structural cracks visible. Reinforcing exposed and rusted. Holes rusted through steel members. Fatigue cracks. Scour has severely undermined supports. Unless closely monitored, bridge should be closed.',
-    1: 'Bridge closed. Study required to determine the feasibility of repairs.',
+    1: 'Culvert closed. Study required to determine the feasibility of repairs.',
     0: 'Permanently closed till replaced.'
   },
   roadway: {
     9: 'New condition.',
     8: 'No noteworthy problems.',
-    7: 'Minor localized cracks. Generally a smooth ride over bridge deck. Kerbs and sidewalk generally smooth.',
-    6: 'Light cracking over most of area. Light rutting or bleeding. Minor unevenness when driving over bridge deck, or walking over sidewalk.',
-    5: 'More general cracking. Minor ravelling or section loss. More visible rutting or bleeding. Ride over bridge deck fairly uneven. No speed reduction required. Kerbs and sidewalk fairly uneven.',
+    7: 'Minor localized cracks. Generally a smooth ride over culvert deck. Kerbs and sidewalk generally smooth.',
+    6: 'Light cracking over most of area. Light rutting or bleeding. Minor unevenness when driving over culvert deck, or walking over sidewalk.',
+    5: 'More general cracking. Minor ravelling or section loss. More visible rutting or bleeding. Ride over culvert deck fairly uneven. No speed reduction required. Kerbs and sidewalk fairly uneven.',
     4: 'General cracking, some ravelling and section loss. Rutting clearly visible. Bleeding reduces skid resistance significantly. Unevenness calls for slight speed reduction. Kerbs or sidewalk elements significantly displaced or settled.',
-    3: 'Cracking with more general ravelling and section loss. Pot holes forming. Very little skid resistance remains where bleeding is extensive. Speed reduction required to drive over bridge deck. Kerb or sidewalk elements broken but still in place, very uneven.',
-    2: 'Cracking and section loss. Pot holes could cause damage to vehicles driving over bridge deck. Significant speed reduction required. Kerb or sidewalk element missing, otherwise very uneven.',
+    3: 'Cracking with more general ravelling and section loss. Pot holes forming. Very little skid resistance remains where bleeding is extensive. Speed reduction required to drive over culvert deck. Kerb or sidewalk elements broken but still in place, very uneven.',
+    2: 'Cracking and section loss. Pot holes could cause damage to vehicles driving over culvert deck. Significant speed reduction required. Kerb or sidewalk element missing, otherwise very uneven.',
     1: 'Pot holes or other section loss pose serious safety hazard.',
     0: 'Completely non functional.'
   },
