@@ -2298,14 +2298,14 @@ header h1 {
       display: none !important;
     }
   </style>
-  <script src="structures_data.js?v=2" defer></script>
-  <script src="bridge_data.js?v=16" defer></script>
-  <script src="water_data.js?v=4" defer></script>
-  <script src="bridge_works_data.js?v=4" defer></script>
-  <script src="photos_data.js?v=8" defer></script>
+  <script src="structures_data.js?v=9" defer></script>
+  <script src="bridge_data.js?v=20" defer></script>
+  <script src="water_data.js?v=5" defer></script>
+  <script src="bridge_works_data.js?v=5" defer></script>
+  <script src="photos_data.js?v=9" defer></script>
   <script src="chart.umd.js" defer></script>
-  <script src="extensions.js?v=4" defer></script>
-  <script src="app.js?v=17" defer></script>
+  <script src="extensions.js?v=5" defer></script>
+  <script src="app.js?v=20" defer></script>
 </head>
 <body>
 
@@ -2415,7 +2415,7 @@ header h1 {
             <span>Class C - Primary Roads</span>
           </div>
           <div style="display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; color: #ffffff;">
-            <span style="display: inline-block; width: 16px; height: 5px; background: #a855f7; border-radius: 999px;"></span>
+            <span style="display: inline-block; width: 16px; height: 5px; background: #38bdf8; border-radius: 999px;"></span>
             <span>Class M - Expressways</span>
           </div>
 
@@ -2430,9 +2430,18 @@ header h1 {
               <span style="display: inline-block; width: 10px; height: 10px; border: 1.5px solid #78350f; background: #f59e0b;"></span>
               <span>Major culverts</span>
             </div>
-            
-            
-            
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ef4444; border: 1px solid #ffffff;"></span>
+              <span>ATC stations</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; border: 1px solid #ffffff;"></span>
+              <span>Legacy ATC stations</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #f43f5e; border: 1px solid rgba(255,255,255,0.8);"></span>
+              <span>Manual count stations</span>
+            </div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="display: inline-block; width: 16px; height: 2px; background: linear-gradient(90deg, rgba(0,229,255,0.05), rgba(0,229,255,0.85)); border-radius: 999px;"></span>
               <span>Animated traffic on road links</span>
@@ -2441,7 +2450,7 @@ header h1 {
               <span style="display: inline-block; width: 16px; height: 5px; background: rgba(56,189,248,0.45); border-radius: 999px;"></span>
               <span>Lakes and major rivers</span>
             </div>
-            <div id="mapTileStatus" style="font-weight: 700; color: var(--accent-cyan); font-size: 9px; margin-top: 1px;">Map ready - imagery loads in background</div>
+            <div id="mapTileStatus" style="font-weight: 700; color: var(--accent-cyan); font-size: 9px; margin-top: 1px;">Esri imagery hybrid active (4742 tiles)</div>
           </div>
         </div>
 
@@ -2456,13 +2465,21 @@ header h1 {
       </div>
       <aside class="map-side-pane" id="bridgeAnalyticsPane">
         <div class="pane-header">
-          <div class="pane-eyebrow">Selected Bridge Traffic Analytics</div>
-          <div class="pane-title" id="paneBridgeName">Select a bridge</div>
-          <div class="pane-subtitle" id="paneBridgeSubtitle">Click any bridge point on the map to inspect projected ADT, vehicle class loading, and bridge condition context.</div>
+          <div class="pane-eyebrow">SELECTED BRIDGE TRAFFIC ANALYTICS</div>
+          <div class="pane-title" id="paneBridgeName">Bridge Analytics Pane</div>
+          <div class="pane-subtitle" id="paneBridgeSubtitle">Please select a bridge on the map or in the tables to view its traffic loading profile and condition context.</div>
         </div>
         <div class="pane-body" id="paneBridgeBody">
-          <div class="empty-state" style="padding:28px 8px">
-            <p>No bridge selected.</p>
+          <div class="empty-state" style="padding:48px 16px; margin-top:24px; text-align:center;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48" style="margin: 0 auto 16px; display: block; opacity: 0.5; color: #38bdf8;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            <p style="color: var(--text-muted); font-size: 11px;">Select a bridge to view its analytics.</p>
+          </div>
+          <div class="pane-section-title" style="margin-top: 32px; color: var(--accent-cyan); font-weight: 800; letter-spacing: 1.1px;">FILTERED NETWORK SUMMARY</div>
+          <div class="pane-metrics">
+            <div class="pane-metric"><strong>515</strong><span>BRIDGE CROSSINGS</span></div>
+            <div class="pane-metric"><strong>224</strong><span>HOST ROAD LINKS</span></div>
+            <div class="pane-metric"><strong>9,480 m</strong><span>TOTAL BRIDGE LENGTH</span></div>
+            <div class="pane-metric"><strong>6,682</strong><span>AVG ASSIGNED ADT</span></div>
           </div>
         </div>
       </aside>
