@@ -175,21 +175,24 @@ function startBridgeTrafficApp() {
   window.__bridgeTrafficAppStarted = true;
 
   safeStartupStep('normalizeBridgeRiverNames', normalizeBridgeRiverNames);
-  safeStartupStep('buildBridgeSearchIndex', buildBridgeSearchIndex);
-  safeStartupStep('buildKPIs', buildKPIs);
-  safeStartupStep('populateFilters', populateFilters);
-  safeStartupStep('initTabs', initTabs);
-  safeStartupStep('initODMatrixControls', () => {
-    if (typeof initODMatrixControls === 'function') initODMatrixControls();
-  });
   safeStartupStep('initSpatialMap', initSpatialMap);
-  safeStartupStep('ensureMapAnimation', () => setTimeout(ensureMapAnimation, 8000));
-  safeStartupStep('bindBridgeRowSelectionHandlers', bindBridgeRowSelectionHandlers);
-  safeStartupStep('bindExport', bindExport);
-  safeStartupStep('deferTrafficBackend', () => setTimeout(() => {
-    safeStartupStep('loadSqlBotTrafficBackend', loadSqlBotTrafficBackend);
-    safeStartupStep('scheduleDeferredBridgeIntegrityPass', scheduleDeferredBridgeIntegrityPass);
-  }, 1500));
+
+  requestAnimationFrame(() => {
+    safeStartupStep('buildKPIs', buildKPIs);
+    safeStartupStep('populateFilters', populateFilters);
+    safeStartupStep('initTabs', initTabs);
+    safeStartupStep('initODMatrixControls', () => {
+      if (typeof initODMatrixControls === 'function') initODMatrixControls();
+    });
+    safeStartupStep('bindBridgeRowSelectionHandlers', bindBridgeRowSelectionHandlers);
+    safeStartupStep('bindExport', bindExport);
+    safeStartupStep('deferSearchIndex', () => setTimeout(buildBridgeSearchIndex, 150));
+    safeStartupStep('ensureMapAnimation', () => setTimeout(ensureMapAnimation, 4000));
+    safeStartupStep('deferTrafficBackend', () => setTimeout(() => {
+      safeStartupStep('loadSqlBotTrafficBackend', loadSqlBotTrafficBackend);
+      safeStartupStep('scheduleDeferredBridgeIntegrityPass', scheduleDeferredBridgeIntegrityPass);
+    }, 1200));
+  });
 }
 
 // Trigger moved to bottom of file
