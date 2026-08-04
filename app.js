@@ -5872,14 +5872,20 @@ function updateBridgeAnalyticsPane(bridge) {
     const trafficRows = typeof buildBridgeTrafficRows === 'function' ? buildBridgeTrafficRows() : [];
     const busHeavyAdt = trafficRows.reduce((s, r) => s + (Number(r.bus_adt) || 0) + (Number(r.heavy_goods_adt) || 0), 0);
 
-    title.textContent = 'Bridge Analytics Pane';
-    subtitle.textContent = 'Please select a bridge on the map or in the tables to view its traffic loading profile and condition context.';
+    title.textContent = 'Bridges & Major Culvert Analytics Pane';
+    subtitle.textContent = 'Please select a bridge or major culvert on the map or in the tables to view its traffic loading profile, dimensions, and condition context.';
+    
+    const activeCulverts = typeof MAJOR_CULVERTS !== 'undefined' ? MAJOR_CULVERTS : [];
+    const culvertLength = activeCulverts.reduce((s, c) => s + (Number(c.culvert_length) || Number(c.length) || 0), 0);
+    const culvertPipes = activeCulverts.reduce((s, c) => s + (Number(c.no_pipes_cells) || 1), 0);
+    const avgSpan = activeCulverts.length ? (activeCulverts.reduce((s, c) => s + (Number(c.span_diameter) || 0), 0) / activeCulverts.length) : 0;
+
     body.innerHTML = `
-      <div class="empty-state" style="padding:48px 16px; margin-top:24px; text-align:center;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48" style="margin: 0 auto 16px; display: block; opacity: 0.5; color: #38bdf8;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-        <p style="color: var(--text-muted); font-size: 11px;">Select a bridge to view its analytics.</p>
+      <div class="empty-state" style="padding:32px 16px 16px; margin-top:12px; text-align:center;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="44" height="44" style="margin: 0 auto 12px; display: block; opacity: 0.55; color: #38bdf8;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        <p style="color: var(--text-muted); font-size: 11px;">Select a structure to view its analytics.</p>
       </div>
-      <div class="pane-section-title" style="margin-top: 32px; color: var(--accent-cyan); font-weight: 800; letter-spacing: 1.1px;">FILTERED NETWORK SUMMARY</div>
+      <div class="pane-section-title" style="margin-top: 20px; color: var(--accent-cyan); font-weight: 800; letter-spacing: 1.1px;">BRIDGES NETWORK SUMMARY</div>
       <div class="pane-metrics">
         <div class="pane-metric"><strong>${fmt(activeBridges.length)}</strong><span>BRIDGE CROSSINGS</span></div>
         <div class="pane-metric"><strong>${fmt(bridgeLinks.size)}</strong><span>HOST ROAD LINKS</span></div>
@@ -5889,6 +5895,13 @@ function updateBridgeAnalyticsPane(bridge) {
         <div class="pane-metric"><strong>${fmt(highTraffic)}</strong><span>HIGH TRAFFIC BRIDGES</span></div>
         <div class="pane-metric"><strong>${fmt(totalIncl, 0)}</strong><span>TOTAL ADT INCL. MC</span></div>
         <div class="pane-metric"><strong>${fmt(busHeavyAdt, 0)}</strong><span>BUS + HEAVY GOODS ADT</span></div>
+      </div>
+      <div class="pane-section-title" style="margin-top: 20px; color: #f59e0b; font-weight: 800; letter-spacing: 1.1px;">MAJOR CULVERTS NETWORK SUMMARY</div>
+      <div class="pane-metrics">
+        <div class="pane-metric"><strong>${fmt(activeCulverts.length)}</strong><span>MAJOR CULVERTS</span></div>
+        <div class="pane-metric"><strong>${fmt(culvertLength, 0)} m</strong><span>TOTAL CULVERT LENGTH</span></div>
+        <div class="pane-metric"><strong>${fmt(culvertPipes)}</strong><span>PIPES / CELLS</span></div>
+        <div class="pane-metric"><strong>${fmt(avgSpan, 2)} m</strong><span>AVG SPAN / DIAMETER</span></div>
       </div>
     `;
     return;
