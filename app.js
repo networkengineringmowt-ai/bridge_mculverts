@@ -5866,6 +5866,8 @@ function updateBridgeAnalyticsPane(bridge) {
     });
     const avgAadt = activeBridges.length ? totalIncl / activeBridges.length : 0;
     const avgGrowth = totalGrowthWeight ? totalWeightedGrowth / totalGrowthWeight : null;
+    const trafficRows = typeof buildBridgeTrafficRows === 'function' ? buildBridgeTrafficRows() : [];
+    const busHeavyAdt = trafficRows.reduce((s, r) => s + (Number(r.bus_adt) || 0) + (Number(r.heavy_goods_adt) || 0), 0);
 
     title.textContent = 'Bridge Analytics Pane';
     subtitle.textContent = 'Please select a bridge on the map or in the tables to view its traffic loading profile and condition context.';
@@ -5883,6 +5885,7 @@ function updateBridgeAnalyticsPane(bridge) {
         <div class="pane-metric"><strong>${formatGrowthPercent(avgGrowth)}</strong><span>WEIGHTED ANNUAL GROWTH</span></div>
         <div class="pane-metric"><strong>${fmt(highTraffic)}</strong><span>HIGH TRAFFIC BRIDGES</span></div>
         <div class="pane-metric"><strong>${fmt(totalIncl, 0)}</strong><span>TOTAL ADT INCL. MC</span></div>
+        <div class="pane-metric"><strong>${fmt(busHeavyAdt, 0)}</strong><span>BUS + HEAVY GOODS ADT</span></div>
       </div>
     `;
     return;
