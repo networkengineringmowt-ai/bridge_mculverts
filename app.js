@@ -801,7 +801,7 @@ function clearFiltersAndSort() {
     'roadClassFilter',
     'bridgeTrafficNameSelect',
     'bridgeTrafficNoSelect',
-    'bridgeTrafficRegionSelect',
+    'culvertNoSelect',
     'bridgeTrafficStationSelect',
     'bridgeTrafficLinkSelect',
     'bridgeSortSelect',
@@ -848,10 +848,11 @@ function fillSelect(selectId, items, allLabel) {
 function populateBridgeTrafficControls() {
   fillSelect('bridgeTrafficNameSelect', [...new Set(BRIDGES.map(b => b.bridge_nam).filter(Boolean))].sort(), 'All bridge names');
   fillSelect('bridgeTrafficNoSelect', [...new Set(BRIDGES.map(b => b.bridge_no).filter(Boolean))].sort(), 'All bridge numbers');
-  fillSelect('bridgeTrafficRegionSelect', [...new Set(BRIDGES.map(b => b.region).filter(Boolean))].sort(), 'All regions');
+  const culvertNos = [...new Set((typeof MAJOR_CULVERTS !== 'undefined' ? MAJOR_CULVERTS : []).map(c => c.culvert_no).filter(Boolean))].sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+  fillSelect('culvertNoSelect', culvertNos, 'All major culvert numbers');
   fillSelect('bridgeTrafficStationSelect', [...new Set(BRIDGES.map(b => b.station).filter(Boolean))].sort(), 'All stations');
   fillSelect('bridgeTrafficLinkSelect', [...new Set(BRIDGES.map(b => b.link_name).filter(Boolean))].sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })), 'All road link names');
-  ['bridgeTrafficNameSelect', 'bridgeTrafficNoSelect', 'bridgeTrafficRegionSelect', 'bridgeTrafficStationSelect', 'bridgeTrafficLinkSelect'].forEach(id => {
+  ['bridgeTrafficNameSelect', 'bridgeTrafficNoSelect', 'culvertNoSelect', 'bridgeTrafficStationSelect', 'bridgeTrafficLinkSelect'].forEach(id => {
     document.getElementById(id)?.addEventListener('change', () => {
       clearBridgeTrafficRowsCache();
       syncSelectedBridgeFromTrafficControls(id);
@@ -878,6 +879,23 @@ function populateBridgeTrafficControls() {
 
 function syncSelectedBridgeFromTrafficControls(changedId) {
   const controls = bridgeTrafficControlFilters();
+  if (changedId === 'culvertNoSelect') {
+    if (controls.culvertNo !== 'all' && typeof MAJOR_CULVERTS !== 'undefined') {
+      const foundCulvert = MAJOR_CULVERTS.find(c => c.culvert_no === controls.culvertNo);
+      if (foundCulvert) {
+        selectedMapBridge = foundCulvert;
+        const nameSel = document.getElementById('bridgeTrafficNameSelect');
+        const noSel = document.getElementById('bridgeTrafficNoSelect');
+        if (nameSel) nameSel.value = 'all';
+        if (noSel) noSel.value = 'all';
+        return;
+      }
+    }
+  }
+  if (controls.culvertNo !== 'all' && changedId !== 'culvertNoSelect') {
+    const culvertSel = document.getElementById('culvertNoSelect');
+    if (culvertSel) culvertSel.value = 'all';
+  }
   const hasBridgePick = controls.bridgeName !== 'all' || controls.bridgeNo !== 'all';
   if (!hasBridgePick) {
     selectedMapBridge = null;
@@ -886,7 +904,6 @@ function syncSelectedBridgeFromTrafficControls(changedId) {
   const found = BRIDGES.find(b =>
     (controls.bridgeName === 'all' || b.bridge_nam === controls.bridgeName) &&
     (controls.bridgeNo === 'all' || b.bridge_no === controls.bridgeNo) &&
-    (controls.region === 'all' || b.region === controls.region) &&
     (controls.station === 'all' || b.station === controls.station) &&
     (controls.linkName === 'all' || b.link_name === controls.linkName)
   );
@@ -896,12 +913,18 @@ function syncSelectedBridgeFromTrafficControls(changedId) {
 function setBridgeTrafficControlsForBridge(bridge) {
   const nameSel = document.getElementById('bridgeTrafficNameSelect');
   const noSel = document.getElementById('bridgeTrafficNoSelect');
-  const regionSel = document.getElementById('bridgeTrafficRegionSelect');
+  const culvertSel = document.getElementById('culvertNoSelect');
   const stationSel = document.getElementById('bridgeTrafficStationSelect');
   const linkSel = document.getElementById('bridgeTrafficLinkSelect');
-  if (nameSel) nameSel.value = bridge?.bridge_nam || 'all';
-  if (noSel) noSel.value = bridge?.bridge_no || 'all';
-  if (regionSel) regionSel.value = bridge?.region || 'all';
+  if (bridge?.culvert_no) {
+    if (nameSel) nameSel.value = 'all';
+    if (noSel) noSel.value = 'all';
+    if (culvertSel) culvertSel.value = bridge.culvert_no;
+  } else {
+    if (nameSel) nameSel.value = bridge?.bridge_nam || 'all';
+    if (noSel) noSel.value = bridge?.bridge_no || 'all';
+    if (culvertSel) culvertSel.value = 'all';
+  }
   if (stationSel) stationSel.value = bridge?.station || 'all';
   if (linkSel) linkSel.value = bridge?.link_name || 'all';
 }
@@ -911,7 +934,7 @@ function bridgeTrafficControlFilters() {
   return {
     bridgeName: val('bridgeTrafficNameSelect'),
     bridgeNo: val('bridgeTrafficNoSelect'),
-    region: val('bridgeTrafficRegionSelect'),
+    culvertNo: val('culvertNoSelect'),
     station: val('bridgeTrafficStationSelect'),
     linkName: val('bridgeTrafficLinkSelect')
   };
@@ -920,7 +943,7 @@ function bridgeTrafficControlFilters() {
 function bridgePassesTrafficControls(b, controls = bridgeTrafficControlFilters()) {
   if (controls.bridgeName !== 'all' && b.bridge_nam !== controls.bridgeName) return false;
   if (controls.bridgeNo !== 'all' && b.bridge_no !== controls.bridgeNo) return false;
-  if (controls.region !== 'all' && b.region !== controls.region) return false;
+  if (controls.culvertNo !== 'all' && b.culvert_no !== controls.culvertNo) return false;
   if (controls.station !== 'all' && b.station !== controls.station) return false;
   if (controls.linkName !== 'all' && b.link_name !== controls.linkName) return false;
   return true;
