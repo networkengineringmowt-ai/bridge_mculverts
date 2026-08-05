@@ -6053,17 +6053,17 @@ function updateBridgeAnalyticsPane(bridge) {
   title.innerHTML = `${escapeHTML(row.bridge_nam || row.bridge_no || 'Bridge crossing')} ${row.is_critical ? '<span class="pill" style="background:#ef4444; color:white; margin-left:8px;">CRITICAL STRUCTURE</span>' : ''}`;
   subtitle.innerHTML = `${escapeHTML(row.link_no || 'N/A')} | ${escapeHTML(row.link_name || 'N/A')} | Class ${canonicalRoadClass(row.road_class)} | ${timelineYear} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][timelineMonth]}
 ${row.is_critical && row.critical_comment ? `<br><span style="color:#ef4444; font-weight:500; font-size:11px; display:inline-block; margin-top:4px;">Warning: ${escapeHTML(row.critical_comment)}</span>` : ''}`;
-  const condRef = bridge.reference_attributes || {};
-  const approachRating = bridge.approaches_rating ?? bridge.approaches ?? bridge.inlet_outlet_cond;
-  const roadwayRating = bridge.roadway_rating ?? bridge.roadway ?? bridge.roadway_cond;
-  const substructureRating = bridge.substructure_rating ?? bridge.substructure ?? bridge.structure_cond;
-  const superstructureRating = bridge.superstructure_rating ?? bridge.superstructure ?? bridge.structure_cond;
-  const waterwayRating = bridge.waterway_rating ?? bridge.waterway ?? bridge.waterway_cond;
+  const condRef = bridge.reference_attributes || bridge;
+  const approachRating = bridge.approaches_rating ?? bridge.approaches ?? bridge.inlet_outlet_cond ?? bridge.overall_rating ?? 3;
+  const roadwayRating = bridge.roadway_rating ?? bridge.roadway ?? bridge.roadway_cond ?? bridge.overall_rating ?? 3;
+  const substructureRating = bridge.substructure_rating ?? bridge.substructure ?? bridge.structure_cond ?? bridge.overall_rating ?? 3;
+  const superstructureRating = bridge.superstructure_rating ?? bridge.superstructure ?? bridge.structure_cond ?? bridge.overall_rating ?? 3;
+  const waterwayRating = bridge.waterway_rating ?? bridge.waterway ?? bridge.waterway_cond ?? bridge.overall_rating ?? 3;
   const condHtml = `
     <div class="pane-section-title">Structural Elements & Condition</div>
     <div class="pane-metrics">
-      <div class="pane-metric" title="${htmlEscape(bridgeConditionRatingTooltip(bridge.overall_rating, 'overall'))}" style="border-left: 3px solid ${getConditionColor(bridge.overall_rating)}; padding-left: 8px;">
-        <strong>${getCondName(bridge.overall_rating)}</strong><span>Overall Rating</span>
+      <div class="pane-metric" title="${htmlEscape(bridgeConditionRatingTooltip(bridge.overall_rating || 3, 'overall'))}" style="border-left: 3px solid ${getConditionColor(bridge.overall_rating || 3)}; padding-left: 8px;">
+        <strong>${getCondName(bridge.overall_rating || 3)}</strong><span>Overall Rating</span>
       </div>
       <div class="pane-metric" title="${htmlEscape(bridgeConditionRatingTooltip(approachRating, 'approaches'))}" style="border-left: 3px solid ${getConditionColor(approachRating)}; padding-left: 8px;">
         <strong>${getCondName(approachRating)}</strong><span>Approaches</span>
@@ -6082,11 +6082,11 @@ ${row.is_critical && row.critical_comment ? `<br><span style="color:#ef4444; fon
       </div>
     </div>
     <div class="pane-metrics" style="margin-top: 8px;">
-      <div class="pane-metric"><strong>${getDictName('deck', condRef.typedeck)}</strong><span>Deck Type</span></div>
-      <div class="pane-metric"><strong>${getDictName('material', condRef.typedeckmaterial)}</strong><span>Deck Material</span></div>
-      <div class="pane-metric"><strong>${getDictName('abutment', condRef.typeabutmentl)}</strong><span>Abutment (L)</span></div>
-      <div class="pane-metric"><strong>${getDictName('abutment', condRef.typeabutmentr)}</strong><span>Abutment (R)</span></div>
-      <div class="pane-metric"><strong>${getDictName('pier', condRef.typepiers)}</strong><span>Pier Type</span></div>
+      <div class="pane-metric"><strong>${getDictName('deck', condRef.typedeck || condRef.type_deck)}</strong><span>Deck Type</span></div>
+      <div class="pane-metric"><strong>${getDictName('material', condRef.typedeckmaterial || condRef.type_deck_material)}</strong><span>Deck Material</span></div>
+      <div class="pane-metric"><strong>${getDictName('abutment', condRef.typeabutmentl || condRef.type_abutment_l)}</strong><span>Abutment (L)</span></div>
+      <div class="pane-metric"><strong>${getDictName('abutment', condRef.typeabutmentr || condRef.type_abutment_r)}</strong><span>Abutment (R)</span></div>
+      <div class="pane-metric"><strong>${getDictName('pier', condRef.typepiers || condRef.type_piers)}</strong><span>Pier Type</span></div>
     </div>
   `;
   body.innerHTML = `
