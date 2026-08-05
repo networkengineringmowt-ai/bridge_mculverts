@@ -5736,9 +5736,6 @@ function projectedBridgeTraffic(row) {
 
 function selectedBridgeCsvText(bridge) {
   if (!bridge) return '';
-  const row = bridgeTrafficRowForBridge(bridge);
-  const evidence = bridgeTrafficEvidence(bridge);
-  const roads = roadInfluenceRowsForBridge(bridge, 12);
   const escapeCSV = val => {
     if (val == null) return '""';
     const str = String(val).trim();
@@ -5747,6 +5744,37 @@ function selectedBridgeCsvText(bridge) {
     }
     return str;
   };
+
+  const isCulvert = bridge.culvert_no !== undefined || bridge.type_culvert !== undefined;
+  if (isCulvert) {
+    const lookupType = typeof BMS_CODE_LOOKUPS !== 'undefined' ? (BMS_CODE_LOOKUPS.type_bridge || {}) : {};
+    const typeText = lookupType[bridge.type_culvert] || bridge.type_culvert || 'Standard Culvert';
+    const lines = [];
+    lines.push('Structure Type,Culvert No,Culvert Type,Span/Diameter (m),Pipes/Cells,Culvert Length (m),Height (m),Overall Rating,Road Class,Road Name,Link ID,Region,Station,Latitude,Longitude,Waterway');
+    lines.push([
+      'Major Culvert',
+      bridge.culvert_no || 'N/A',
+      typeText,
+      bridge.span_diameter != null ? Number(bridge.span_diameter).toFixed(2) : 'N/A',
+      bridge.no_pipes_cells || 1,
+      bridge.culvert_length != null ? Number(bridge.culvert_length).toFixed(1) : 'N/A',
+      bridge.height != null ? Number(bridge.height).toFixed(1) : 'N/A',
+      bridgeInventoryRatingLabel(bridge.overall_rating || 3),
+      canonicalRoadClass(bridge.road_class),
+      bridge.road_name || bridge.link_name || 'N/A',
+      bridge.link_no || 'N/A',
+      bridge.region || 'Uganda Central',
+      bridge.station || 'National Network Station',
+      bridgeMapLat(bridge) ?? bridge.map_y ?? '',
+      bridgeMapLon(bridge) ?? bridge.map_x ?? '',
+      bridge.river || bridge.road_name || 'Unspecified Waterway'
+    ].map(escapeCSV).join(','));
+    return lines.join('\n');
+  }
+
+  const row = bridgeTrafficRowForBridge(bridge);
+  const evidence = bridgeTrafficEvidence(bridge);
+  const roads = roadInfluenceRowsForBridge(bridge, 12);
   const lines = [];
   lines.push('Section,Record Type,ID,Name,Source,Link ID,Road Name,Road Class,Region,Station,Latitude,Longitude,Distance km,ADT incl Motorcycles,ADT excl Motorcycles,Seasonal Factor,Annual Weighted Growth Rate,Annual Weighted Growth Source,Weight,Role,Notes');
   lines.push([
