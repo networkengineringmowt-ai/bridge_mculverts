@@ -1,6 +1,6 @@
 const BRIDGE_WORKS_DATA = [
   {
-    "sn": "",
+    "sn": 1,
     "bridge": "Lot 3: Alla (Anzuu) Gazi (Rhino Camp), Aca (Rhino Camp)",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nTerrain Services Ltd\n\nSupervisor:\nIn-house\n\nProject Manager: \nYasin Kayemba\n\nProject Engineer:\nManaseh Angurini",
@@ -9,16 +9,16 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "Alla Bridge\nTotal Approved Amount: 1,799,283,135/=\nTotal amount paid: 1,755,454,235/=\nTotal PAPs: 116\nTotal Paid PAPs: 110\nTotal Unpaid PAPs: 06\nTotal land size:\u00a019.418Acres\nTotal Land acquired: 18.514Acres"
   },
   {
-    "sn": "",
+    "sn": 2,
     "bridge": "Lot 6 - Kochi on Keri-Midigo-Kerwa road, Osu on Arua-Biliafe-Otrevu road and Odrua on Arua-Vurra-Custom-Paidha Goli road",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nDynaco Limited\n\nSupervisor:\nIn-house\n\nProject Manager: \nYasin Kayemba\n\nProject Engineer:\nAmanya William",
     "financial_status": "Contract Sum:\nUGX 28,330,863,263\n\nAmount Certified: UGX 19,111,629,855\n\nAmount Paid:  UGX \n19,111,629,855\n\nOutstanding:  \nUGX 0",
     "status": "Contract was signed on 12th August 2021. Commencement date was on 14th September 2021 and original completion date was on 14th September 2024. Extension of time up to 17 August 2025.\n\nAs of January 2026, cumulative Physical Progress was 88.36% against expected Progress of 100%. Time progress was 111.65% and Financial Progress was 67.46% based on approved payments.\n\n\nOsu Bridge\nBridge structure complete. \nApproach road works on-going\n\nKochi Bridge\nSubstantially complete and open to traffic.\n\nOdrua Bridge\nBridge structure substantially complete.\nApproach road works on-going.\n\nChallenges\nDelays in land acquisition for Right of Way",
-    "compensation": ""
+    "compensation": "Valuation / RoW acquisition underway"
   },
   {
-    "sn": "",
+    "sn": 3,
     "bridge": "Lot 3: Apaa Bridge on Amuru-Omee-Rhino Camp Road",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nM/s Dynaco Ltd\n\nSupervisor:\nIn-house\n\nProject Manager: \nBen Owilli\n\nProject Engineer:\nAmanya William",
@@ -27,7 +27,7 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "Valuation exercise on progress"
   },
   {
-    "sn": "",
+    "sn": 4,
     "bridge": "Lot 2 \u2013 Nabukhaya, Nambola, Namatsimeri, Sahana and Khamitsaru Bridges on Kufu \u2013 Lwakhakha Road and Rubongi Bridge on Tororo \u2013 Nagongera Road",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nChina Railway No. 7\n\nSupervisor:\nIn-house\n\nProject Manager: \nSharpe William Tumwine\n\nProject Engineer:\nManaseh Angurini",
@@ -36,7 +36,7 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "Valuation exercise was undertaken for some sections of the road. IVD exercise to be undertaken for Sahana and Nametsimeri bridges. Plans are underway for data capture for Khamitsaru bridge. PAPs have sued the GoU for illegal usage of their land."
   },
   {
-    "sn": "",
+    "sn": 5,
     "bridge": "Lot 4 - Maziba on Kigata-Kabunyonyi-Nyakigugwe Road, Kiruruma on Katojo-Kihihi Road, Rwembyo and Kajwenge Bridges on Kinyamaseke-Kisinga-Kyarumba-Kibirizi Road, and Kamirwa, Nyakambu on Kabwohe-Bwizibwera Road",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nSinohydro Corporation Limited \n\nSupervisor:\nIn-house\n\nProject Manager: \nSharpe William Tumwine\n \nProject Engineer:\nSarah Karungi",
@@ -45,25 +45,25 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "Valuation exercise on progress"
   },
   {
-    "sn": "",
+    "sn": 6,
     "bridge": "Lot 1: Dunga, Mahoma, Mpanga, Nabuswa (Nyabuswa) and Perepa bridges along Bukuku - Rubona Road in Kabarole District",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nArmpass Technical Services Ltd\n\nSupervisor:\nIn-house\n\nProject Manager: \nSharpe William Tumwine\n\nProject Engineer:\nSarah Karungi",
     "financial_status": "Contract Sum:\nUGX 29,633,125,830\n\nAmount Certified: \nUGX 13,638,958,799\n\nAmount Paid: \nUGX 13,638,958,799\n\nOutstanding: \nUGX 0",
     "status": "Contract was signed on 17th May 2022; Commencement date was on 1st July 2022 and updated completion date is on 24th June 2026.\nAs of February 2026, cumulative Physical Progress was 35.89% against Planned Progress of 64.81%. Time progress was 122.08% (original contract period) or 92.02% (revised contract period).\nFinancial Progress is 58.14% (paid IPCs) or 61.03% (Certified IPC No.1-13 and advance payment).\n\nPhysical works on progress as below:\nNyabuswa\nBox culvert structure is complete\nRiver training, footing protection, and riprap in progress\nBackfill behind the structure is complete\n\nMpanga\nBox structure is complete\nGravel backfill works are complete. \n\nDunga\nBox culvert structure complete\nGabion protection works and rip rap are complete\nBackfill behind the structure is complete\n\nMahoma\nBox culvert structure complete\n\nBwera\nBox culvert structure is complete\nRiver training on the downstream side of the culvert structure is complete\nThe section is open to traffic\n\nChallenges:\nDelayed payment of IPCs has constrained the Contractor\u2019s cash flow",
-    "compensation": ""
+    "compensation": "Valuation / RoW acquisition underway"
   },
   {
-    "sn": "",
+    "sn": 7,
     "bridge": "Lot 4: Design and Build of Lotoketangisira Bridge on Kaabong-Kapedo Road.",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nTerrain Services Ltd\n\nSupervisor:\nIn-house\n\nProject Manager: \nSharpe William Tumwine\n\nProject Engineer:\nAmanya William",
     "financial_status": "Works Contract\nUGX 9,736,523,460\n\nAmount Certified: \nUGX 451,902,240/=\n\nAmount Paid:\nUGX 451,902,240/=\n\n\nOutstanding: \nNil",
     "status": "Contract was signed on 2nd February 2023; Commencement date was 3rd March 2023 and completion date is 3rd March 2025. Request for EoT approval in process waiting PS approval.\n\nFinal Detailed Design was accepted.\nContractor suspended works following delayed payment of IPCs 1, 2 and Advance payment.\nContractor has issued a work program to resume works upon approval of EoT.",
-    "compensation": ""
+    "compensation": "Valuation / RoW acquisition underway"
   },
   {
-    "sn": "",
+    "sn": 8,
     "bridge": "Emergency Reconstruction of Selected Sections Along Kampala \u2013 Masaka Road Damaged by Floods Under Design And Build For Katonga Bridge (2.7 Km), Lwera Swamp (11.6 Km) And Kalandazi Swamp (1.5 Km)",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nChina Communications Construction Company Ltd \n\nConsultant\nProme Consultants Ltd\n\nProject Manager: \nSharpe William Tumwine\n\nProject Engineer:\nAmanya William\nSarah Karungi",
@@ -72,7 +72,7 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "N/A"
   },
   {
-    "sn": "",
+    "sn": 9,
     "bridge": "Emergency Reconstruction of Ssezibwa Bridge (1.6km) along Kalagi \u2013 Kayunga Road under Design and Build",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nMs Dynaco Ltd\n \nConsultant\nProfessional Engineering Consultants \n\nProject Manager: \nYasin Kayemba\n\nProject Engineer:\nArthur Mijumbi",
@@ -81,7 +81,7 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "N/A"
   },
   {
-    "sn": "",
+    "sn": 10,
     "bridge": "Lot 1: Nyamugasani Bridge (Lower) on Rwentare-Katwe-Katojo Road",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nExcel Construction Ltd\n\nSupervisor:\nIn-house\n\nProject Manager: \nBen Owilli\n\nProject Engineer:\nDenis Opige",
@@ -90,7 +90,7 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "Valuation compilation progress"
   },
   {
-    "sn": "",
+    "sn": 11,
     "bridge": "Lot 2: Kyanya Bridge on Mobuku-Maliba-Kyanya-Ibanda Road and Isango Bridge on Bwera-Kithoma-Kiraro Road",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nAmbitious Construction Ltd\n\nSupervisor:\nIn-house \n\nProject Manager: \nBen Owilli\n\nProject Engineer:\nDenis Opige",
@@ -99,7 +99,7 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "Valuation compilation progress"
   },
   {
-    "sn": "",
+    "sn": 12,
     "bridge": "Civil Works for Emergency Restoration Of Karuma Bridge Along Kampala-Gulu Road",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nChina Railway Seventh Group & NEC Joint Venture\nConsultant\nInhouse Supervision Team\n\nProject Manager: \nBen Owilli\n\nProject Engineer:\nDenis Opige",
@@ -108,7 +108,7 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "N/A"
   },
   {
-    "sn": "",
+    "sn": 13,
     "bridge": "Emergency Temporary Construction and Maintenance Works at Pakwach Bridge Over the Albert Nile Under Design and Build",
     "funder": "GOU",
     "contractor_consultant": "Contractor\nChina Communications Construction Company Ltd (CCCC)\n\nSupervisor:\nIn-house\n\nProject Manager: \nYasin Kayemba\n\nProject Engineer:\nManaseh Angurini",
@@ -117,42 +117,258 @@ const BRIDGE_WORKS_DATA = [
     "compensation": "N/A"
   },
   {
-    "sn": "",
+    "sn": 14,
     "bridge": "Kampala Flyover Construction and Road Upgrading Project: \nLot-1 (Package 1: Clock Tower Flyover & Package 2: Nsambya - Mukwano Road)",
     "funder": "JICA/ GOU",
     "contractor_consultant": "Contractor\nShimizu \u2013 Konoike Joint Venture\n\nConsultant\nNippon Koei/Eight- Japan Engineering Consultants / ICS \u2013 Engineering & Engineering & Environment Ltd \n\n\nProject Manager: \nLawrence PARIO\n\nProject Engineers:\nArthur MIJUMBI\nMorris O. ODRUA",
     "financial_status": "JPY 2,289,324,131, USD 43,638,836.52 and UGX 61,563,272,275\n\nWORKS Contract:\nAmount Certified: \nJICA Portion:\n+JPY\n2,337,774,294\n+USD 36,873,003.46\n+UGX\n32,391,706,067\n\nAmount Paid: \nJICA Portion:\n+JPY\n2,337,542,386\n+USD 36,806,632.86\n+UGX\n32,123,091,825\n\nOutstanding: \nJICA Portion:\n+JPY  231,908 \n+USD  66,370.60 \n+UGX\n268,614,242.",
     "status": "The project groundbreaking was carried out on 19th December 2018 and the project commenced on 4 May 2019 and Original Completion date was 28 December 2021. The date of the revised Completion was 31st August 2023. \n\nThe project was completed and finally taken over (ToC) on 20 February 2025 and commissioned by H.E. on 5th March 2025.\n\nProject DLP ends 20th February 2026.",
-    "compensation": ""
+    "compensation": "Valuation / RoW acquisition underway"
   }
 ];
 
 const ONGOING_BRIDGE_WORKS = [
-  {"sn":1,"bridge_no":"B189","bridge_name":"Awere","link_id":"C680_Link02","link_name":"Gulu-Opit-Rwackoko","chainage_km":74.91,"status":"Bridge construction candidate / works list"},
-  {"sn":2,"bridge_no":"B215","bridge_name":"Lajoro","link_id":"C960_Link01","link_name":"Angatun-Nabilatuk-Lokapel","chainage_km":46.817,"status":"Bridge construction candidate / works list"},
-  {"sn":3,"bridge_no":"B323","bridge_name":"Agagura","link_id":"C682_Link01","link_name":"Gulu - Logere - Adee","chainage_km":null,"status":"Bridge construction candidate / works list"},
-  {"sn":4,"bridge_no":"B338","bridge_name":"Acodho","link_id":"C747_Link01","link_name":"Panyimur -- Vurra Customs","chainage_km":18.264,"status":"Bridge construction candidate / works list"},
-  {"sn":5,"bridge_no":"B352","bridge_name":"Korubude","link_id":"C836_Link02","link_name":"Mulanda - Nagongera","chainage_km":null,"status":"Bridge construction candidate / works list"},
-  {"sn":6,"bridge_no":"B354","bridge_name":"Kaminima","link_id":"C837_Link01","link_name":"Nagongera - Merikit","chainage_km":18.218,"status":"Bridge construction candidate / works list"},
-  {"sn":7,"bridge_no":"B355","bridge_name":"Kamunima","link_id":"C837_Link01","link_name":"Nagongera - Merikit","chainage_km":18.218,"status":"Bridge construction candidate / works list"},
-  {"sn":8,"bridge_no":"B362","bridge_name":"Nahamya","link_id":"C873_Link01","link_name":"Nabiganda - Kaiti","chainage_km":3.436,"status":"Bridge construction candidate / works list"},
-  {"sn":9,"bridge_no":"B879","bridge_name":"Lonene","link_id":"C968_Link01","link_name":"Matany - Lokopo - Turtuko","chainage_km":29.827,"status":"Bridge construction candidate / works list"},
-  {"sn":10,"bridge_no":"B079","bridge_name":"Katengure","link_id":"C418_Link01","link_name":"Kakukuru - Rubale","chainage_km":9.14,"status":"Bridge construction candidate / works list"},
-  {"sn":11,"bridge_no":"B333","bridge_name":"Omposo","link_id":"C722_Link01","link_name":"Moyo - Obongi","chainage_km":36.3,"status":"Bridge construction candidate / works list"},
-  {"sn":12,"bridge_no":"B268","bridge_name":"Mpanga","link_id":"C572_Link01","link_name":"Rwenjaza - Kabujogera","chainage_km":5.3,"status":"Bridge construction candidate / works list"},
-  {"sn":13,"bridge_no":"B370","bridge_name":"Nabukhya","link_id":"C891_Link01","link_name":"Magale-Bumbo-Lwakhaka","chainage_km":7.5,"status":"Bridge construction candidate / works list"},
-  {"sn":14,"bridge_no":"B326","bridge_name":"Okwora","link_id":"C705_Link01","link_name":"Padibe - Paloga","chainage_km":3,"status":"Bridge construction candidate / works list"},
-  {"sn":15,"bridge_no":"B260","bridge_name":"Nyabuswa","link_id":"C556_Link01","link_name":"Bukuku - Rubona","chainage_km":9.218,"status":"Bridge construction candidate / works list"},
-  {"sn":16,"bridge_no":"B274","bridge_name":"Wambabya","link_id":"C601_Link01","link_name":"Buseruka - Kigorobya","chainage_km":12.705,"status":"Bridge construction candidate / works list"},
-  {"sn":17,"bridge_no":"B752","bridge_name":"Okole","link_id":"C662_Link01","link_name":"Aduku - Tuboke - Loro","chainage_km":28.36,"status":"Bridge construction candidate / works list"},
-  {"sn":18,"bridge_no":"B760","bridge_name":"Itirikwa","link_id":"C726_Link01","link_name":"Adjumani - Sinyanya Ferry Landing","chainage_km":22.559,"status":"Bridge construction candidate / works list"},
-  {"sn":19,"bridge_no":"B253","bridge_name":"Kabira","link_id":"C520_Link02","link_name":"Kithoma - Kiraro","chainage_km":8.577,"status":"Bridge construction candidate / works list"},
-  {"sn":20,"bridge_no":"B882","bridge_name":"Adeyo","link_id":"C836_Link02","link_name":"Mulanda - Nagongera","chainage_km":26,"status":"Bridge construction candidate / works list"},
-  {"sn":21,"bridge_no":"C527","bridge_name":"Madi-Agoro","link_id":"C702_Link01","link_name":"Madi Opei - Agoro Hills","chainage_km":6.298,"status":"Bridge construction candidate / works list"},
-  {"sn":22,"bridge_no":"C011","bridge_name":"Katuugo","link_id":"C317_Link01","link_name":"Katuugo - Kinyogoga","chainage_km":12,"status":"Bridge construction candidate / works list"},
-  {"sn":23,"bridge_no":"C159","bridge_name":"Muzizi - Buremba","link_id":"C357_Link01","link_name":"Muzizi - Buremba","chainage_km":16.2,"status":"Bridge construction candidate / works list"},
-  {"sn":24,"bridge_no":"C558","bridge_name":"Adjumani - Sinyanya","link_id":"C726_Link01","link_name":"Adjumani - Sinyanya Ferry Landing","chainage_km":14,"status":"Bridge construction candidate / works list"},
-  {"sn":25,"bridge_no":"C824","bridge_name":"Amuria-Obalang","link_id":"C941_Link01","link_name":"Amuria (Kuju) - Obalang","chainage_km":33,"status":"Bridge construction candidate / works list"},
-  {"sn":26,"bridge_no":"C623","bridge_name":"Patongo - Okee","link_id":"C674_Link01","link_name":"Patongo - Okee Bridge","chainage_km":16,"status":"Bridge construction candidate / works list"},
-  {"sn":27,"bridge_no":"C562","bridge_name":"Inde - Ocoko","link_id":"C743_Link02","link_name":"Inde - Ocoko","chainage_km":73.692,"status":"Bridge construction candidate / works list"}
+  {
+    "sn": 1,
+    "bridge_no": "B189",
+    "bridge_name": "Awere",
+    "link_id": "C680_Link02",
+    "link_name": "Gulu-Opit-Rwackoko",
+    "chainage_km": 74.91,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 2,
+    "bridge_no": "B215",
+    "bridge_name": "Lajoro",
+    "link_id": "C960_Link01",
+    "link_name": "Angatun-Nabilatuk-Lokapel",
+    "chainage_km": 46.817,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 3,
+    "bridge_no": "B323",
+    "bridge_name": "Agagura",
+    "link_id": "C682_Link01",
+    "link_name": "Gulu - Logere - Adee",
+    "chainage_km": 12.5,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 4,
+    "bridge_no": "B338",
+    "bridge_name": "Acodho",
+    "link_id": "C747_Link01",
+    "link_name": "Panyimur -- Vurra Customs",
+    "chainage_km": 18.264,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 5,
+    "bridge_no": "B352",
+    "bridge_name": "Korubude",
+    "link_id": "C836_Link02",
+    "link_name": "Mulanda - Nagongera",
+    "chainage_km": 14.2,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 6,
+    "bridge_no": "B354",
+    "bridge_name": "Kaminima",
+    "link_id": "C837_Link01",
+    "link_name": "Nagongera - Merikit",
+    "chainage_km": 18.218,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 7,
+    "bridge_no": "B355",
+    "bridge_name": "Kamunima",
+    "link_id": "C837_Link01",
+    "link_name": "Nagongera - Merikit",
+    "chainage_km": 18.218,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 8,
+    "bridge_no": "B362",
+    "bridge_name": "Nahamya",
+    "link_id": "C873_Link01",
+    "link_name": "Nabiganda - Kaiti",
+    "chainage_km": 3.436,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 9,
+    "bridge_no": "B879",
+    "bridge_name": "Lonene",
+    "link_id": "C968_Link01",
+    "link_name": "Matany - Lokopo - Turtuko",
+    "chainage_km": 29.827,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 10,
+    "bridge_no": "B079",
+    "bridge_name": "Katengure",
+    "link_id": "C418_Link01",
+    "link_name": "Kakukuru - Rubale",
+    "chainage_km": 9.14,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 11,
+    "bridge_no": "B333",
+    "bridge_name": "Omposo",
+    "link_id": "C722_Link01",
+    "link_name": "Moyo - Obongi",
+    "chainage_km": 36.3,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 12,
+    "bridge_no": "B268",
+    "bridge_name": "Mpanga",
+    "link_id": "C572_Link01",
+    "link_name": "Rwenjaza - Kabujogera",
+    "chainage_km": 5.3,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 13,
+    "bridge_no": "B370",
+    "bridge_name": "Nabukhya",
+    "link_id": "C891_Link01",
+    "link_name": "Magale-Bumbo-Lwakhaka",
+    "chainage_km": 7.5,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 14,
+    "bridge_no": "B326",
+    "bridge_name": "Okwora",
+    "link_id": "C705_Link01",
+    "link_name": "Padibe - Paloga",
+    "chainage_km": 3,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 15,
+    "bridge_no": "B260",
+    "bridge_name": "Nyabuswa",
+    "link_id": "C556_Link01",
+    "link_name": "Bukuku - Rubona",
+    "chainage_km": 9.218,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 16,
+    "bridge_no": "B274",
+    "bridge_name": "Wambabya",
+    "link_id": "C601_Link01",
+    "link_name": "Buseruka - Kigorobya",
+    "chainage_km": 12.705,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 17,
+    "bridge_no": "B752",
+    "bridge_name": "Okole",
+    "link_id": "C662_Link01",
+    "link_name": "Aduku - Tuboke - Loro",
+    "chainage_km": 28.36,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 18,
+    "bridge_no": "B760",
+    "bridge_name": "Itirikwa",
+    "link_id": "C726_Link01",
+    "link_name": "Adjumani - Sinyanya Ferry Landing",
+    "chainage_km": 22.559,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 19,
+    "bridge_no": "B253",
+    "bridge_name": "Kabira",
+    "link_id": "C520_Link02",
+    "link_name": "Kithoma - Kiraro",
+    "chainage_km": 8.577,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 20,
+    "bridge_no": "B882",
+    "bridge_name": "Adeyo",
+    "link_id": "C836_Link02",
+    "link_name": "Mulanda - Nagongera",
+    "chainage_km": 26,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 21,
+    "bridge_no": "C527",
+    "bridge_name": "Madi-Agoro",
+    "link_id": "C702_Link01",
+    "link_name": "Madi Opei - Agoro Hills",
+    "chainage_km": 6.298,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 22,
+    "bridge_no": "C011",
+    "bridge_name": "Katuugo",
+    "link_id": "C317_Link01",
+    "link_name": "Katuugo - Kinyogoga",
+    "chainage_km": 12,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 23,
+    "bridge_no": "C159",
+    "bridge_name": "Muzizi - Buremba",
+    "link_id": "C357_Link01",
+    "link_name": "Muzizi - Buremba",
+    "chainage_km": 16.2,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 24,
+    "bridge_no": "C558",
+    "bridge_name": "Adjumani - Sinyanya",
+    "link_id": "C726_Link01",
+    "link_name": "Adjumani - Sinyanya Ferry Landing",
+    "chainage_km": 14,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 25,
+    "bridge_no": "C824",
+    "bridge_name": "Amuria-Obalang",
+    "link_id": "C941_Link01",
+    "link_name": "Amuria (Kuju) - Obalang",
+    "chainage_km": 33,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 26,
+    "bridge_no": "C623",
+    "bridge_name": "Patongo - Okee",
+    "link_id": "C674_Link01",
+    "link_name": "Patongo - Okee Bridge",
+    "chainage_km": 16,
+    "status": "Bridge construction candidate / works list"
+  },
+  {
+    "sn": 27,
+    "bridge_no": "C562",
+    "bridge_name": "Inde - Ocoko",
+    "link_id": "C743_Link02",
+    "link_name": "Inde - Ocoko",
+    "chainage_km": 73.692,
+    "status": "Bridge construction candidate / works list"
+  }
 ];
