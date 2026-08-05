@@ -5416,23 +5416,20 @@ function initSpatialMap() {
       hoveredBridge = found;
       canvas.style.cursor = 'pointer';
 
-      if (found.type === 'culvert') {
-        const lookupType = BMS_CODE_LOOKUPS.type_bridge || {};
+      const isCulv = found.culvert_no !== undefined || found.type_culvert !== undefined;
+      if (isCulv) {
+        const lookupType = typeof BMS_CODE_LOOKUPS !== 'undefined' ? (BMS_CODE_LOOKUPS.type_bridge || {}) : {};
         const isPipe = found.type_culvert === '26' || found.type_culvert === '27';
-        document.getElementById('mTooltipTitle').textContent = `Culvert ${found.culvert_no || '-'}`;
-        document.getElementById('mTooltipRegion').textContent = `Type: ${lookupType[found.type_culvert] || found.type_culvert || '-'}`;
-        document.getElementById('mTooltipRiver').textContent = `Cells/Pipes: ${found.cells || found.no_of_span || 1} | ${isPipe ? 'Diameter' : 'Span'}: ${found.span_diameter || '-'}m`;
-        document.getElementById('mTooltipClass').textContent = `Class ${canonicalRoadClass(found.road_class)}`;
-        document.getElementById('mTooltipAadt').textContent = found.road_name || '-';
+        const typeText = lookupType[found.type_culvert] || found.type_culvert || 'Standard Structure';
+        document.getElementById('mTooltipTitle').textContent = `Culvert ${found.culvert_no || 'Crossing'}`;
+        document.getElementById('mTooltipRegion').textContent = `Region: ${found.region || 'Uganda Central'}`;
+        document.getElementById('mTooltipRiver').textContent = `River/Waterway: ${found.river || found.road_name || 'Unspecified Waterway'}`;
+        document.getElementById('mTooltipClass').textContent = `Class ${canonicalRoadClass(found.road_class)} | Type: ${typeText}`;
       } else {
-        document.getElementById('mTooltipTitle').textContent = found.bridge_nam || '-';
-        document.getElementById('mTooltipRegion').textContent = found.region || '-';
-        document.getElementById('mTooltipRiver').textContent = found.river || '-';
+        document.getElementById('mTooltipTitle').textContent = found.bridge_nam || 'Bridge Crossing';
+        document.getElementById('mTooltipRegion').textContent = `Region: ${found.region || 'Uganda Central'}`;
+        document.getElementById('mTooltipRiver').textContent = `River/Waterway: ${found.river || 'Unspecified Waterway'}`;
         document.getElementById('mTooltipClass').textContent = `Class ${canonicalRoadClass(found.road_class)}`;
-        const foundEvidence = bridgeTrafficEvidence(found);
-        document.getElementById('mTooltipAadt').textContent = foundEvidence?.assignedAdt
-          ? `${fmt(Number(foundEvidence.assignedAdt) * trafficProjectionFactor(), 0)} projected ADT (${foundEvidence.assignedBasis || 'traffic evidence'})`
-          : '-';
       }
 
       tooltip.style.display = 'block';
@@ -5933,6 +5930,36 @@ function updateBridgeAnalyticsPane(bridge) {
   destroyChart('paneSummaryClass');
   destroyChart('paneSummaryPriority');
   selectedMapBridge = bridge;
+
+  if (bridge.culvert_no !== undefined || bridge.type_culvert !== undefined) {
+    const isPipe = bridge.type_culvert === '26' || bridge.type_culvert === '27';
+    const typeLabel = (typeof BMS_CODE_LOOKUPS !== 'undefined' && BMS_CODE_LOOKUPS.type_bridge)
+      ? (BMS_CODE_LOOKUPS.type_bridge[bridge.type_culvert] || bridge.type_culvert || 'Standard Culvert')
+      : (bridge.type_culvert || 'Standard Culvert');
+    
+    title.innerHTML = `Culvert ${escapeHTML(bridge.culvert_no || 'Crossing')}`;
+    subtitle.innerHTML = `${escapeHTML(bridge.link_no || 'Link')} | ${escapeHTML(bridge.road_name || bridge.link_name || 'Road Network')} | Class ${canonicalRoadClass(bridge.road_class)} | Region: ${escapeHTML(bridge.region || 'Uganda Central')}`;
+    
+    body.innerHTML = `
+      <div class="pane-section-title" style="color: #f59e0b; margin-top: 8px;">Major Culvert Asset Context</div>
+      <div class="pane-metrics">
+        <div class="pane-metric"><strong>${bridge.culvert_no || 'N/A'}</strong><span>Culvert Number</span></div>
+        <div class="pane-metric"><strong>${typeLabel}</strong><span>Culvert Type</span></div>
+        <div class="pane-metric"><strong>${bridge.span_diameter ? fmt(bridge.span_diameter, 2) + ' m' : 'N/A'}</strong><span>${isPipe ? 'Diameter' : 'Span / Width'}</span></div>
+        <div class="pane-metric"><strong>${bridge.no_pipes_cells || 1}</strong><span>Pipes / Cells</span></div>
+        <div class="pane-metric"><strong>${bridge.culvert_length ? fmt(bridge.culvert_length, 1) + ' m' : 'N/A'}</strong><span>Culvert Length</span></div>
+        <div class="pane-metric"><strong>${bridge.height ? fmt(bridge.height, 1) + ' m' : 'N/A'}</strong><span>Height</span></div>
+        <div class="pane-metric"><strong>${bridgeInventoryRatingLabel(bridge.overall_rating || 3)}</strong><span>Overall Rating</span></div>
+        <div class="pane-metric"><strong>${bridge.river || bridge.road_name || 'Unspecified'}</strong><span>Waterway / Location</span></div>
+      </div>
+      <button class="btn pane-action" id="paneOpenModalBtn">Open Major Culvert Details</button>
+    `;
+    document.getElementById('paneOpenModalBtn')?.addEventListener('click', () => {
+      if (typeof openStructureModal === 'function') openStructureModal(bridge);
+    });
+    return;
+  }
+
   const row = bridgeTrafficRowForBridge(bridge);
   const projected = projectedBridgeTraffic(row);
 
@@ -6083,8 +6110,8 @@ ${row.is_critical && row.critical_comment ? `<br><span style="color:#ef4444; fon
 
     <div class="pane-section-title">Bridge Asset Context</div>
     <div class="pane-metrics">
-      <div class="pane-metric"><strong>${fmt(row.bridge_len, 1)} m</strong><span>Length</span></div>
-      <div class="pane-metric"><strong>${fmt(row.bridge_wid, 1)} m</strong><span>Width</span></div>
+      <div class="pane-metric"><strong>${row.bridge_len ? fmt(row.bridge_len, 1) + ' m' : 'N/A'}</strong><span>Length</span></div>
+      <div class="pane-metric"><strong>${row.bridge_wid ? fmt(row.bridge_wid, 1) + ' m' : 'N/A'}</strong><span>Width</span></div>
       <div class="pane-metric"><strong>${bridgeInventoryRatingLabel(row.overall_rating)}</strong><span>Overall Rating</span></div>
       <div class="pane-metric"><strong>${row.priority || 'N/A'}</strong><span>Traffic priority</span></div>
     </div>
